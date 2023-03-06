@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.UserMapper">
+
+
+    <select id="getByToken" resultType="com.xavier.pms.model.User">
+        SELECT
+            tb_user.id,
+            tb_user.user_name,
+            tb_user.nick_name,
+            tb_user.user_pwd,
+            tb_user.mobile,
+            tb_user.email,
+            tb_user_token.expiration_time,
+            tb_user.is_admin
+        FROM
+            tb_user_token
+        INNER JOIN
+            tb_user ON tb_user_token.user_id = tb_user.id
+        WHERE
+            tb_user.is_deleted = 0
+        AND tb_user_token.is_deleted = 0
+        AND tb_user_token.token = #{token, jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

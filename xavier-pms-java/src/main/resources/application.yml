@@ -1,0 +1,52 @@
+server:
+  port: 5002
+knife4j:
+  enable: true
+  openapi:
+    title: 开发文档
+    description: 人事管理系统开发文档
+    concat: Xavier
+    version: v1.0
+    license: MIT License
+    group:
+      annotation:
+        group-name: default
+        api-rule: annotation
+        api-rule-resources:
+          - io.swagger.annotations.ApiOperation
+  cors: true
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xavier_pms?useUnicode=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: root
+    password: root
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:mappers/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.xavier.pms.model
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+    db-config:
+      #主键类型  0:"数据库ID自增", 1:"不操作", 2:"用户输入ID",3:"数字型snowflake", 4:"全局唯一ID UUID", 5:"字符串型snowflake";
+      id-type: 0
+      #字段策略
+      insert-strategy: not_null
+      update-strategy: not_null
+      #驼峰下划线转换
+      table-underline: true
+      # 逻辑删除配置
+      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
