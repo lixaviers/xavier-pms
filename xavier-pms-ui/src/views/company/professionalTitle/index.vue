@@ -6,9 +6,9 @@
       :inline="true"
       v-show="showSearch"
     >
-      <el-form-item label="职位名称" prop="postName">
+      <el-form-item label="职称名称" prop="titleName">
         <el-input
-          v-model="queryParams.postName"
+          v-model="queryParams.titleName"
           placeholder="请输入"
           clearable
           style="width: 200px"
@@ -44,7 +44,7 @@
           plain
           icon="Delete"
           :disabled="multiple"
-          @click="handleDelete"
+          @click="handleDelete()"
           v-hasPermi="['system:post:delete']"
           >删除</el-button
         >
@@ -62,8 +62,8 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="职位编号" align="center" prop="id" width="120" />
-      <el-table-column label="职位名称" align="center" prop="postName" />
+      <el-table-column label="职称编号" align="center" prop="id" width="120" />
+      <el-table-column label="职称名称" align="center" prop="titleName" />
       <el-table-column label="备注" prop="remarks" />
       <el-table-column
         label="创建时间"
@@ -113,11 +113,9 @@
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
 import {
-  queryPostApi,
-  addOrUpdatePostApi,
-  deletePostApi,
-  getPostApi
-} from '@/api/system/post'
+  queryProfessionalTitleApi,
+  deleteProfessionalTitleApi
+} from '@/api/system/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()
@@ -146,7 +144,7 @@ const { queryParams } = toRefs(data)
  */
 function getDataList() {
   loading.value = true
-  queryPostApi(queryParams.value)
+  queryProfessionalTitleApi(queryParams.value)
     .then((response) => {
       dataList.value = response.records
       total.value = response.total
@@ -176,7 +174,7 @@ function resetQuery() {
  * 多选框选中数据
  */
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.postId)
+  ids.value = selection.map((item) => item.id)
   single.value = selection.length != 1
   multiple.value = !selection.length
 }
@@ -192,11 +190,11 @@ function handleAddOrUpdate(id) {
  * 删除按钮操作
  */
 function handleDelete(id) {
-  const ids = id || ids.value
+  const idList = id || ids.value
   proxy.$modal
-    .confirm('是否确认删除职位？')
+    .confirm('是否确认删除职称？')
     .then(function () {
-      return deletePostApi(ids)
+      return deleteProfessionalTitleApi(idList)
     })
     .then(() => {
       proxy.$modal.msgSuccess('删除成功')

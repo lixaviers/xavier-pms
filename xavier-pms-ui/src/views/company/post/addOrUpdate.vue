@@ -9,13 +9,14 @@
   >
     <el-form ref="formRef" :model="dataForm" :rules="rules" label-width="80px">
       <el-form-item label="职位名称" prop="postName">
-        <el-input v-model="dataForm.postName" placeholder="请输入" />
+        <el-input v-model="dataForm.postName" max="50" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="备注" prop="remarks">
         <el-input
           v-model="dataForm.remarks"
           type="textarea"
-          placeholder="请输入内容"
+          placeholder="请输入"
+          maxlength="200"
         />
       </el-form-item>
     </el-form>

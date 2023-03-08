@@ -38,6 +38,9 @@ public abstract class MenuConvertor {
     public static Menu toMenu(MenuDto menuDto) {
         Menu menu = new Menu();
         beanCopierForMenu.copy(menuDto, menu, null);
+        if (Objects.equals(Constant.MENU_DIRECTORY, menuDto.getMenuType())) {
+            menu.setComponent("Layout");
+        }
         return menu;
     }
 

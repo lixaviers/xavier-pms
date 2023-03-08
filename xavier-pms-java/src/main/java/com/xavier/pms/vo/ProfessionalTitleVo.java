@@ -18,14 +18,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("出参")
-public class UserVo implements Serializable {
+@ApiModel("职称出参")
+public class ProfessionalTitleVo implements Serializable {
 
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = 1L;
-
 
     /**
      * id
@@ -36,34 +35,16 @@ public class UserVo implements Serializable {
     private Long id;
 
     /**
-     * 用户名
+     * 职称
      */
-    @ApiModelProperty("用户名")
-    private String userName;
+    @ApiModelProperty("职称")
+    private String titleName;
 
     /**
-     * 姓名
+     * 备注
      */
-    @ApiModelProperty("姓名")
-    private String nickName;
-
-    /**
-     * 密码
-     */
-    @ApiModelProperty("密码")
-    private String userPwd;
-
-    /**
-     * 手机号
-     */
-    @ApiModelProperty("手机号")
-    private String mobile;
-
-    /**
-     * 邮箱
-     */
-    @ApiModelProperty("邮箱")
-    private String email;
+    @ApiModelProperty("备注")
+    private String remarks;
 
     /**
      * 创建时间
@@ -71,10 +52,5 @@ public class UserVo implements Serializable {
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
 
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty("修改时间")
-    private LocalDateTime updateTime;
 
 }

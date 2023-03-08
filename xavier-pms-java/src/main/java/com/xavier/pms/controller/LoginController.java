@@ -39,7 +39,7 @@ public class LoginController extends CommonController {
 
     @ApiOperation(value = "获取图形验证码", notes = "获取图形验证码")
     @PostMapping("getCaptchaImage")
-    public Result getCaptchaImage() {
+    public Result<Map<String, String>> getCaptchaImage() {
         Map<String, String> data = new HashMap<>();
         String uuid = UUID.randomUUID().toString().replace("-", "");
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(120, 40);

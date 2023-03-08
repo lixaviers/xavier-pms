@@ -67,7 +67,7 @@ public class BeanUtil {
         return source.getClass().getName() + target.getClass().getName();
     }
 
-    public static <S, T> QueryResultVo<T> pageToQueryResultVo(Page<S> page, Class<T> targetClazz) {
+    public static <S, T> QueryResultVo<T> pageToQueryResultVo(Page<S> page, Class<T> tClass) {
         if (page == null) {
             return null;
         }

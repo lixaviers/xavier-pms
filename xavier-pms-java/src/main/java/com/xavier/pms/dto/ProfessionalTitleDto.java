@@ -17,8 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("职位入参")
-public class PostDto implements Serializable {
+@ApiModel("职称入参")
+public class ProfessionalTitleDto implements Serializable {
 
     /**
      * serialVersionUID
@@ -33,13 +33,13 @@ public class PostDto implements Serializable {
     private Long id;
 
     /**
-     * 职位名称
+     * 职称
      */
-    @ApiModelProperty(value = "职位名称", required = true)
-    @NotNull(message = "职位名称不能为空")
-    @NotEmpty(message = "职位名称不能为空")
-    @Size(max = 50, message = "职位名称不能超过50位")
-    private String postName;
+    @ApiModelProperty(value = "职称", required = true)
+    @NotNull(message = "职称不能为空")
+    @NotEmpty(message = "职称不能为空")
+    @Size(max = 255, message = "职称不能超过255位")
+    private String titleName;
 
     /**
      * 备注

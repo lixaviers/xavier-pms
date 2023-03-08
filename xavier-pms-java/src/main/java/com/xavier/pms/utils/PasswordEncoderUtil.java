@@ -1,8 +1,8 @@
 package com.xavier.pms.utils;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.regex.Pattern;
 
@@ -13,7 +13,7 @@ public class PasswordEncoderUtil {
             .compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
 
     public String encode(CharSequence rawPassword) {
-        if (!StringUtils.isEmpty(rawPassword)) {
+        if (StrUtil.isNotEmpty(rawPassword)) {
             String salt = BCrypt.gensalt();
             return BCrypt.hashpw(rawPassword.toString(), salt);
         }

@@ -52,7 +52,7 @@ public class MenuDto implements Serializable {
     @ApiModelProperty(value = "菜单类型 M.目录 C.菜单 I.接口", required = true)
     @NotNull(message = "菜单类型不能为空")
     @NotEmpty(message = "菜单类型不能为空")
-    @Size(max = 8, message = "菜单类型 M.目录 C.菜单 I.接口不能超过8位")
+    @Size(max = 8, message = "菜单类型不能超过8位")
     private String menuType;
 
     /**
@@ -126,13 +126,6 @@ public class MenuDto implements Serializable {
     @ApiModelProperty(value = "是否显示", required = true)
     @NotNull(message = "是否显示不能为空")
     private Boolean isShow;
-
-
-    /**
-     * -------------------------------------------------
-     * 上面字段由工具自动生成，请在下面添加扩充字段
-     * -------------------------------------------------
-     */
 
 
 }
