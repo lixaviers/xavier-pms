@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'hidden': hidden }" class="pagination-container">
+  <div :class="{ hidden: hidden }" class="pagination-container">
     <el-pagination
       :background="background"
       v-model:current-page="currentPage"
@@ -59,7 +59,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits();
+const emit = defineEmits()
 const currentPage = computed({
   get() {
     return props.page
@@ -72,7 +72,7 @@ const pageSize = computed({
   get() {
     return props.limit
   },
-  set(val){
+  set(val) {
     emit('update:limit', val)
   }
 })
@@ -91,13 +91,13 @@ function handleCurrentChange(val) {
     scrollTo(0, 800)
   }
 }
-
 </script>
 
 <style scoped>
 .pagination-container {
   background: #fff;
   padding: 32px 16px;
+  margin-right: 5px;
 }
 .pagination-container.hidden {
   display: none;

@@ -39,13 +39,13 @@ public class QueryResultVo<E> implements Serializable {
      * @Fields totalPages : 总页数
      */
     @ApiModelProperty("总页数")
-    private long totalPages;
+    private long pages;
 
     /**
      * @Fields totalRecords : 总记录数
      */
     @ApiModelProperty("总记录数")
-    private long totalRecords;
+    private long total;
 
     /**
      * @Fields records : 返回记录列表
@@ -55,7 +55,7 @@ public class QueryResultVo<E> implements Serializable {
 
 
     public boolean getHasNextPage() {
-        if (this.totalRecords > (this.pageNo * this.pageSize)) {
+        if (this.total > (this.pageNo * this.pageSize)) {
             this.setHasNextPage(true);
             return true;
         } else {

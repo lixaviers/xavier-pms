@@ -23,7 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
                 "/webjars/**",
                 "/*/api-docs",
                 "/getCaptchaImage",
-                "/login"
+                "/login",
+                "/logout"
         );
     }
 

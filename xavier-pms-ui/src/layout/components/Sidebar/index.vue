@@ -66,5 +66,4 @@ const activeMenu = computed(() => {
   }
   return path
 })
-console.log('sidebarRouters', sidebarRouters.value)
 </script>

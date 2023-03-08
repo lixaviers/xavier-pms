@@ -6,6 +6,7 @@ import com.xavier.pms.constants.Constant;
 import com.xavier.pms.dto.LoginDto;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
+import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.vo.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,8 @@ public class LoginController extends CommonController {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private IUserTokenService userTokenService;
 
     @ApiOperation(value = "获取图形验证码", notes = "获取图形验证码")
     @PostMapping("getCaptchaImage")
@@ -64,6 +67,16 @@ public class LoginController extends CommonController {
             return Result.error("验证码错误");
         }
         return Result.ok(userService.login(dto));
+    }
+
+    @ApiOperation(value = "用户退出", notes = "用户退出")
+    @PostMapping("logout")
+    public Result logout() {
+        UserInfoVo loginUser = getLoginUser();
+        if (Objects.nonNull(loginUser)) {
+            userTokenService.deleteByToken(loginUser.getToken());
+        }
+        return Result.ok();
     }
 
     @ApiOperation(value = "获取登录用户信息", notes = "获取登录用户信息")

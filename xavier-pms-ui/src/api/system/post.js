@@ -1,44 +1,52 @@
 import request from '@/utils/request'
 
-// 查询岗位列表
-export function listPost(query) {
-  return request({
-    url: '/system/post/list',
-    method: 'get',
-    params: query
-  })
-}
+const url = '/post'
 
-// 查询岗位详细
-export function getPost(postId) {
+/**
+ * 分页获取职位列表信息
+ * @returns
+ */
+export const queryPostApi = (data) => {
   return request({
-    url: '/system/post/' + postId,
-    method: 'get'
-  })
-}
-
-// 新增岗位
-export function addPost(data) {
-  return request({
-    url: '/system/post',
+    url: `${url}/query`,
     method: 'post',
-    data: data
+    data
   })
 }
 
-// 修改岗位
-export function updatePost(data) {
+/**
+ * 创建/编辑
+ * @returns
+ */
+export function addOrUpdatePostApi(data) {
   return request({
-    url: '/system/post',
+    url: `${url}${!data.id ? '/add' : '/update'}`,
     method: 'put',
-    data: data
+    data
   })
 }
 
-// 删除岗位
-export function delPost(postId) {
+/**
+ * 删除职位
+ * @param {*} id
+ * @returns
+ */
+export const deletePostApi = (data) => {
   return request({
-    url: '/system/post/' + postId,
-    method: 'delete'
+    url: `${url}/delete`,
+    method: 'delete',
+    data
+  })
+}
+
+/**
+ * 根据职位ID获取职位信息
+ * @param {*} id
+ * @returns
+ */
+export const getPostApi = (id) => {
+  return request({
+    url: `${url}/get/${id}`,
+    method: 'get'
   })
 }

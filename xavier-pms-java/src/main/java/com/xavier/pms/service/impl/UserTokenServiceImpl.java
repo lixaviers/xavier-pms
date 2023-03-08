@@ -37,4 +37,10 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenMapper, UserToken
         return userToken.getToken();
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void deleteByToken(String token) {
+        super.remove(UserToken.gw().eq(UserToken::getToken, token));
+    }
+
 }

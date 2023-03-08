@@ -21,4 +21,11 @@ public interface IUserTokenService extends IService<UserToken> {
     String createUserToken(Long userId);
 
 
+    /**
+     * 根据令牌删除
+     *
+     * @param token 令牌
+     */
+    void deleteByToken(String token);
+
 }
