@@ -31,8 +31,8 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenMapper, UserToken
         UserToken userToken = new UserToken();
         userToken.setUserId(userId);
         userToken.setToken(UUID.randomUUID().toString().replace("-", ""));
-        // 2个小时有效期
-        userToken.setExpirationTime(LocalDateTime.now().plusHours(2));
+        // 4个小时有效期
+        userToken.setExpirationTime(LocalDateTime.now().plusHours(4));
         super.save(userToken);
         return userToken.getToken();
     }

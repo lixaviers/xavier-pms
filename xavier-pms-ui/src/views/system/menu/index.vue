@@ -3,7 +3,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="primary"
+          type="success"
           plain
           icon="Plus"
           @click="handleAdd()"
@@ -92,7 +92,7 @@
           >
           <el-button
             link
-            type="primary"
+            type="success"
             icon="Plus"
             @click="handleAdd(null, scope.row.id)"
             v-hasPermi="['system:menu:add']"

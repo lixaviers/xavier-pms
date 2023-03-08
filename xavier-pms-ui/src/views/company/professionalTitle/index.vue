@@ -30,11 +30,11 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="primary"
+          type="success"
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['system:post:add']"
+          v-hasPermi="['system:professionalTitle:add']"
           >新增</el-button
         >
       </el-col>
@@ -45,7 +45,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete()"
-          v-hasPermi="['system:post:delete']"
+          v-hasPermi="['system:professionalTitle:delete']"
           >删除</el-button
         >
       </el-col>
@@ -83,15 +83,15 @@
             type="primary"
             icon="Edit"
             @click="handleAddOrUpdate(scope.row.id)"
-            v-hasPermi="['system:post:edit']"
+            v-hasPermi="['system:professionalTitle:edit']"
             >修改</el-button
           >
           <el-button
-            text
+            link
             type="danger"
             icon="Delete"
             @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:post:delete']"
+            v-hasPermi="['system:professionalTitle:delete']"
             >删除</el-button
           >
         </template>
@@ -115,7 +115,7 @@ import addOrUpdate from './addOrUpdate.vue'
 import {
   queryProfessionalTitleApi,
   deleteProfessionalTitleApi
-} from '@/api/system/professionalTitle'
+} from '@/api/company/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

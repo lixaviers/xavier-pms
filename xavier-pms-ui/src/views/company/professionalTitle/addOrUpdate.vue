@@ -33,7 +33,7 @@
 import {
   addOrUpdateProfessionalTitleApi,
   getProfessionalTitleApi
-} from '@/api/system/professionalTitle'
+} from '@/api/company/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()

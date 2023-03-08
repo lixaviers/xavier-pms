@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { addOrUpdatePostApi, getPostApi } from '@/api/system/post'
+import { addOrUpdatePostApi, getPostApi } from '@/api/company/post'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()

@@ -6,21 +6,17 @@
       :inline="true"
       v-show="showSearch"
     >
-      <el-form-item label="职位名称" prop="postName">
+      <el-form-item label="部门名称" prop="deptName">
         <el-input
-          v-model="queryParams.postName"
-          placeholder="请输入"
+          v-model="queryParams.deptName"
+          placeholder="请输入部门名称"
           clearable
           style="width: 200px"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item>
-        <el-button
-          :loading="loading"
-          type="primary"
-          icon="Search"
-          @click="handleQuery"
+        <el-button type="primary" icon="Search" @click="handleQuery"
           >搜索</el-button
         >
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -34,19 +30,21 @@
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['system:post:add']"
+          v-hasPermi="['system:dept:add']"
           >新增</el-button
         >
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
+          v-if="isExpandAll"
+          type="info"
           plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete()"
-          v-hasPermi="['system:post:delete']"
-          >删除</el-button
+          icon="Sort"
+          @click="toggleExpandAll"
+          >折叠</el-button
+        >
+        <el-button v-else type="info" plain icon="Sort" @click="toggleExpandAll"
+          >展开</el-button
         >
       </el-col>
       <right-toolbar
@@ -56,26 +54,28 @@
     </el-row>
 
     <el-table
+      v-if="refreshTable"
       v-loading="loading"
-      :data="dataList"
       border
-      @selection-change="handleSelectionChange"
+      :data="dataList"
+      row-key="id"
+      :default-expand-all="isExpandAll"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="职位编号" align="center" prop="id" width="120" />
-      <el-table-column label="职位名称" align="center" prop="postName" />
-      <el-table-column label="备注" prop="remarks" />
+      <el-table-column label="部门编号" align="center" prop="id" width="120" />
+      <el-table-column prop="deptName" label="部门名称" />
+      <el-table-column prop="nickName" label="负责人" />
       <el-table-column
         label="创建时间"
         align="center"
         prop="createTime"
-        width="180"
+        width="200"
       />
       <el-table-column
         label="操作"
-        width="180"
         align="center"
         class-name="small-padding fixed-width"
+        width="200"
       >
         <template #default="scope">
           <el-button
@@ -83,54 +83,53 @@
             type="primary"
             icon="Edit"
             @click="handleAddOrUpdate(scope.row.id)"
-            v-hasPermi="['system:post:edit']"
+            v-hasPermi="['system:dept:edit']"
             >修改</el-button
           >
           <el-button
             link
+            type="success"
+            icon="Plus"
+            @click="handleAddOrUpdate(null, scope.row.id)"
+            v-hasPermi="['system:dept:add']"
+            >新增</el-button
+          >
+          <el-button
+            v-if="!scope.row.children"
+            link
             type="danger"
             icon="Delete"
             @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:post:delete']"
+            v-hasPermi="['system:dept:remove']"
             >删除</el-button
           >
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getDataList"
-    />
-
     <!-- 添加或修改对话框 -->
     <add-or-update ref="addOrUpdateRef" @refreshDataList="getDataList" />
   </div>
 </template>
-<script setup name="Post">
+
+<script setup name="Dept">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryPostApi, deletePostApi } from '@/api/company/post'
+import { queryDepartmentApi, deleteDepartmentApi } from '@/api/company/dept'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()
 
+// 数据列表
 const dataList = ref([])
 const loading = ref(true)
 const showSearch = ref(true)
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
-const total = ref(0)
+const isExpandAll = ref(true)
+const refreshTable = ref(true)
 
 const data = reactive({
   queryParams: {
-    pageNum: 1,
-    pageSize: 10,
-    postName: undefined,
-    status: undefined
+    deptName: undefined,
+    pageSize: 10000
   }
 })
 
@@ -141,61 +140,47 @@ const { queryParams } = toRefs(data)
  */
 function getDataList() {
   loading.value = true
-  queryPostApi(queryParams.value)
-    .then((response) => {
-      dataList.value = response.records
-      total.value = response.total
-    })
-    .finally(() => {
-      loading.value = false
-    })
+  queryDepartmentApi(queryParams.value).then((response) => {
+    dataList.value = proxy.handleTree(response.records, 'id')
+    loading.value = false
+  })
 }
 
-/**
- * 搜索按钮操作
- */
+/** 搜索按钮操作 */
 function handleQuery() {
-  queryParams.value.pageNo = 1
   getDataList()
 }
-
-/**
- * 重置按钮操作
- */
+/** 重置按钮操作 */
 function resetQuery() {
   proxy.resetForm('queryRef')
   handleQuery()
 }
-
-/**
- * 多选框选中数据
- */
-function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.postId)
-  single.value = selection.length != 1
-  multiple.value = !selection.length
+/** 展开/折叠操作 */
+function toggleExpandAll() {
+  refreshTable.value = false
+  isExpandAll.value = !isExpandAll.value
+  nextTick(() => {
+    refreshTable.value = true
+  })
 }
 
 /**
  * 新增/编辑按钮操作
  */
-function handleAddOrUpdate(id) {
-  addOrUpdateRef.value.init(id)
+function handleAddOrUpdate(id, parentId) {
+  addOrUpdateRef.value.init(id, parentId)
 }
 
-/**
- * 删除按钮操作
- */
+/** 删除按钮操作 */
 function handleDelete(id) {
-  const idList = id || ids.value
   proxy.$modal
-    .confirm('是否确认删除职位？')
+    .confirm('是否确认删除部门?')
     .then(function () {
-      return deletePostApi(idList)
+      return deleteDepartmentApi(id)
     })
     .then(() => {
-      proxy.$modal.msgSuccess('删除成功')
       getDataList()
+      proxy.$modal.msgSuccess('删除成功')
     })
     .catch(() => {})
 }
