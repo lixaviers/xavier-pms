@@ -42,10 +42,10 @@ public class UserInfoVo implements Serializable {
     private String token;
 
     /**
-     * 用户账号
+     * 工号
      */
-    @ApiModelProperty("用户账号")
-    private String userName;
+    @ApiModelProperty("工号")
+    private String employeeNumber;
 
     /**
      * 用户昵称

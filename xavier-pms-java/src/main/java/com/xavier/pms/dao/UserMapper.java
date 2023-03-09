@@ -13,7 +13,11 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+
     // 根据令牌获取用户信息
     User getByToken(@Param("token") String token);
+
+    // 查询最大员工号
+    String getMaxEmployeeNumber();
 
 }

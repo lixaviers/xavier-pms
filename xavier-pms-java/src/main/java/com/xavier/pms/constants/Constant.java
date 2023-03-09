@@ -12,6 +12,11 @@ public interface Constant {
      */
     String HEADER_KEY = "Authorization";
 
+    /**
+     * 默认密码
+     */
+    String DEFAULT_USER_PWD = "qweasd123";
+
 
     /**
      * 菜单类型-目录

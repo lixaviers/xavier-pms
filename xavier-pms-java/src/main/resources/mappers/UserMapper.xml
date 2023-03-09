@@ -6,7 +6,7 @@
     <select id="getByToken" resultType="com.xavier.pms.model.User">
         SELECT
             tb_user.id,
-            tb_user.user_name,
+            tb_user.employee_number,
             tb_user.nick_name,
             tb_user.user_pwd,
             tb_user.mobile,
@@ -21,6 +21,13 @@
             tb_user.is_deleted = 0
         AND tb_user_token.is_deleted = 0
         AND tb_user_token.token = #{token, jdbcType=VARCHAR}
+    </select>
+
+    <select id="getMaxEmployeeNumber" resultType="string">
+        SELECT
+            max( tb_user.employee_number )
+        FROM
+            tb_user
     </select>
 
 
