@@ -10,7 +10,7 @@ import com.xavier.pms.convertor.UserConvertor;
 import com.xavier.pms.dao.UserMapper;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.LoginDto;
-import com.xavier.pms.dto.UserQueryDto;
+import com.xavier.pms.dto.QueryApprovalDto;
 import com.xavier.pms.enums.UserStatusEnum;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.User;
@@ -20,6 +20,7 @@ import com.xavier.pms.service.IUserService;
 import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
+import com.xavier.pms.vo.ApprovalEmployeeVo;
 import com.xavier.pms.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -121,6 +123,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public QueryResultVo<ApprovalEmployeeVo> queryApproval(QueryApprovalDto dto) {
+        Page<User> page = new Page<>();
+        page.setCurrent(dto.getPageNo());
+        page.setSize(dto.getPageSize());
+        LambdaQueryWrapper<User> wrapper = User.gw();
+        if (StrUtil.isNotBlank(dto.getEmployeeNumber())) {
+            // 工号不为空
+            wrapper.eq(User::getEmployeeNumber, dto.getEmployeeNumber());
+        }
+        if (StrUtil.isNotBlank(dto.getNickName())) {
+            // 姓名不为空
+            wrapper.like(User::getNickName, dto.getNickName());
+        }
+        if (StrUtil.isNotBlank(dto.getMobile())) {
+            // 手机号不为空
+            wrapper.like(User::getMobile, dto.getMobile());
+        }
+        wrapper.eq(User::getUserStatus, UserStatusEnum.PENDING_APPROVAL.getValue());
+        wrapper.orderByDesc(User::getId);
+        Page<User> result = super.page(page, wrapper);
+        QueryResultVo<ApprovalEmployeeVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, ApprovalEmployeeVo.class);
+        queryResultVo.setRecords(BeanUtil.beanCopy(result.getRecords(), ApprovalEmployeeVo.class));
+        return queryResultVo;
+    }
+
+    @Override
     public UserVo getUser(Long id) {
         return UserConvertor.toUserVo(getBaseUser(id));
     }
@@ -136,144 +164,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public QueryResultVo<UserVo> queryUser(UserQueryDto queryDTO) {
-        Page<User> page = new Page<>();
-        page.setCurrent(queryDTO.getPageNo());
-        page.setSize(queryDTO.getPageSize());
-        LambdaQueryWrapper<User> wrapper = User.gw();
-        if (Objects.nonNull(queryDTO.getId())) {
-            // id不为空
-            wrapper.eq(User::getId, queryDTO.getId());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getEmployeeNumber())) {
-            // 工号不为空
-            wrapper.eq(User::getEmployeeNumber, queryDTO.getEmployeeNumber());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getNickName())) {
-            // 姓名不为空
-            wrapper.like(User::getNickName, queryDTO.getNickName());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getUserPwd())) {
-            // 密码不为空
-            wrapper.like(User::getUserPwd, queryDTO.getUserPwd());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getMobile())) {
-            // 手机号不为空
-            wrapper.like(User::getMobile, queryDTO.getMobile());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getEmail())) {
-            // 邮箱不为空
-            wrapper.like(User::getEmail, queryDTO.getEmail());
-        }
-        if (Objects.nonNull(queryDTO.getDepartmentId())) {
-            // 部门id不为空
-            wrapper.eq(User::getDepartmentId, queryDTO.getDepartmentId());
-        }
-        if (Objects.nonNull(queryDTO.getPostId())) {
-            // 职位id不为空
-            wrapper.eq(User::getPostId, queryDTO.getPostId());
-        }
-        if (Objects.nonNull(queryDTO.getProfessionalTitleId())) {
-            // 职称id不为空
-            wrapper.eq(User::getProfessionalTitleId, queryDTO.getProfessionalTitleId());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getDocumentType())) {
-            // 证件类型不为空
-            wrapper.like(User::getDocumentType, queryDTO.getDocumentType());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getDocumentNumber())) {
-            // 证件号不为空
-            wrapper.like(User::getDocumentNumber, queryDTO.getDocumentNumber());
-        }
-        if (Objects.nonNull(queryDTO.getBirthDateFrom())) {
-            // 出生日期大于等于
-            wrapper.ge(User::getBirthDate, queryDTO.getBirthDateFrom());
-        }
-        if (Objects.nonNull(queryDTO.getBirthDateTo())) {
-            // 出生日期小于等于
-            wrapper.le(User::getBirthDate, queryDTO.getBirthDateTo());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getHouseholdRegistrationType())) {
-            // 户籍类型不为空
-            wrapper.like(User::getHouseholdRegistrationType, queryDTO.getHouseholdRegistrationType());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getDomicileAddress())) {
-            // 户籍地址不为空
-            wrapper.like(User::getDomicileAddress, queryDTO.getDomicileAddress());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getGender())) {
-            // 性别不为空
-            wrapper.like(User::getGender, queryDTO.getGender());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getNationality())) {
-            // 民族不为空
-            wrapper.like(User::getNationality, queryDTO.getNationality());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getMaritalStatus())) {
-            // 婚姻状况不为空
-            wrapper.like(User::getMaritalStatus, queryDTO.getMaritalStatus());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getPoliticalStatus())) {
-            // 政治面貌不为空
-            wrapper.like(User::getPoliticalStatus, queryDTO.getPoliticalStatus());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getSocialSecurityAccountNumber())) {
-            // 社保账号不为空
-            wrapper.like(User::getSocialSecurityAccountNumber, queryDTO.getSocialSecurityAccountNumber());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getProvidentFundAccount())) {
-            // 公积金账号不为空
-            wrapper.like(User::getProvidentFundAccount, queryDTO.getProvidentFundAccount());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getResidentialAddress())) {
-            // 居住地址不为空
-            wrapper.like(User::getResidentialAddress, queryDTO.getResidentialAddress());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getHighestDegree())) {
-            // 最高学历不为空
-            wrapper.like(User::getHighestDegree, queryDTO.getHighestDegree());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getGraduateSchool())) {
-            // 毕业院校不为空
-            wrapper.like(User::getGraduateSchool, queryDTO.getGraduateSchool());
-        }
-        if (Objects.nonNull(queryDTO.getGraduationTimeFrom())) {
-            // 毕业时间大于等于
-            wrapper.ge(User::getGraduationTime, queryDTO.getGraduationTimeFrom());
-        }
-        if (Objects.nonNull(queryDTO.getGraduationTimeTo())) {
-            // 毕业时间小于等于
-            wrapper.le(User::getGraduationTime, queryDTO.getGraduationTimeTo());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getMajor())) {
-            // 所学专业不为空
-            wrapper.like(User::getMajor, queryDTO.getMajor());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getDepositBank())) {
-            // 开户银行不为空
-            wrapper.like(User::getDepositBank, queryDTO.getDepositBank());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getBankCardNumber())) {
-            // 银行卡号不为空
-            wrapper.like(User::getBankCardNumber, queryDTO.getBankCardNumber());
-        }
-        if (Objects.nonNull(queryDTO.getIsAdmin())) {
-            // 是否管理员不为空
-            wrapper.eq(User::getIsAdmin, queryDTO.getIsAdmin());
-        }
-        if (Objects.nonNull(queryDTO.getCreateTimeFrom())) {
-            // 创建时间大于等于
-            wrapper.ge(User::getCreateTime, queryDTO.getCreateTimeFrom());
-        }
-        if (Objects.nonNull(queryDTO.getCreateTimeTo())) {
-            // 创建时间小于等于
-            wrapper.le(User::getCreateTime, queryDTO.getCreateTimeTo());
-        }
-        wrapper.orderByDesc(User::getId);
-        Page<User> result = super.page(page, wrapper);
-        QueryResultVo<UserVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, UserVo.class);
-        queryResultVo.setRecords(UserConvertor.toUserVoList(result.getRecords()));
-        return queryResultVo;
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    public void approval(List<Long> idList) {
+        User bean = new User();
+        bean.setUserStatus(UserStatusEnum.NORMAL.getValue());
+        super.update(bean, User.gw().in(User::getId, idList));
     }
 
 }

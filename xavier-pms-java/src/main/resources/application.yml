@@ -16,6 +16,8 @@ knife4j:
           - io.swagger.annotations.ApiOperation
   cors: true
 spring:
+  application:
+    name: xavier-pms-java
   main:
     allow-bean-definition-overriding: true
   mvc:

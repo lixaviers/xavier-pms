@@ -101,7 +101,7 @@
     <pagination
       v-show="total > 0"
       :total="total"
-      v-model:page="queryParams.pageNum"
+      v-model:page="queryParams.pageNo"
       v-model:limit="queryParams.pageSize"
       @pagination="getDataList"
     />
@@ -130,7 +130,7 @@ const total = ref(0)
 
 const data = reactive({
   queryParams: {
-    pageNum: 1,
+    pageNo: 1,
     pageSize: 10,
     postName: undefined,
     status: undefined
@@ -190,7 +190,7 @@ function handleAddOrUpdate(id) {
  * 删除按钮操作
  */
 function handleDelete(id) {
-  const idList = id || ids.value
+  const idList = id ? [id] : ids.value
   proxy.$modal
     .confirm('是否确认删除职称？')
     .then(function () {

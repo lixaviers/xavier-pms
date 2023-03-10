@@ -6,12 +6,30 @@
       :inline="true"
       v-show="showSearch"
     >
-      <el-form-item label="职位名称" prop="postName">
+      <el-form-item label="工号" prop="employeeNumber">
         <el-input
-          v-model="queryParams.postName"
+          v-model="queryParams.employeeNumber"
           placeholder="请输入"
           clearable
-          style="width: 200px"
+          style="width: 120px"
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="姓名" prop="nickName">
+        <el-input
+          v-model="queryParams.nickName"
+          placeholder="请输入"
+          clearable
+          style="width: 120px"
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="手机号" prop="mobile">
+        <el-input
+          v-model="queryParams.mobile"
+          placeholder="请输入"
+          clearable
+          style="width: 150px"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
@@ -30,23 +48,13 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          :disabled="multiple"
           type="success"
           plain
-          icon="Plus"
-          @click="handleAddOrUpdate()"
+          icon="Check"
+          @click="handleApproval()"
           v-hasPermi="['system:post:add']"
-          >新增</el-button
-        >
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete()"
-          v-hasPermi="['system:post:delete']"
-          >删除</el-button
+          >审批通过</el-button
         >
       </el-col>
       <right-toolbar
@@ -62,9 +70,16 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="职位编号" align="center" prop="id" width="120" />
-      <el-table-column label="职位名称" align="center" prop="postName" />
-      <el-table-column label="备注" prop="remarks" />
+      <el-table-column
+        label="工号"
+        align="center"
+        prop="employeeNumber"
+        width="120"
+      />
+      <el-table-column label="姓名" align="center" prop="nickName" />
+      <el-table-column label="手机号" align="center" prop="mobile" />
+      <el-table-column label="邮箱" align="center" prop="email" />
+      <el-table-column label="性别" prop="gender" align="center" width="80" />
       <el-table-column
         label="创建时间"
         align="center"
@@ -73,26 +88,18 @@
       />
       <el-table-column
         label="操作"
-        width="180"
+        width="150"
         align="center"
         class-name="small-padding fixed-width"
       >
         <template #default="scope">
           <el-button
             link
-            type="primary"
-            icon="Edit"
-            @click="handleAddOrUpdate(scope.row.id)"
+            type="success"
+            icon="Check"
+            @click="handleApproval(scope.row.id)"
             v-hasPermi="['system:post:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="danger"
-            icon="Delete"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:post:delete']"
-            >删除</el-button
+            >审批通过</el-button
           >
         </template>
       </el-table-column>
@@ -105,17 +112,12 @@
       v-model:limit="queryParams.pageSize"
       @pagination="getDataList"
     />
-
-    <!-- 添加或修改对话框 -->
-    <add-or-update ref="addOrUpdateRef" @refreshDataList="getDataList" />
   </div>
 </template>
-<script setup name="Post">
-import addOrUpdate from './addOrUpdate.vue'
-import { queryPostApi, deletePostApi } from '@/api/company/post'
+<script setup>
+import { queryUserApprovalApi, approvalUserApi } from '@/api/system/user'
 
 const { proxy } = getCurrentInstance()
-const addOrUpdateRef = ref()
 
 const dataList = ref([])
 const loading = ref(true)
@@ -128,7 +130,7 @@ const total = ref(0)
 const data = reactive({
   queryParams: {
     pageNo: 1,
-    pageSize: 10,
+    pageSize: 20,
     postName: undefined,
     status: undefined
   }
@@ -141,7 +143,7 @@ const { queryParams } = toRefs(data)
  */
 function getDataList() {
   loading.value = true
-  queryPostApi(queryParams.value)
+  queryUserApprovalApi(queryParams.value)
     .then((response) => {
       dataList.value = response.records
       total.value = response.total
@@ -177,24 +179,17 @@ function handleSelectionChange(selection) {
 }
 
 /**
- * 新增/编辑按钮操作
+ * 审批通过操作
  */
-function handleAddOrUpdate(id) {
-  addOrUpdateRef.value.init(id)
-}
-
-/**
- * 删除按钮操作
- */
-function handleDelete(id) {
+function handleApproval(id) {
   const idList = id ? [id] : ids.value
   proxy.$modal
-    .confirm('是否确认删除职位？')
+    .confirm('是否确认审批通过？')
     .then(function () {
-      return deletePostApi(idList)
+      return approvalUserApi(idList)
     })
     .then(() => {
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess('审批成功')
       getDataList()
     })
     .catch(() => {})
