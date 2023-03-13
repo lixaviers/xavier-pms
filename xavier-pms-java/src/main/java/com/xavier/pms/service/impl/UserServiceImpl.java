@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xavier.pms.constants.Constant;
-import com.xavier.pms.convertor.UserConvertor;
 import com.xavier.pms.dao.UserMapper;
+import com.xavier.pms.dto.ApprovalQueryDto;
 import com.xavier.pms.dto.EmployeeAddDto;
+import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.dto.LoginDto;
-import com.xavier.pms.dto.QueryApprovalDto;
 import com.xavier.pms.enums.UserStatusEnum;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.User;
@@ -21,7 +21,7 @@ import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
-import com.xavier.pms.vo.UserVo;
+import com.xavier.pms.vo.EmployeeListVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -123,7 +123,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public QueryResultVo<ApprovalEmployeeVo> queryApproval(QueryApprovalDto dto) {
+    public QueryResultVo<ApprovalEmployeeVo> queryApproval(ApprovalQueryDto dto) {
         Page<User> page = new Page<>();
         page.setCurrent(dto.getPageNo());
         page.setSize(dto.getPageSize());
@@ -149,12 +149,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public UserVo getUser(Long id) {
-        return UserConvertor.toUserVo(getBaseUser(id));
-    }
-
-
-    @Override
     public User getBaseUser(Long id) {
         User user = super.getById(id);
         if (Objects.isNull(user) || user.getIsDeleted()) {
@@ -171,4 +165,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         super.update(bean, User.gw().in(User::getId, idList));
     }
 
+    @Override
+    public QueryResultVo<EmployeeListVo> queryEmployee(EmployeeQueryDto dto) {
+        Page<User> page = new Page<>();
+        page.setCurrent(dto.getPageNo());
+        page.setSize(dto.getPageSize());
+        Page<EmployeeListVo> result = baseMapper.queryEmployee(dto, page);
+        QueryResultVo<EmployeeListVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, EmployeeListVo.class);
+        queryResultVo.setRecords(result.getRecords());
+        return queryResultVo;
+    }
 }

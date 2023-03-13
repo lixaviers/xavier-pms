@@ -1,15 +1,15 @@
 package com.xavier.pms.controller;
 
+import com.xavier.pms.dto.ApprovalQueryDto;
 import com.xavier.pms.dto.EmployeeAddDto;
-import com.xavier.pms.dto.QueryApprovalDto;
+import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
-import com.xavier.pms.vo.UserVo;
+import com.xavier.pms.vo.EmployeeListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +42,7 @@ public class UserController extends CommonController {
 
     @ApiOperation(value = "分页获取待审核员工列表信息", notes = "分页获取待审核员工列表信息")
     @PostMapping("queryApproval")
-    public Result<QueryResultVo<ApprovalEmployeeVo>> queryApproval(@Validated @RequestBody QueryApprovalDto dto) {
+    public Result<QueryResultVo<ApprovalEmployeeVo>> queryApproval(@Validated @RequestBody ApprovalQueryDto dto) {
         return Result.ok(userService.queryApproval(dto));
     }
 
@@ -53,10 +53,10 @@ public class UserController extends CommonController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "获取用户信息", notes = "根据用户ID获取用户信息")
-    @GetMapping("get/{id}")
-    public Result<UserVo> get(@ApiParam("id") @PathVariable Long id) {
-        return Result.ok(userService.getUser(id));
+    @ApiOperation(value = "分页获取员工列表信息", notes = "分页获取员工列表信息")
+    @PostMapping("query")
+    public Result<QueryResultVo<EmployeeListVo>> query(@Validated @RequestBody EmployeeQueryDto dto) {
+        return Result.ok(userService.queryEmployee(dto));
     }
 
 

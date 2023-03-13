@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @ApiModel("待审核员工查询入参")
-public class QueryApprovalDto extends QueryDto {
+public class ApprovalQueryDto extends QueryDto {
 
     /**
      * serialVersionUID

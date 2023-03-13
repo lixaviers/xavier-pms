@@ -112,10 +112,13 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="出生日期" prop="birthDate">
-                    <el-input
+                    <el-date-picker
                       v-model="dataForm.birthDate"
-                      placeholder="请输入"
-                      maxlength="100"
+                      type="date"
+                      placeholder="请选择"
+                      :disabled-date="disabledDate"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
                     />
                   </el-form-item>
                 </el-col>
@@ -609,6 +612,10 @@ const nationalityList = ref([
   '藏族',
   '壮族'
 ])
+
+const disabledDate = (time) => {
+  return time.getTime() > Date.now()
+}
 
 /**
  * 提交

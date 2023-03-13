@@ -1,13 +1,14 @@
 package com.xavier.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xavier.pms.dto.ApprovalQueryDto;
 import com.xavier.pms.dto.EmployeeAddDto;
+import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.dto.LoginDto;
-import com.xavier.pms.dto.QueryApprovalDto;
 import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
-import com.xavier.pms.vo.UserVo;
+import com.xavier.pms.vo.EmployeeListVo;
 
 import java.util.List;
 
@@ -45,20 +46,9 @@ public interface IUserService extends IService<User> {
     Long createUser(EmployeeAddDto userDto);
 
     /**
-     * 分页查询用户信息
-     *
-     * @param dto 用户查询入参
-     * @return 用户信息
+     * 分页获取待审核员工列表信息
      */
-    QueryResultVo<ApprovalEmployeeVo> queryApproval(QueryApprovalDto dto);
-
-    /**
-     * 根据ID获取用户信息
-     *
-     * @param id
-     * @return 用户信息
-     */
-    UserVo getUser(Long id);
+    QueryResultVo<ApprovalEmployeeVo> queryApproval(ApprovalQueryDto dto);
 
     /**
      * 根据ID获取用户信息
@@ -74,5 +64,10 @@ public interface IUserService extends IService<User> {
      * @param idList
      */
     void approval(List<Long> idList);
+
+    /**
+     * 分页获取待审核员工列表信息
+     */
+    QueryResultVo<EmployeeListVo> queryEmployee(EmployeeQueryDto dto);
 
 }
