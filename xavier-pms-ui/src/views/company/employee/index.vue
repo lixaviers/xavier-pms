@@ -72,17 +72,6 @@
         </el-form>
 
         <el-row :gutter="10" class="mb8">
-          <el-col :span="1.5">
-            <el-button
-              :disabled="multiple"
-              type="success"
-              plain
-              icon="Check"
-              @click="handleApproval()"
-              v-hasPermi="['system:post:add']"
-              >审批通过</el-button
-            >
-          </el-col>
           <right-toolbar
             v-model:showSearch="showSearch"
             @queryTable="getDataList"
@@ -120,21 +109,7 @@
             prop="createTime"
             width="180"
           />
-          <el-table-column
-            label="操作"
-            width="150"
-            align="center"
-            class-name="small-padding fixed-width"
-          >
-            <template #default="scope">
-              <el-button
-                link
-                type="success"
-                icon="Check"
-                v-hasPermi="['system:post:edit']"
-                >审批通过</el-button
-              >
-            </template>
+          <el-table-column label="操作" width="150" align="center">
           </el-table-column>
         </el-table>
 

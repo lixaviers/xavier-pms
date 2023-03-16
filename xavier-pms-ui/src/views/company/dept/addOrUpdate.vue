@@ -19,6 +19,7 @@
           value-key="id"
           placeholder="选择上级部门"
           check-strictly
+          style="width: 100%"
         />
       </el-form-item>
       <el-form-item label="部门名称" prop="deptName">
@@ -30,11 +31,19 @@
       </el-form-item>
       <!-- TODO 选择用户 -->
       <el-form-item label="负责人" prop="userId">
-        <el-input
+        <el-select
           v-model="dataForm.userId"
+          filterable
           placeholder="请输入负责人姓名搜索"
-          maxlength="20"
-        />
+          style="width: 100%"
+        >
+          <el-option
+            v-for="item in employeeList"
+            :key="item.id"
+            :value="item.id"
+            :label="item.nickName"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="备注" prop="remarks">
         <el-input
@@ -60,6 +69,7 @@ import {
   getDepartmentApi,
   queryDepartmentApi
 } from '@/api/company/dept'
+import { getUserByDepartmentIdApi } from '@/api/company/user'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -68,6 +78,7 @@ const visible = ref(false)
 const loading = ref(true)
 const title = ref('')
 const dataList = ref([])
+const employeeList = ref([])
 
 const data = reactive({
   dataForm: {},
@@ -117,14 +128,25 @@ async function getDataList() {
 }
 
 /**
+ * 根据部门id查询员工列表信息
+ */
+async function getUserByDepartmentId(id) {
+  employeeList.value = await getUserByDepartmentIdApi(id)
+}
+
+/**
  * 初始化
  */
 async function init(id, parentId) {
   visible.value = true
   await getDataList()
   if (id) {
+    await getUserByDepartmentId(id)
     title.value = '编辑部门'
     dataForm.value = await getDepartmentApi(id)
+    if (dataForm.value.userId === '0') {
+      dataForm.value.userId = ''
+    }
   } else {
     reset()
     if (parentId) {

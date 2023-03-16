@@ -1,21 +1,18 @@
 package com.xavier.pms.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xavier.pms.query.QueryResultVo;
-import com.xavier.pms.utils.BeanUtil;
-import com.xavier.pms.exception.ServiceException;
-import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.convertor.DepartmentConvertor;
-import com.xavier.pms.dto.DepartmentQueryDto;
-import com.xavier.pms.model.Department;
-import com.xavier.pms.dto.DepartmentDto;
-import com.xavier.pms.vo.DepartmentVo;
 import com.xavier.pms.dao.DepartmentMapper;
+import com.xavier.pms.dto.DepartmentDto;
+import com.xavier.pms.dto.DepartmentQueryDto;
+import com.xavier.pms.exception.ServiceException;
+import com.xavier.pms.model.Department;
+import com.xavier.pms.query.QueryResultVo;
+import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IDepartmentService;
+import com.xavier.pms.utils.BeanUtil;
+import com.xavier.pms.vo.DepartmentVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
-import java.util.List;
 
 
 /**
@@ -39,18 +35,35 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createDepartment(DepartmentDto departmentDto) {
+    public void createDepartment(DepartmentDto departmentDto) {
         Department department = DepartmentConvertor.toDepartment(departmentDto);
+        String startId = "0-";
+        if (!Objects.equals(department.getParentId(), 0L)) {
+            Department parent = getBaseDepartment(department.getParentId());
+            startId = parent.getFullId() + "-";
+        }
         department.setId(null);
         super.save(department);
-        return department.getId();
+
+        Department bean = new Department();
+        bean.setId(department.getId());
+        bean.setFullId(startId + department.getId());
+        super.updateById(bean);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Boolean updateDepartment(DepartmentDto departmentDto) {
-        getBaseDepartment(departmentDto.getId());
+        Department departmentLast = getBaseDepartment(departmentDto.getId());
         Department department = DepartmentConvertor.toDepartment(departmentDto);
+        if (!Objects.equals(department.getParentId(), departmentLast.getParentId())) {
+            String fullId = "0";
+            if (!Objects.equals(department.getParentId(), 0L)) {
+                Department parent = getBaseDepartment(department.getParentId());
+                fullId = parent.getFullId();
+            }
+            department.setFullId(fullId + "-" + department.getId());
+        }
         return super.updateById(department);
     }
 
@@ -82,39 +95,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Page<Department> page = new Page<>();
         page.setCurrent(queryDTO.getPageNo());
         page.setSize(queryDTO.getPageSize());
-        LambdaQueryWrapper<Department> wrapper = Department.gw();
-        if (Objects.nonNull(queryDTO.getId())) {
-            // id不为空
-            wrapper.eq(Department::getId, queryDTO.getId());
-        }
-        if (Objects.nonNull(queryDTO.getParentId())) {
-            // 父id不为空
-            wrapper.eq(Department::getParentId, queryDTO.getParentId());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getDeptName())) {
-            // 部门名称不为空
-            wrapper.like(Department::getDeptName, queryDTO.getDeptName());
-        }
-        if (Objects.nonNull(queryDTO.getUserId())) {
-            // 负责人id不为空
-            wrapper.eq(Department::getUserId, queryDTO.getUserId());
-        }
-        if (StrUtil.isNotBlank(queryDTO.getRemarks())) {
-            // 备注不为空
-            wrapper.like(Department::getRemarks, queryDTO.getRemarks());
-        }
-        if (Objects.nonNull(queryDTO.getCreateTimeFrom())) {
-            // 创建时间大于等于
-            wrapper.ge(Department::getCreateTime, queryDTO.getCreateTimeFrom());
-        }
-        if (Objects.nonNull(queryDTO.getCreateTimeTo())) {
-            // 创建时间小于等于
-            wrapper.le(Department::getCreateTime, queryDTO.getCreateTimeTo());
-        }
-        wrapper.orderByDesc(Department::getId);
-        Page<Department> result = super.page(page, wrapper);
+        Page<DepartmentVo> result = baseMapper.queryDepartment(queryDTO, page);
         QueryResultVo<DepartmentVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, DepartmentVo.class);
-        queryResultVo.setRecords(DepartmentConvertor.toDepartmentVoList(result.getRecords()));
+        queryResultVo.setRecords(result.getRecords());
         return queryResultVo;
     }
 

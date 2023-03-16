@@ -50,11 +50,14 @@
         WHERE
             tb_user.is_deleted = 0
         AND tb_user.is_admin = 0
+        <if test="dto.departmentId != null">
+        AND (
+            tb_department.full_id LIKE CONCAT('%-', #{dto.departmentId})
+        OR  tb_department.full_id LIKE CONCAT('%-', #{dto.departmentId}, '-%')
+        )
+        </if>
         <if test="dto.employeeNumber != null and dto.employeeNumber != ''">
         AND tb_user.employee_number = #{dto.employeeNumber, jdbcType=VARCHAR}
-        </if>
-        <if test="dto.departmentId != null">
-        AND tb_user.department_id = #{dto.departmentId, jdbcType=BIGINT}
         </if>
         <if test="dto.nickName != null and dto.nickName != ''">
         AND tb_user.nick_name LIKE CONCAT('%', #{dto.nickName, jdbcType=VARCHAR}, '%')
@@ -66,7 +69,7 @@
         AND tb_user.nick_name LIKE CONCAT('%', #{dto.email, jdbcType=VARCHAR}, '%')
         </if>
         ORDER BY
-            tb_user.id
+            tb_user.id DESC
     </select>
 
 

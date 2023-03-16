@@ -8,9 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,26 +20,8 @@ public class DepartmentQueryDto extends QueryDto {
      */
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("id")
-    private Long id;
-
-    @ApiModelProperty("父id")
-    private Long parentId;
-
     @ApiModelProperty("部门名称")
     private String deptName;
-
-    @ApiModelProperty("负责人id")
-    private Long userId;
-
-    @ApiModelProperty("备注")
-    private String remarks;
-
-    @ApiModelProperty("创建时间起")
-    private LocalDateTime createTimeFrom;
-
-    @ApiModelProperty("创建时间止")
-    private LocalDateTime createTimeTo;
 
 
 }

@@ -23,7 +23,6 @@ public class EmployeeQueryDto extends QueryDto {
     @ApiModelProperty("工号")
     private String employeeNumber;
 
-    // TODO 子部门
     @ApiModelProperty("部门id")
     private String departmentId;
 

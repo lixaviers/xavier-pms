@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -43,6 +44,12 @@ public class Department {
      */
     @TableField(value = "user_id")
     private Long userId;
+
+    /**
+     * 全id
+     */
+    @TableField(value = "full_id")
+    private String fullId;
 
     /**
      * 备注

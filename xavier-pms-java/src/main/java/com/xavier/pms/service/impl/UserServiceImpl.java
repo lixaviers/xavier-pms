@@ -175,4 +175,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         queryResultVo.setRecords(result.getRecords());
         return queryResultVo;
     }
+
+    @Override
+    public List<EmployeeListVo> getByDepartmentId(Long departmentId) {
+        List<User> list = super.list(User.gw()
+                .eq(User::getDepartmentId, departmentId)
+                .eq(User::getUserStatus, UserStatusEnum.NORMAL.getValue())
+        );
+        return BeanUtil.beanCopy(list, EmployeeListVo.class);
+    }
+
 }

@@ -58,6 +58,12 @@ public class DepartmentVo implements Serializable {
     private Long userId;
 
     /**
+     * 负责人
+     */
+    @ApiModelProperty("负责人")
+    private String nickName;
+
+    /**
      * 备注
      */
     @ApiModelProperty("备注")

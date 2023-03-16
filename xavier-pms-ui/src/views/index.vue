@@ -66,11 +66,7 @@
 </template>
 
 <script setup name="Index">
-const version = ref('3.8.5')
-
-function goTarget(url) {
-  window.open(url, '__blank')
-}
+const version = ref('1.0.0')
 </script>
 
 <style scoped lang="scss">

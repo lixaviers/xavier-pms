@@ -70,4 +70,12 @@ public interface IUserService extends IService<User> {
      */
     QueryResultVo<EmployeeListVo> queryEmployee(EmployeeQueryDto dto);
 
+    /**
+     * 根据部门id查询员工列表信息
+     *
+     * @param departmentId
+     * @return
+     */
+    List<EmployeeListVo> getByDepartmentId(Long departmentId);
+
 }

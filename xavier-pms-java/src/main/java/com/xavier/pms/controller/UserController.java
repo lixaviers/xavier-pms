@@ -10,6 +10,7 @@ import com.xavier.pms.vo.ApprovalEmployeeVo;
 import com.xavier.pms.vo.EmployeeListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,12 @@ public class UserController extends CommonController {
     @PostMapping("query")
     public Result<QueryResultVo<EmployeeListVo>> query(@Validated @RequestBody EmployeeQueryDto dto) {
         return Result.ok(userService.queryEmployee(dto));
+    }
+
+    @ApiOperation(value = "根据部门id查询员工列表信息", notes = "根据部门id查询员工列表信息")
+    @GetMapping("getByDepartmentId/{departmentId}")
+    public Result<List<EmployeeListVo>> getByDepartmentId(@ApiParam("部门id") @PathVariable Long departmentId) {
+        return Result.ok(userService.getByDepartmentId(departmentId));
     }
 
 

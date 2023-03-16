@@ -15,6 +15,18 @@ export const queryUserApi = (data) => {
 }
 
 /**
+ * 根据部门id查询员工列表信息
+ * @param {*} id 部门id
+ * @returns
+ */
+export const getUserByDepartmentIdApi = (id) => {
+  return request({
+    url: `${url}/getByDepartmentId/${id}`,
+    method: 'get'
+  })
+}
+
+/**
  * 创建/编辑
  * @returns
  */

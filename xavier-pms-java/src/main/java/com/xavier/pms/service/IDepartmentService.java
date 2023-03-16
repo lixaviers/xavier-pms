@@ -24,7 +24,7 @@ public interface IDepartmentService extends IService<Department> {
      * @param departmentDto 部门入参
      * @return id
      */
-    Long createDepartment(DepartmentDto departmentDto);
+    void createDepartment(DepartmentDto departmentDto);
 
     /**
      * 更新部门
