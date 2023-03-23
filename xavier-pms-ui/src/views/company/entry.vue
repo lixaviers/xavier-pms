@@ -6,7 +6,7 @@
           ref="formRef"
           :model="dataForm"
           :rules="rules"
-          label-width="120px"
+          label-width="100px"
           style="width: 1000px; padding: 0 0 20px 20px"
         >
           <el-collapse v-model="activeNames" class="mt20">
@@ -25,7 +25,39 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="部门" prop="departmentId">
+                  <el-form-item label="别名">
+                    <el-input
+                      v-model="dataForm.alias"
+                      placeholder="请输入"
+                      maxlength="50"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="手机号" prop="mobile">
+                    <el-input
+                      v-model="dataForm.mobile"
+                      placeholder="请输入"
+                      maxlength="15"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item
+                    label-width="150"
+                    label="首次参加工作日期"
+                    prop="firstEmploymentDate"
+                  >
+                    <el-date-picker
+                      v-model="dataForm.firstEmploymentDate"
+                      type="date"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="入职部门" prop="departmentId">
                     <el-tree-select
                       v-model="dataForm.departmentId"
                       :data="departmentList"
@@ -42,8 +74,85 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                  <el-form-item label="直属上级" prop="directLeaderId">
+                    <el-select
+                      v-model="dataForm.directLeaderId"
+                      style="width: 100%"
+                      filterable
+                    >
+                      <el-option
+                        v-for="item in employeeList"
+                        :key="'employee-' + item.id"
+                        :value="item.id"
+                        :label="item.nickName"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="入职日期" prop="entryDate">
+                    <el-date-picker
+                      v-model="dataForm.entryDate"
+                      type="date"
+                      placeholder="请选择"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
+                      @change="handleChange"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="试用期(月)">
+                    <el-input-number
+                      v-model="dataForm.probationPeriod"
+                      :min="1"
+                      :max="12"
+                      :precision="0"
+                      style="width: 100%"
+                      @change="handleChange"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="预计转正日期">
+                    <el-date-picker
+                      v-model="dataForm.estimatedConversionDate"
+                      disabled
+                      type="date"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="试用期薪酬">
+                    <el-input-number
+                      v-model="dataForm.probationaryWage"
+                      :min="0"
+                      :max="99999999"
+                      :precision="2"
+                      style="width: 100%"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="转正薪酬">
+                    <el-input-number
+                      v-model="dataForm.salary"
+                      :min="0"
+                      :max="99999999"
+                      :precision="2"
+                      style="width: 100%"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
                   <el-form-item label="职位" prop="postId">
-                    <el-select v-model="dataForm.postId" style="width: 100%">
+                    <el-select
+                      v-model="dataForm.postId"
+                      style="width: 100%"
+                      filterable
+                    >
                       <el-option
                         v-for="item in postList"
                         :key="'post-' + item.id"
@@ -55,20 +164,18 @@
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="职称" prop="professionalTitleId">
-                    <el-input
+                    <el-select
                       v-model="dataForm.professionalTitleId"
-                      placeholder="请输入"
-                      maxlength="100"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="手机号" prop="mobile">
-                    <el-input
-                      v-model="dataForm.mobile"
-                      placeholder="请输入"
-                      maxlength="15"
-                    />
+                      style="width: 100%"
+                      filterable
+                    >
+                      <el-option
+                        v-for="item in professionalTitleList"
+                        :key="'professionalTitle-' + item.id"
+                        :value="item.id"
+                        :label="item.titleName"
+                      />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -308,6 +415,65 @@
             </el-collapse-item>
             <el-collapse-item name="5">
               <template #title>
+                <div>工作经历(最多10条)</div>
+              </template>
+              <el-table :data="workExperienceList">
+                <el-table-column label="" width="45">
+                  <template #default="scope">
+                    <el-button
+                      @click="handleDelete('workExperience', scope.$index)"
+                      type="danger"
+                      icon="Delete"
+                      circle
+                    />
+                  </template>
+                </el-table-column>
+                <el-table-column label="单位名称">
+                  <template #default="scope">
+                    <el-input v-model="scope.row.company" maxlength="50" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="部门">
+                  <template #default="scope">
+                    <el-input v-model="scope.row.department" maxlength="50" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="职位">
+                  <template #default="scope">
+                    <el-input v-model="scope.row.position" maxlength="50" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="入职日期">
+                  <template #default="scope">
+                    <el-date-picker
+                      v-model="scope.row.entryDate"
+                      type="date"
+                      placeholder="请选择"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
+                    />
+                  </template>
+                </el-table-column>
+                <el-table-column label="离职日期">
+                  <template #default="scope">
+                    <el-date-picker
+                      v-model="scope.row.leaveOfficeDate"
+                      type="date"
+                      placeholder="请选择"
+                      style="width: 100%"
+                      value-format="YYYY-MM-DD"
+                    />
+                  </template>
+                </el-table-column>
+              </el-table>
+              <div v-if="workExperienceList.length < 10" class="mt10">
+                <el-button icon="Plus" @click="handleAdd('workExperience')"
+                  >增加</el-button
+                >
+              </div>
+            </el-collapse-item>
+            <el-collapse-item name="5">
+              <template #title>
                 <div>家庭信息(最多5条)</div>
               </template>
               <el-table :data="familyInfoList">
@@ -512,29 +678,42 @@
 </template>
 
 <script setup>
-import { addOrUpdateUserApi } from '@/api/company/user'
+import {
+  addOrUpdateUserApi,
+  queryUserApi,
+  getEstimatedConversionDateApi
+} from '@/api/company/user'
 import { queryDepartmentApi } from '@/api/company/dept'
 import { queryPostApi } from '@/api/company/post'
+import { queryProfessionalTitleApi } from '@/api/company/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const data = reactive({
-  dataForm: {},
+  dataForm: {
+    entryDate: proxy.parseTime(new Date(), '{y}-{m}-{d}'),
+    probationPeriod: 3
+  },
   rules: {
     nickName: [{ required: true, message: '请输入', trigger: 'blur' }],
     mobile: [{ required: true, message: '请输入', trigger: 'blur' }],
+    firstEmploymentDate: [
+      { required: true, message: '请选择', trigger: 'change' }
+    ],
+    directLeaderId: [{ required: true, message: '请选择', trigger: 'change' }],
     departmentId: [{ required: true, message: '请选择', trigger: 'change' }],
+    entryDate: [{ required: true, message: '请选择', trigger: 'change' }],
     postId: [{ required: true, message: '请选择', trigger: 'change' }],
     documentType: [{ required: true, message: '请选择', trigger: 'change' }],
     documentNumber: [{ required: true, message: '请输入', trigger: 'blur' }],
     birthDate: [{ required: true, message: '请选择', trigger: 'change' }],
     householdRegistrationType: [
-      { required: true, message: '请选择', trigger: 'blur' }
+      { required: true, message: '请选择', trigger: 'change' }
     ],
     domicileAddress: [{ required: true, message: '请输入', trigger: 'blur' }],
     gender: [{ required: true, message: '请选择', trigger: 'change' }],
     nationality: [{ required: true, message: '请选择', trigger: 'change' }],
-    maritalStatus: [{ required: true, message: '请选择', trigger: 'blur' }],
-    politicalStatus: [{ required: true, message: '请选择', trigger: 'blur' }],
+    maritalStatus: [{ required: true, message: '请选择', trigger: 'change' }],
+    politicalStatus: [{ required: true, message: '请选择', trigger: 'change' }],
     residentialAddress: [{ required: true, message: '请输入', trigger: 'blur' }]
   }
 })
@@ -547,6 +726,13 @@ const activeNames = ref(['1', '2', '3', '4', '5', '6', '8'])
 const departmentList = ref([])
 // 职位列表
 const postList = ref([])
+// 职称列表
+const professionalTitleList = ref([])
+// 员工列表
+const employeeList = ref([])
+
+// 工作经历列表
+const workExperienceList = ref([{}])
 // 家庭信息列表
 const familyInfoList = ref([{}])
 // 紧急联系人列表
@@ -623,6 +809,24 @@ const disabledDate = (time) => {
 function submitForm() {
   proxy.$refs['formRef'].validate((valid) => {
     if (valid) {
+      if (workExperienceList.value && workExperienceList.value.length > 0) {
+        let list = workExperienceList.value.filter((item) => {
+          if (
+            !item.company ||
+            !item.department ||
+            !item.position ||
+            !item.entryDate ||
+            !item.leaveOfficeDate
+          ) {
+            return true
+          }
+          return false
+        })
+        if (list && list.length > 0) {
+          proxy.$modal.msgWarning('请完善工作经历')
+          return
+        }
+      }
       let list = familyInfoList.value.filter((item) => {
         if (!item.nickName || !item.relation || !item.mobile) {
           return true
@@ -644,6 +848,8 @@ function submitForm() {
         return
       }
       loading.value = true
+
+      dataForm.value.workExperienceList = workExperienceList.value
       dataForm.value.familyInfoList = familyInfoList.value
       dataForm.value.emergencyContactList = emergencyContactList.value
       addOrUpdateUserApi(dataForm.value)
@@ -665,6 +871,8 @@ function handleAdd(type) {
     familyInfoList.value.push({})
   } else if (type === 'emergencyContact') {
     emergencyContactList.value.push({})
+  } else if (type === 'workExperience') {
+    workExperienceList.value.push({})
   }
 }
 
@@ -679,6 +887,8 @@ function handleDelete(type, index) {
         familyInfoList.value.splice(index, 1)
       } else if (type === 'emergencyContact') {
         emergencyContactList.value.splice(index, 1)
+      } else if (type === 'workExperience') {
+        workExperienceList.value.splice(index, 1)
       }
     })
     .catch(() => {})
@@ -687,8 +897,9 @@ function handleDelete(type, index) {
 function handleBack() {
   type.value = 1
   dataForm.value = {}
-  familyInfoList.value = []
-  emergencyContactList.value = []
+  workExperienceList.value = [{}]
+  familyInfoList.value = [{}]
+  emergencyContactList.value = [{}]
 }
 
 /**
@@ -699,14 +910,46 @@ async function getPostList() {
   postList.value = records
 }
 
+/**
+ * 查询部门列表
+ */
 async function getDepartmentList() {
   const { records } = await queryDepartmentApi({ pageSize: 10000 })
   departmentList.value = proxy.handleTree(records, 'id')
 }
 
+/**
+ * 查询职称列表
+ */
+async function getProfessionalTitleList() {
+  const { records } = await queryProfessionalTitleApi({ pageSize: 10000 })
+  professionalTitleList.value = records
+}
+
+/**
+ * 查询员工列表
+ */
+async function getEmployeeList() {
+  const { records } = await queryUserApi({ pageSize: 10000 })
+  employeeList.value = records
+}
+
+async function handleChange() {
+  if (dataForm.value.entryDate && dataForm.value.probationPeriod) {
+    const response = await getEstimatedConversionDateApi(
+      dataForm.value.entryDate,
+      dataForm.value.probationPeriod
+    )
+    dataForm.value.estimatedConversionDate = response
+  }
+}
+
 onMounted(async () => {
+  await handleChange()
   await getDepartmentList()
   await getPostList()
+  await getProfessionalTitleList()
+  await getEmployeeList()
 })
 </script>
 

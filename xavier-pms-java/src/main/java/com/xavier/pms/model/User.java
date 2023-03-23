@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -62,6 +63,54 @@ public class User {
      */
     @TableField(value = "email")
     private String email;
+
+    /**
+     * 别名
+     */
+    @TableField(value = "alias")
+    private String alias;
+
+    /**
+     * 首次参加工作日期
+     */
+    @TableField(value = "first_employment_date")
+    private LocalDate firstEmploymentDate;
+
+    /**
+     * 直属领导id
+     */
+    @TableField(value = "direct_leader_id")
+    private Long directLeaderId;
+
+    /**
+     * 入职日期
+     */
+    @TableField(value = "entry_date")
+    private LocalDate entryDate;
+
+    /**
+     * 试用期(月)
+     */
+    @TableField(value = "probation_period")
+    private Integer probationPeriod;
+
+    /**
+     * 预计转正日期
+     */
+    @TableField(value = "estimated_conversion_date")
+    private LocalDate estimatedConversionDate;
+
+    /**
+     * 试用期薪酬(月)
+     */
+    @TableField(value = "probationary_wage")
+    private LocalDate probationaryWage;
+
+    /**
+     * 转正薪酬(月)
+     */
+    @TableField(value = "salary")
+    private LocalDate salary;
 
     /**
      * 部门id
@@ -188,6 +237,12 @@ public class User {
      */
     @TableField(value = "bank_card_number")
     private String bankCardNumber;
+
+    /**
+     * 工作经历
+     */
+    @TableField(value = "work_experience")
+    private String workExperience;
 
     /**
      * 家庭信息

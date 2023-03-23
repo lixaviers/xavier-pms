@@ -91,6 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createUser(EmployeeAddDto userDto) {
         User user = BeanUtil.beanCopy(userDto, User.class);
+        user.setWorkExperience(JSON.toJSONString(userDto.getWorkExperienceList()));
         user.setFamilyInformation(JSON.toJSONString(userDto.getFamilyInfoList()));
         user.setEmergencyContact(JSON.toJSONString(userDto.getEmergencyContactList()));
         user.setId(null);

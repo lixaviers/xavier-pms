@@ -1,6 +1,7 @@
 /**
  * 通用js方法封装处理
  */
+import { queryDepartmentApi } from '@/api/company/dept'
 
 // 日期格式化
 export function parseTime(time, pattern) {
@@ -216,5 +217,17 @@ export async function blobValidate(data) {
     return false
   } catch (error) {
     return true
+  }
+}
+
+/**
+ * 查询部门列表
+ */
+export async function getDeptListUtil(isTree = true) {
+  const response = await queryDepartmentApi({ pageSize: 100000 })
+  if (isTree) {
+    return handleTree(response.records, 'id')
+  } else {
+    return response
   }
 }

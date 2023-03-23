@@ -1,5 +1,6 @@
 package com.xavier.pms.dto;
 
+import com.xavier.pms.enums.UserStatusEnum;
 import com.xavier.pms.query.QueryDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,6 +35,9 @@ public class EmployeeQueryDto extends QueryDto {
 
     @ApiModelProperty("邮箱")
     private String email;
+
+    @ApiModelProperty(value = "状态", hidden = true)
+    private Byte userStatus = UserStatusEnum.NORMAL.getValue();
 
 
 }

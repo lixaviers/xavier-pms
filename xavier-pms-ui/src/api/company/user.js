@@ -39,6 +39,17 @@ export function addOrUpdateUserApi(data) {
 }
 
 /**
+ * 获取预计转正日期
+ * @returns
+ */
+export function getEstimatedConversionDateApi(entryDate, probationPeriod) {
+  return request({
+    url: `${url}/getEstimatedConversionDate?entryDate=${entryDate}&probationPeriod=${probationPeriod}`,
+    method: 'get'
+  })
+}
+
+/**
  * 删除
  * @param {*} id
  * @returns

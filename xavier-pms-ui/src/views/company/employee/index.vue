@@ -126,7 +126,7 @@
 </template>
 <script setup>
 import { queryUserApi } from '@/api/company/user'
-import { queryDepartmentApi } from '@/api/company/dept'
+import { getDeptListUtil } from '@/utils/xavier'
 
 const { proxy } = getCurrentInstance()
 
@@ -211,14 +211,6 @@ function handleApproval(id) {
 }
 
 /**
- * 查询部门列表
- */
-async function getDeptList() {
-  loading.value = true
-  const response = await queryDepartmentApi(queryParams.value)
-  deptList.value = proxy.handleTree(response.records, 'id')
-}
-/**
  * 节点单击事件
  */
 function handleNodeClick(data) {
@@ -242,7 +234,7 @@ watch(deptName, (val) => {
 })
 
 onMounted(async () => {
-  await getDeptList()
+  deptList.value = await getDeptListUtil()
   getDataList()
 })
 </script>

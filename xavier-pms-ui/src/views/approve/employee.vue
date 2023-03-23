@@ -81,7 +81,7 @@
       <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="性别" prop="gender" align="center" width="80" />
       <el-table-column
-        label="创建时间"
+        label="申请时间"
         align="center"
         prop="createTime"
         width="180"

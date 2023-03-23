@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -39,6 +40,12 @@ public class UserController extends CommonController {
     public Result add(@Validated @RequestBody EmployeeAddDto userDto) {
         userService.createUser(userDto);
         return Result.ok();
+    }
+
+    @ApiOperation(value = "获取预计转正日期", notes = "获取预计转正日期")
+    @GetMapping("getEstimatedConversionDate")
+    public Result<LocalDate> getEstimatedConversionDate(@RequestParam LocalDate entryDate, @RequestParam int probationPeriod) {
+        return Result.ok(entryDate.plusMonths(probationPeriod));
     }
 
     @ApiOperation(value = "分页获取待审核员工列表信息", notes = "分页获取待审核员工列表信息")

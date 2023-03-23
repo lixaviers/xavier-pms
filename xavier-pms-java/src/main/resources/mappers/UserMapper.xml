@@ -50,6 +50,7 @@
         WHERE
             tb_user.is_deleted = 0
         AND tb_user.is_admin = 0
+        AND tb_user.user_status = #{dto.userStatus, jdbcType=TINYINT}
         <if test="dto.departmentId != null">
         AND (
             tb_department.full_id LIKE CONCAT('%-', #{dto.departmentId})

@@ -7,10 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -50,6 +52,57 @@ public class EmployeeAddDto implements Serializable {
     @ApiModelProperty(value = "邮箱")
     @Size(max = 255, message = "邮箱不能超过255位")
     private String email;
+
+    /**
+     * 别名
+     */
+    @ApiModelProperty(value = "别名")
+    @Size(max = 50, message = "别名不能超过50位")
+    private String alias;
+
+    /**
+     * 首次参加工作日期
+     */
+    @ApiModelProperty(value = "首次参加工作日期")
+    private LocalDate firstEmploymentDate;
+
+    /**
+     * 直属领导id
+     */
+    @ApiModelProperty(value = "直属领导id")
+    @NotNull(message = "请选择直属领导")
+    private Long directLeaderId;
+
+    /**
+     * 入职日期
+     */
+    @ApiModelProperty(value = "入职日期")
+    @NotNull(message = "请选择入职日期")
+    private LocalDate entryDate;
+
+    /**
+     * 试用期(月)
+     */
+    @ApiModelProperty(value = "试用期(月)")
+    private Integer probationPeriod;
+
+    /**
+     * 预计转正日期
+     */
+    @ApiModelProperty(value = "预计转正日期")
+    private LocalDate estimatedConversionDate;
+
+    /**
+     * 试用期薪酬(月)
+     */
+    @ApiModelProperty(value = "试用期薪酬(月)")
+    private LocalDate probationaryWage;
+
+    /**
+     * 转正薪酬(月)
+     */
+    @ApiModelProperty(value = "转正薪酬(月)")
+    private LocalDate salary;
 
     /**
      * 部门id
@@ -198,11 +251,19 @@ public class EmployeeAddDto implements Serializable {
     private String bankCardNumber;
 
     /**
+     * 工作经历列表
+     */
+    @ApiModelProperty(value = "工作经历列表")
+    @Valid
+    private List<EmployeeWorkExperienceDto> workExperienceList;
+
+    /**
      * 家庭信息列表
      */
     @ApiModelProperty(value = "家庭信息列表")
     @NotNull(message = "家庭信息不能为空")
     @Size(min = 1, message = "家庭信息不能为空")
+    @Valid
     private List<EmployeeInfoDto> familyInfoList;
 
     /**
@@ -211,6 +272,7 @@ public class EmployeeAddDto implements Serializable {
     @ApiModelProperty(value = "紧急联系人列表")
     @NotNull(message = "紧急联系人不能为空")
     @Size(min = 1, message = "紧急联系人不能为空")
+    @Valid
     private List<EmployeeInfoDto> emergencyContactList;
 
 
