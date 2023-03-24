@@ -11,14 +11,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("职位入参")
-public class PostDto implements Serializable {
+@ApiModel("角色入参")
+public class RoleDto implements Serializable {
 
     /**
      * serialVersionUID
@@ -33,13 +34,13 @@ public class PostDto implements Serializable {
     private Long id;
 
     /**
-     * 职位名称
+     * 角色名称
      */
-    @ApiModelProperty(value = "职位名称", required = true)
-    @NotNull(message = "职位名称不能为空")
-    @NotEmpty(message = "职位名称不能为空")
-    @Size(max = 50, message = "职位名称不能超过50位")
-    private String postName;
+    @ApiModelProperty(value = "角色名称", required = true)
+    @NotNull(message = "角色名称不能为空")
+    @NotEmpty(message = "角色名称不能为空")
+    @Size(max = 50, message = "角色名称不能超过50位")
+    private String roleName;
 
     /**
      * 备注
@@ -47,6 +48,12 @@ public class PostDto implements Serializable {
     @ApiModelProperty(value = "备注")
     @Size(max = 255, message = "备注不能超过255位")
     private String remarks;
+
+    /**
+     * 菜单id列表
+     */
+    @ApiModelProperty(value = "菜单id列表")
+    private List<Long> menuIdList;
 
 
 }

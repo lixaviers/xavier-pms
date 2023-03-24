@@ -13,13 +13,14 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("职位出参")
-public class PostVo implements Serializable {
+@ApiModel("角色出参")
+public class RoleVo implements Serializable {
 
     /**
      * serialVersionUID
@@ -36,10 +37,10 @@ public class PostVo implements Serializable {
     private Long id;
 
     /**
-     * 职位名称
+     * 角色名称
      */
-    @ApiModelProperty("职位名称")
-    private String postName;
+    @ApiModelProperty("角色名称")
+    private String roleName;
 
     /**
      * 备注
@@ -54,10 +55,9 @@ public class PostVo implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 菜单id列表
      */
-    @ApiModelProperty("修改时间")
-    private LocalDateTime updateTime;
-
+    @ApiModelProperty(value = "菜单id列表")
+    private List<Long> menuIdList;
 
 }

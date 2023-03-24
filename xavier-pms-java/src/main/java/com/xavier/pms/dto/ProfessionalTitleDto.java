@@ -49,11 +49,4 @@ public class ProfessionalTitleDto implements Serializable {
     private String remarks;
 
 
-    /**
-     * -------------------------------------------------
-     * 上面字段由工具自动生成，请在下面添加扩充字段
-     * -------------------------------------------------
-     */
-
-
 }

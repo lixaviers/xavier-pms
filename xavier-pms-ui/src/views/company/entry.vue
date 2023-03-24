@@ -472,7 +472,7 @@
                 >
               </div>
             </el-collapse-item>
-            <el-collapse-item name="5">
+            <el-collapse-item name="6">
               <template #title>
                 <div>家庭信息(最多5条)</div>
               </template>
@@ -516,7 +516,7 @@
                 >
               </div>
             </el-collapse-item>
-            <el-collapse-item name="6">
+            <el-collapse-item name="7">
               <template #title>
                 <div>紧急联系人(最多5条)</div>
               </template>
@@ -561,7 +561,7 @@
                 >
               </div>
             </el-collapse-item>
-            <el-collapse-item name="7">
+            <el-collapse-item name="8">
               <template #title>
                 <div>个人材料(无文件服务器，未实现)</div>
               </template>
@@ -622,7 +622,7 @@
                 </el-col>
               </el-row>
             </el-collapse-item>
-            <el-collapse-item name="8">
+            <el-collapse-item name="9">
               <template #title>
                 <div>入职申明与签名</div>
               </template>
@@ -721,7 +721,7 @@ const data = reactive({
 const { dataForm, rules } = toRefs(data)
 const loading = ref(false)
 const type = ref(1)
-const activeNames = ref(['1', '2', '3', '4', '5', '6', '8'])
+const activeNames = ref(['1', '2', '3', '4', '5', '6', '7', '9'])
 // 部门列表
 const departmentList = ref([])
 // 职位列表

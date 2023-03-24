@@ -59,10 +59,15 @@
         :show-overflow-tooltip="true"
       ></el-table-column>
       <el-table-column
+        prop="url"
+        label="路由地址"
+        :show-overflow-tooltip="true"
+      />
+      <el-table-column
         prop="component"
         label="组件路径"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column prop="status" label="状态" width="80">
         <template #default="scope">
           <el-tag v-if="scope.row.isEnable">启用</el-tag>
@@ -133,7 +138,9 @@ const isExpandAll = ref(false)
 const refreshTable = ref(true)
 const addOrUpdateRef = ref(null)
 
-/** 查询菜单列表 */
+/**
+ * 查询菜单列表
+ */
 function getDataList() {
   loading.value = true
   getMenuTreeApi().then((response) => {
@@ -141,7 +148,10 @@ function getDataList() {
     loading.value = false
   })
 }
-/** 新增按钮操作 */
+
+/**
+ * 新增按钮操作
+ */
 function handleAdd(id, parentId) {
   addOrUpdateRef.value.init(id, parentId)
 }
