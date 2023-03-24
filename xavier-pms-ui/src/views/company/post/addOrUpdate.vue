@@ -11,6 +11,16 @@
       <el-form-item label="职位名称" prop="postName">
         <el-input v-model="dataForm.postName" max="50" placeholder="请输入" />
       </el-form-item>
+      <el-form-item label="角色">
+        <el-select v-model="dataForm.roleIdList" multiple style="width: 100%">
+          <el-option
+            v-for="item in roleList"
+            :key="item.id"
+            :value="item.id"
+            :label="item.roleName"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="备注" prop="remarks">
         <el-input
           v-model="dataForm.remarks"
@@ -31,6 +41,7 @@
 
 <script setup>
 import { addOrUpdatePostApi, getPostApi } from '@/api/company/post'
+import { queryRoleApi } from '@/api/system/role'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -38,6 +49,7 @@ const emits = defineEmits()
 const visible = ref(false)
 const loading = ref(true)
 const title = ref('')
+const roleList = ref([])
 
 const data = reactive({
   dataForm: {},
@@ -78,12 +90,20 @@ function submitForm() {
     }
   })
 }
+/**
+ * 查询角色列表
+ */
+async function getRoleList() {
+  const { records } = await queryRoleApi({ pageSize: 10000 })
+  roleList.value = records
+}
 
 /**
  * 初始化
  */
 async function init(id) {
   visible.value = true
+  await getRoleList()
   if (id) {
     title.value = '编辑职位'
     dataForm.value = await getPostApi(id)

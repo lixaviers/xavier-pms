@@ -8,9 +8,11 @@ import com.xavier.pms.dto.DepartmentDto;
 import com.xavier.pms.dto.DepartmentQueryDto;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.Department;
+import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IDepartmentService;
+import com.xavier.pms.service.IUserService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.vo.DepartmentVo;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 
 
@@ -32,6 +35,9 @@ import java.util.Objects;
 @Slf4j
 @Service("departmentService")
 public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Department> implements IDepartmentService {
+
+    @Resource
+    private IUserService userService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
@@ -71,7 +77,10 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Boolean deleteDepartment(Long id) {
         getBaseDepartment(id);
-        // todo 判断是否有员工
+        // 判断是否有员工
+        if (userService.count(User.gw().eq(User::getDepartmentId, id)) > 0) {
+            throw new ServiceException("部门下有员工，无法删除");
+        }
         return super.removeById(id);
     }
 

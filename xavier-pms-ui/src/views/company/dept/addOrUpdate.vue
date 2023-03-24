@@ -29,7 +29,6 @@
           maxlength="100"
         />
       </el-form-item>
-      <!-- TODO 选择用户 -->
       <el-form-item label="负责人" prop="userId">
         <el-select
           v-model="dataForm.userId"

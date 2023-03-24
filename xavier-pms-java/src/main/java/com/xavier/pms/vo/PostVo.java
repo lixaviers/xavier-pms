@@ -2,6 +2,7 @@ package com.xavier.pms.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xavier.pms.utils.ListLongJsonSerializer;
 import com.xavier.pms.utils.LongJsonDeserializer;
 import com.xavier.pms.utils.LongJsonSerializer;
 import io.swagger.annotations.ApiModel;
@@ -13,6 +14,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -58,6 +60,13 @@ public class PostVo implements Serializable {
      */
     @ApiModelProperty("修改时间")
     private LocalDateTime updateTime;
+
+    /**
+     * 角色id列表
+     */
+    @ApiModelProperty(value = "角色id列表")
+    @JsonSerialize(using = ListLongJsonSerializer.class)
+    private List<Long> roleIdList;
 
 
 }

@@ -10,9 +10,11 @@ import com.xavier.pms.dto.ProfessionalTitleDto;
 import com.xavier.pms.dto.ProfessionalTitleQueryDto;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.ProfessionalTitle;
+import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IProfessionalTitleService;
+import com.xavier.pms.service.IUserService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.vo.ProfessionalTitleVo;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,10 +39,16 @@ import java.util.Objects;
 @Service("professionalTitleService")
 public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleMapper, ProfessionalTitle> implements IProfessionalTitleService {
 
+    @Resource
+    private IUserService userService;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Boolean deleteProfessionalTitle(List<Long> idList) {
-        // todo 判断是否有员工
+        // 判断是否有员工
+        if (userService.count(User.gw().in(User::getProfessionalTitleId, idList)) > 0) {
+            throw new ServiceException("职称下有员工，无法删除");
+        }
         return super.removeBatchByIds(idList);
     }
 

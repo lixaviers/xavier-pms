@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -47,6 +48,12 @@ public class PostDto implements Serializable {
     @ApiModelProperty(value = "备注")
     @Size(max = 255, message = "备注不能超过255位")
     private String remarks;
+
+    /**
+     * 角色id列表
+     */
+    @ApiModelProperty(value = "角色id列表")
+    private List<Long> roleIdList;
 
 
 }

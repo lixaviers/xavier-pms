@@ -31,6 +31,7 @@
     </el-row>
 
     <el-table
+      border
       v-if="refreshTable"
       v-loading="loading"
       :data="dataList"
@@ -80,12 +81,7 @@
         width="160"
         prop="createTime"
       />
-      <el-table-column
-        label="操作"
-        align="center"
-        width="210"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column fixed="right" label="操作" align="center" width="210">
         <template #default="scope">
           <el-button
             link

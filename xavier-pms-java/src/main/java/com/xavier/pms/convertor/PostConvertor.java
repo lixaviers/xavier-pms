@@ -1,5 +1,6 @@
 package com.xavier.pms.convertor;
 
+import com.alibaba.fastjson2.JSON;
 import com.xavier.pms.dto.PostDto;
 import com.xavier.pms.model.Post;
 import com.xavier.pms.vo.PostVo;
@@ -27,12 +28,14 @@ public abstract class PostConvertor {
         }
         PostVo postVo = new PostVo();
         beanCopierForPostVo.copy(post, postVo, null);
+        postVo.setRoleIdList(JSON.parseArray(post.getRole(), Long.class));
         return postVo;
     }
 
     public static Post toPost(PostDto postDto) {
         Post post = new Post();
         beanCopierForPost.copy(postDto, post, null);
+        post.setRole(JSON.toJSONString(postDto.getRoleIdList()));
         return post;
     }
 

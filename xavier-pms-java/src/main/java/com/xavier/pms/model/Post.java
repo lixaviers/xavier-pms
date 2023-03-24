@@ -33,6 +33,12 @@ public class Post {
     private String postName;
 
     /**
+     * 角色列表
+     */
+    @TableField(value = "role")
+    private String role;
+
+    /**
      * 备注
      */
     @TableField(value = "remarks")

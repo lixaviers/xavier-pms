@@ -10,9 +10,11 @@ import com.xavier.pms.dto.PostDto;
 import com.xavier.pms.dto.PostQueryDto;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.Post;
+import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IPostService;
+import com.xavier.pms.service.IUserService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.vo.PostVo;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,10 +39,16 @@ import java.util.Objects;
 @Service("postService")
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IPostService {
 
+    @Resource
+    private IUserService userService;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Boolean deletePost(List<Long> idList) {
-        // todo 判断职位是否有员工
+        // 判断是否有员工
+        if (userService.count(User.gw().in(User::getPostId, idList)) > 0) {
+            throw new ServiceException("职位下有员工，无法删除");
+        }
         return super.removeBatchByIds(idList);
     }
 
