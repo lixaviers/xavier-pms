@@ -49,6 +49,36 @@ export function parseTime(time, pattern) {
   return time_str
 }
 
+/**
+ * @param {number} time
+ * @param {string} option
+ * @returns {string}
+ */
+export function formatTime(time, option) {
+  const d = new Date(time)
+  const now = Date.now()
+
+  const diff = (now - d) / 1000
+
+  if (diff < 5) {
+    return '刚刚'
+  } else if (diff < 60) {
+    return parseInt(diff) + '秒前'
+  } else if (diff < 3600) {
+    // less 1 hour
+    return Math.ceil(diff / 60) + '分钟前'
+  } else if (diff < 3600 * 24) {
+    return Math.ceil(diff / 3600) + '小时前'
+  } else if (diff < 3600 * 24 * 30) {
+    return Math.ceil(diff / 86400) + '天前'
+  }
+  if (option) {
+    return parseTime(time, option)
+  } else {
+    return time
+  }
+}
+
 // 表单重置
 export function resetForm(refName) {
   if (this.$refs[refName]) {

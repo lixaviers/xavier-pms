@@ -22,7 +22,24 @@
         <header-search id="header-search" class="right-menu-item" />
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
+        <notification
+          :list="[
+            {
+              content:
+                '我的对方水电费第三方斯蒂芬打撒的说法第三方第三方我饿的呃呃范围访问我的对方水电费第三方斯蒂芬打撒的说法第三方第三方我饿的呃呃范围访问',
+              createTime: '2023-03-25 17:54:11'
+            },
+            { content: 'ddddddddddd', createTime: '2023-03-25 11:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-24 17:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-24 11:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-23 17:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-23 11:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-22 17:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-03-22 11:54:11' },
+            { content: 'ddddddddddd', createTime: '2023-01-01 11:11:11' }
+          ]"
+          class="right-menu-item hover-effect notification"
+        />
         <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
@@ -64,6 +81,7 @@ import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import HeaderSearch from '@/components/HeaderSearch'
+import notification from '@/components/notification'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
@@ -109,7 +127,7 @@ function setLayout() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -144,6 +162,11 @@ function setLayout() {
     vertical-align: top;
   }
 
+  .notification {
+    .el-dropdown {
+      vertical-align: inherit;
+    }
+  }
   .right-menu {
     float: right;
     height: 100%;
