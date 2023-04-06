@@ -1,7 +1,5 @@
 import { createApp } from 'vue'
 
-import Cookies from 'js-cookie'
-
 import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
 
@@ -33,6 +31,8 @@ import RightToolbar from '@/components/RightToolbar'
 import ImagePreview from '@/components/ImagePreview'
 // 自定义树选择组件
 import TreeSelect from '@/components/TreeSelect'
+// 自定义选择员工组件
+import selectEmployee from '@/components/selectEmployee'
 
 const app = createApp(App)
 
@@ -48,6 +48,7 @@ app.component('Pagination', Pagination)
 app.component('TreeSelect', TreeSelect)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
+app.component('selectEmployee', selectEmployee)
 
 app.use(router)
 app.use(store)
@@ -61,7 +62,7 @@ directive(app)
 app.use(ElementPlus, {
   locale: locale,
   // 支持 large、default、small
-  size: Cookies.get('size') || 'default'
+  size: 'default'
 })
 
 app.mount('#app')

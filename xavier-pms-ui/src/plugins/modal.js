@@ -1,6 +1,11 @@
-import { ElMessage, ElMessageBox, ElNotification, ElLoading } from 'element-plus'
+import {
+  ElMessage,
+  ElMessageBox,
+  ElNotification,
+  ElLoading
+} from 'element-plus'
 
-let loadingInstance;
+let loadingInstance
 
 export default {
   // 消息提示
@@ -21,19 +26,19 @@ export default {
   },
   // 弹出提示
   alert(content) {
-    ElMessageBox.alert(content, "系统提示")
+    ElMessageBox.alert(content, '系统提示')
   },
   // 错误提示
   alertError(content) {
-    ElMessageBox.alert(content, "系统提示", { type: 'error' })
+    ElMessageBox.alert(content, '系统提示', { type: 'error' })
   },
   // 成功提示
   alertSuccess(content) {
-    ElMessageBox.alert(content, "系统提示", { type: 'success' })
+    ElMessageBox.alert(content, '系统提示', { type: 'success' })
   },
   // 警告提示
   alertWarning(content) {
-    ElMessageBox.alert(content, "系统提示", { type: 'warning' })
+    ElMessageBox.alert(content, '系统提示', { type: 'warning' })
   },
   // 通知提示
   notify(content) {
@@ -41,7 +46,7 @@ export default {
   },
   // 错误通知
   notifyError(content) {
-    ElNotification.error(content);
+    ElNotification.error(content)
   },
   // 成功通知
   notifySuccess(content) {
@@ -53,18 +58,18 @@ export default {
   },
   // 确认窗体
   confirm(content) {
-    return ElMessageBox.confirm(content, "系统提示", {
+    return ElMessageBox.confirm(content, '系统提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      type: "warning",
+      type: 'warning'
     })
   },
   // 提交内容
   prompt(content) {
-    return ElMessageBox.prompt(content, "系统提示", {
+    return ElMessageBox.prompt(content, '系统提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      type: "warning",
+      type: 'warning'
     })
   },
   // 打开遮罩层
@@ -72,11 +77,11 @@ export default {
     loadingInstance = ElLoading.service({
       lock: true,
       text: content,
-      background: "rgba(0, 0, 0, 0.7)",
+      background: 'rgba(0, 0, 0, 0.7)'
     })
   },
   // 关闭遮罩层
   closeLoading() {
-    loadingInstance.close();
+    loadingInstance.close()
   }
 }

@@ -38,7 +38,7 @@
                 : variables.logoLightTitleColor
           }"
         >
-          管理系统
+          人事管理系统
         </h1>
       </router-link>
     </transition>
@@ -47,7 +47,6 @@
 
 <script setup>
 import variables from '@/assets/styles/variables.module.scss'
-import logo from '@/assets/logo/logo.png'
 import useSettingsStore from '@/store/modules/settings'
 
 defineProps({
