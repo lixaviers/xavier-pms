@@ -25,7 +25,7 @@
                 : variables.logoLightTitleColor
           }"
         >
-          管理
+          人事
         </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">

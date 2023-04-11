@@ -63,6 +63,9 @@
         <if test="dto.nickName != null and dto.nickName != ''">
         AND tb_user.nick_name LIKE CONCAT('%', #{dto.nickName, jdbcType=VARCHAR}, '%')
         </if>
+        <if test="dto.py != null and dto.py != ''">
+        AND tb_user.nick_name_py LIKE CONCAT(#{dto.py, jdbcType=VARCHAR}, '%')
+        </if>
         <if test="dto.mobile != null and dto.mobile != ''">
         AND tb_user.nick_name LIKE CONCAT('%', #{dto.mobile, jdbcType=VARCHAR}, '%')
         </if>

@@ -30,6 +30,9 @@ public class EmployeeQueryDto extends QueryDto {
     @ApiModelProperty("姓名")
     private String nickName;
 
+    @ApiModelProperty("拼音首字母")
+    private String py;
+
     @ApiModelProperty("手机号")
     private String mobile;
 

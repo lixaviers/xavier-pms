@@ -9,6 +9,13 @@
   >
     <el-row>
       <el-col :span="6" class="dept-list">
+        <el-input
+          v-model="deptName"
+          placeholder="请输入部门名称"
+          clearable
+          prefix-icon="Search"
+          style="margin-bottom: 10px"
+        />
         <el-tree
           :data="deptList"
           :props="{ label: 'deptName', children: 'children' }"
@@ -21,21 +28,39 @@
         />
       </el-col>
       <el-col :span="18" class="employee-container">
-        <p>点击左边部门筛选员工</p>
-        <div class="employee-list mt10">
-          <span
-            v-for="(item, index) in employeeList"
-            :key="index"
-            class="employee-item"
+        <p>点击左边部门筛选员工，或者点击下面字母筛选</p>
+        <p class="mt10">
+          <el-button
+            link
+            v-for="i in 26"
+            :key="'py' + i"
+            @click="handleQueryPy(String.fromCharCode(96 + i))"
+            style="margin-left: 0; margin-right: 5px"
+            >{{ String.fromCharCode(64 + i) }}</el-button
           >
-            <el-button @click="handleSelect(item)">{{
-              item.nickName
-            }}</el-button>
-          </span>
+        </p>
+        <div class="employee-list mt10">
+          <div v-if="employeeList && employeeList.length > 0">
+            <span
+              v-for="(item, index) in employeeList"
+              :key="index"
+              class="employee-item"
+            >
+              <el-button @click="handleSelect(item)">{{
+                item.nickName
+              }}</el-button>
+            </span>
+          </div>
+          <div v-else>暂无员工</div>
         </div>
         <div class="select-list">
           <div class="">
-            <span class="fl">已选择</span>
+            <span class="fl"
+              >已选择<span
+                v-if="props.multiple && dataList && dataList.length > 0"
+                >({{ dataList.length }})</span
+              >
+            </span>
             <el-button
               v-if="props.multiple && employeeList.length > 0"
               @click="handleSelectAll"
@@ -116,11 +141,17 @@ function getEmployeeList() {
   })
 }
 
+function handleQueryPy(py) {
+  queryParams.value.py = py
+  getEmployeeList()
+}
+
 /**
  * 节点单击事件
  */
 function handleNodeClick(data) {
   queryParams.value.departmentId = data.id
+  queryParams.value.py = undefined
   getEmployeeList()
 }
 
@@ -234,6 +265,8 @@ defineExpose({
 .employee-container {
   padding-left: 20px;
   .employee-list {
+    max-height: 240px;
+    overflow-y: auto;
     padding-bottom: 10px;
     .employee-item {
       display: inline-block;
@@ -249,6 +282,8 @@ defineExpose({
 
     .list-item {
       clear: both;
+      max-height: 240px;
+      overflow-y: auto;
 
       .select-detail {
         display: inline-block;

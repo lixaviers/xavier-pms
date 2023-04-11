@@ -5,9 +5,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.EmployeeInfoDto;
 import com.xavier.pms.dto.EmployeeWorkExperienceDto;
-import com.xavier.pms.model.Department;
 import com.xavier.pms.model.Post;
-import com.xavier.pms.model.ProfessionalTitle;
 import com.xavier.pms.model.User;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IDepartmentService;
@@ -314,8 +312,9 @@ public class GenUserController extends CommonController {
 
     private static List<String> relations = CollUtil.newArrayList("父母", "子女", "配偶", "兄妹", "其他");
 
-    private static final String[] SURNAME_LIST = {"张", "王", "李", "赵", "陈", "刘", "吴", "孙", "周", "杨", "朱", "冯", "何", "邹", "熊", "邱", "秦", "白", "江", "尹", "蒋", "崔", "隋", "金", "谢", "魏", "夏", "萧", "叶", "梁", "韩", "秦", "宋", "欧阳", "诸葛", "尉迟", "长孙", "慕容", "司马", "上官", "皇甫", "南郭", "公孙", "东方", "西门"};
-    private static final String[] MALE_NAME_LIST = {"宁", "岩", "子平", "飞星", "弘深", "元魁", "鸿", "睿好", "修平", "丰茂", "元洲", "立诚", "明远", "彦博", "怡和", "开霁", "圣杰", "磊", "强", "伟", "勇", "俊", "军", "亮", "刚", "桂华", "欢", "佳", "瑞", "芝", "玉", "红", "俊杰", "俊强", "俊杰", "俊男", "俊雄", "俊彦", "俊逸", "俊英", "俊友", "俊语", "俊楚", "俊才", "俊智", "俊祥", "俊喆", "俊民", "俊昌", "俊理", "俊遥", "俊健", "俊琪", "俊达", "俊业", "俊名"};
+    private static final String[] SURNAME_LIST = {
+            "丁", "安", "艾", "白", "张", "王", "孔", "康", "李", "潘", "赵", "陶", "田", "任", "陈", "刘", "吴", "孙", "周", "杨", "朱", "冯", "何", "邹", "熊", "邱", "秦", "江", "尹", "蒋", "崔", "隋", "金", "谢", "魏", "夏", "萧", "叶", "梁", "韩", "秦", "宋", "欧阳", "诸葛", "鄂"};
+    private static final String[] MALE_NAME_LIST = {"峰", "坤", "冬", "宁", "岩", "子平", "飞星", "弘深", "元魁", "鸿", "睿好", "修平", "丰茂", "元洲", "立诚", "明远", "彦博", "怡和", "开霁", "圣杰", "磊", "强", "伟", "勇", "俊", "军", "亮", "刚", "桂华", "欢", "佳", "瑞", "玉", "红"};
     private static final String[] FEMALE_NAME_LIST = {"婷", "敏", "娜", "秀英", "慧", "亮", "静", "丽", "桂英", "桂兰", "桂芳", "欢", "娇", "佳", "媛", "玲", "瑞", "欣", "艳", "芳", "芸", "芝", "芹", "玉", "雪", "萍", "红", "莉", "俊英", "俊慧", "俊琪"};
 
     private static Random random = new Random();
