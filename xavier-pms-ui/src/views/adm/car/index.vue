@@ -6,9 +6,18 @@
       :inline="true"
       v-show="showSearch"
     >
-      <el-form-item label="职称名称" prop="sealName">
+      <el-form-item label="车辆名称" prop="carName">
         <el-input
-          v-model="queryParams.sealName"
+          v-model="queryParams.carName"
+          placeholder="请输入"
+          clearable
+          style="width: 200px"
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="车牌号码" prop="carNumber">
+        <el-input
+          v-model="queryParams.carNumber"
           placeholder="请输入"
           clearable
           style="width: 200px"
@@ -34,7 +43,7 @@
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['adm:seal:add']"
+          v-hasPermi="['adm:car:add']"
           >新增</el-button
         >
       </el-col>
@@ -45,7 +54,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete()"
-          v-hasPermi="['adm:seal:delete']"
+          v-hasPermi="['adm:car:delete']"
           >删除</el-button
         >
       </el-col>
@@ -63,7 +72,8 @@
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center" prop="id" width="120" />
-      <el-table-column label="印章名称" align="center" prop="sealName" />
+      <el-table-column label="车辆名称" align="center" prop="carName" />
+      <el-table-column label="车牌号码" align="center" prop="carNumber" />
       <el-table-column label="状态" align="center" width="80">
         <template #default="scope">
           <el-tag v-if="scope.row.isEnable" type="success">正常</el-tag>
@@ -89,7 +99,7 @@
             type="primary"
             icon="Edit"
             @click="handleAddOrUpdate(scope.row.id)"
-            v-hasPermi="['adm:seal:edit']"
+            v-hasPermi="['adm:car:edit']"
             >修改</el-button
           >
           <el-button
@@ -97,7 +107,7 @@
             type="danger"
             icon="Delete"
             @click="handleDelete(scope.row.id)"
-            v-hasPermi="['adm:seal:delete']"
+            v-hasPermi="['adm:car:delete']"
             >删除</el-button
           >
         </template>
@@ -118,7 +128,7 @@
 </template>
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
-import { querySealApi, deleteSealApi } from '@/api/adm/seal'
+import { queryCarApi, deleteCarApi } from '@/api/adm/car'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()
@@ -147,7 +157,7 @@ const { queryParams } = toRefs(data)
  */
 function getDataList() {
   loading.value = true
-  querySealApi(queryParams.value)
+  queryCarApi(queryParams.value)
     .then((response) => {
       dataList.value = response.records
       total.value = response.total
@@ -195,9 +205,9 @@ function handleAddOrUpdate(id) {
 function handleDelete(id) {
   const idList = id ? [id] : ids.value
   proxy.$modal
-    .confirm('是否确认删除印章？')
+    .confirm('是否确认删除车辆？')
     .then(function () {
-      return deleteSealApi(idList)
+      return deleteCarApi(idList)
     })
     .then(() => {
       proxy.$modal.msgSuccess('删除成功')
