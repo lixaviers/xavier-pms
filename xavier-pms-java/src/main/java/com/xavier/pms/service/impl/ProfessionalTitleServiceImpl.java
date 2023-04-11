@@ -102,7 +102,7 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
             // 创建时间小于等于
             wrapper.le(ProfessionalTitle::getCreateTime, queryDTO.getCreateTimeTo());
         }
-        wrapper.orderByDesc(ProfessionalTitle::getId);
+        wrapper.orderByAsc(ProfessionalTitle::getId);
         Page<ProfessionalTitle> result = super.page(page, wrapper);
         QueryResultVo<ProfessionalTitleVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, ProfessionalTitleVo.class);
         queryResultVo.setRecords(ProfessionalTitleConvertor.toProfessionalTitleVoList(result.getRecords()));

@@ -50,6 +50,18 @@ export function getEstimatedConversionDateApi(entryDate, probationPeriod) {
 }
 
 /**
+ * 根据id查询员工卡片信息
+ * @param {*} id
+ * @returns
+ */
+export const getUserCardApi = (id) => {
+  return request({
+    url: `${url}/getCard/${id}`,
+    method: 'get'
+  })
+}
+
+/**
  * 删除
  * @param {*} id
  * @returns
@@ -58,17 +70,5 @@ export const deleteUserApi = (id) => {
   return request({
     url: `${url}/delete/${id}`,
     method: 'delete'
-  })
-}
-
-/**
- * 根据ID获取信息
- * @param {*} id
- * @returns
- */
-export const getUserApi = (id) => {
-  return request({
-    url: `${url}/get/${id}`,
-    method: 'get'
   })
 }

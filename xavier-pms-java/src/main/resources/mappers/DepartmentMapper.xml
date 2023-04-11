@@ -17,7 +17,7 @@
         AND tb_department.dept_name LIKE CONCAT('%', #{dto.deptName}, '%')
         </if>
         ORDER BY
-            tb_department.id DESC
+            tb_department.id
     </select>
 
 

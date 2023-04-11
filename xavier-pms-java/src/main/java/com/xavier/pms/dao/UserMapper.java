@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.model.User;
+import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 数据持久层-用户管理类
@@ -27,5 +26,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     // 查询员工
     Page<EmployeeListVo> queryEmployee(@Param("dto") EmployeeQueryDto dto, Page<User> page);
+
+    // 根据id查询员工卡片信息
+    EmployeeCardVo getCard(@Param("id") Long id);
 
 }

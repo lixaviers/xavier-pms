@@ -65,6 +65,17 @@
         <el-table-column type="selection" width="55" align="center" />
         <el-table-column label="编号" align="center" prop="id" width="120" />
         <el-table-column label="组名称" align="center" prop="groupName" />
+        <el-table-column label="员工" align="center" min-width="200">
+          <template #default="scope">
+            <span
+              v-for="item in scope.row.employeeList"
+              :key="item.id"
+              class="pr5"
+            >
+              <el-tag>{{ item.nickName }}</el-tag>
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column label="备注" prop="remarks" />
         <el-table-column
           label="创建时间"

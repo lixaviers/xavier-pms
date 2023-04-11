@@ -1,6 +1,7 @@
 package com.xavier.pms.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,6 +22,7 @@ import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
+import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -91,6 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
     public Long createUser(EmployeeAddDto userDto) {
         User user = BeanUtil.beanCopy(userDto, User.class);
+        user.setNickNamePy(PinyinUtil.getPinyin(userDto.getNickName(), ""));
         user.setWorkExperience(JSON.toJSONString(userDto.getWorkExperienceList()));
         user.setFamilyInformation(JSON.toJSONString(userDto.getFamilyInfoList()));
         user.setEmergencyContact(JSON.toJSONString(userDto.getEmergencyContactList()));
@@ -100,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setUserPwd(passwordEncoderUtil.encode(Constant.DEFAULT_USER_PWD));
         user.setIsInitPwd(true);
         // 待审批状态
-        user.setUserStatus(UserStatusEnum.PENDING_APPROVAL.getValue());
+        user.setUserStatus(UserStatusEnum.NORMAL.getValue());
         add(user);
         return user.getId();
     }
@@ -184,6 +187,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(User::getUserStatus, UserStatusEnum.NORMAL.getValue())
         );
         return BeanUtil.beanCopy(list, EmployeeListVo.class);
+    }
+
+    @Override
+    public EmployeeCardVo getCard(Long id) {
+        return baseMapper.getCard(id);
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -39,6 +40,12 @@ public class User {
      */
     @TableField(value = "nick_name")
     private String nickName;
+
+    /**
+     * 姓名-拼音
+     */
+    @TableField(value = "nick_name_py")
+    private String nickNamePy;
 
     /**
      * 密码
@@ -104,13 +111,13 @@ public class User {
      * 试用期薪酬(月)
      */
     @TableField(value = "probationary_wage")
-    private LocalDate probationaryWage;
+    private BigDecimal probationaryWage;
 
     /**
      * 转正薪酬(月)
      */
     @TableField(value = "salary")
-    private LocalDate salary;
+    private BigDecimal salary;
 
     /**
      * 部门id
@@ -146,7 +153,7 @@ public class User {
      * 出生日期
      */
     @TableField(value = "birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
 
     /**
      * 户籍类型

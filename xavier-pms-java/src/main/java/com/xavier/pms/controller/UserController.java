@@ -7,7 +7,9 @@ import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
+import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
+import com.xavier.pms.vo.MenuVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -71,6 +73,12 @@ public class UserController extends CommonController {
     @GetMapping("getByDepartmentId/{departmentId}")
     public Result<List<EmployeeListVo>> getByDepartmentId(@ApiParam("部门id") @PathVariable Long departmentId) {
         return Result.ok(userService.getByDepartmentId(departmentId));
+    }
+
+    @ApiOperation(value = "根据id查询员工卡片信息", notes = "根据id查询员工卡片信息")
+    @GetMapping("getCard/{id}")
+    public Result<EmployeeCardVo> getCard(@ApiParam("id") @PathVariable Long id) {
+        return Result.ok(userService.getCard(id));
     }
 
 

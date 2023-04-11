@@ -5,6 +5,7 @@
     width="800px"
     append-to-body
     :close-on-click-modal="false"
+    class="select-employee-dialog"
   >
     <el-row>
       <el-col :span="6" class="dept-list">
@@ -201,7 +202,11 @@ watch(deptName, (val) => {
  */
 async function init(value) {
   employeeList.value = []
-  dataList.value = value
+  if (value) {
+    dataList.value = deepClone(value)
+  } else {
+    dataList.value = []
+  }
   visible.value = true
   deptList.value = await getDeptListUtil()
 }
@@ -211,7 +216,17 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-overlay-dialog {
+  .el-dialog.select-employee-dialog {
+    .el-dialog__header {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .el-dialog__body {
+      padding: 10px 20px 20px;
+    }
+  }
+}
 .dept-list {
   border-right: 1px solid #f0f0f0;
 }

@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@TableName("tb_post")
-public class Post {
+@TableName("tb_seal")
+public class Seal {
 
-    public static final LambdaQueryWrapper<Post> gw() {
+    public static final LambdaQueryWrapper<Seal> gw() {
         return new LambdaQueryWrapper<>();
     }
 
@@ -27,22 +27,16 @@ public class Post {
     private Long id;
 
     /**
-     * 职位名称
+     * 印章名称
      */
-    @TableField(value = "post_name")
-    private String postName;
+    @TableField(value = "seal_name")
+    private String sealName;
 
     /**
-     * 父id
+     * 是否启用
      */
-    @TableField(value = "parent_id")
-    private Long parentId;
-
-    /**
-     * 角色列表
-     */
-    @TableField(value = "role")
-    private String role;
+    @TableField(value = "is_enable")
+    private Boolean isEnable;
 
     /**
      * 备注

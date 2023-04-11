@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -96,13 +97,13 @@ public class EmployeeAddDto implements Serializable {
      * 试用期薪酬(月)
      */
     @ApiModelProperty(value = "试用期薪酬(月)")
-    private LocalDate probationaryWage;
+    private BigDecimal probationaryWage;
 
     /**
      * 转正薪酬(月)
      */
     @ApiModelProperty(value = "转正薪酬(月)")
-    private LocalDate salary;
+    private BigDecimal salary;
 
     /**
      * 部门id
@@ -142,8 +143,7 @@ public class EmployeeAddDto implements Serializable {
      * 出生日期
      */
     @ApiModelProperty(value = "出生日期")
-    @Size(max = 100, message = "出生日期不能超过100位")
-    private String birthDate;
+    private LocalDate birthDate;
 
     /**
      * 户籍类型

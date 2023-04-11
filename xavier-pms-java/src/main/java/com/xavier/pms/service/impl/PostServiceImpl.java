@@ -102,7 +102,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
             // 创建时间小于等于
             wrapper.le(Post::getCreateTime, queryDTO.getCreateTimeTo());
         }
-        wrapper.orderByDesc(Post::getId);
+        wrapper.orderByAsc(Post::getId);
         Page<Post> result = super.page(page, wrapper);
         QueryResultVo<PostVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, PostVo.class);
         queryResultVo.setRecords(PostConvertor.toPostVoList(result.getRecords()));

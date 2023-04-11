@@ -33,6 +33,8 @@ import ImagePreview from '@/components/ImagePreview'
 import TreeSelect from '@/components/TreeSelect'
 // 自定义选择员工组件
 import selectEmployee from '@/components/selectEmployee'
+// 员工卡片
+import employeeCard from '@/components/employeeCard'
 
 const app = createApp(App)
 
@@ -49,6 +51,7 @@ app.component('TreeSelect', TreeSelect)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('selectEmployee', selectEmployee)
+app.component('employeeCard', employeeCard)
 
 app.use(router)
 app.use(store)

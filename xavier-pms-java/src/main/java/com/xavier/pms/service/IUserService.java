@@ -8,6 +8,7 @@ import com.xavier.pms.dto.LoginDto;
 import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.vo.ApprovalEmployeeVo;
+import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
 
 import java.util.List;
@@ -77,5 +78,13 @@ public interface IUserService extends IService<User> {
      * @return
      */
     List<EmployeeListVo> getByDepartmentId(Long departmentId);
+
+    /**
+     * 根据id查询员工卡片信息
+     *
+     * @param id
+     * @return
+     */
+    EmployeeCardVo getCard(Long id);
 
 }

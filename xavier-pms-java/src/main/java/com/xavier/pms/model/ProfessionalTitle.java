@@ -33,6 +33,12 @@ public class ProfessionalTitle {
     private String titleName;
 
     /**
+     * 父id
+     */
+    @TableField(value = "parent_id")
+    private Long parentId;
+
+    /**
      * 备注
      */
     @TableField(value = "remarks")

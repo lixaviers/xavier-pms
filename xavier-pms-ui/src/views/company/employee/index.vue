@@ -91,7 +91,11 @@
             prop="employeeNumber"
             width="120"
           />
-          <el-table-column label="姓名" align="center" prop="nickName" />
+          <el-table-column label="姓名" align="center" prop="nickName">
+            <template #default="scope">
+              <employee-card v-model="scope.row.id" :label="scope.row.nickName"
+            /></template>
+          </el-table-column>
           <el-table-column label="手机号" align="center" prop="mobile" />
           <el-table-column label="邮箱" align="center" prop="email" />
           <el-table-column

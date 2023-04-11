@@ -1,5 +1,6 @@
 package com.xavier.pms.convertor;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson2.JSON;
 import com.xavier.pms.dto.PostDto;
 import com.xavier.pms.model.Post;
@@ -35,7 +36,11 @@ public abstract class PostConvertor {
     public static Post toPost(PostDto postDto) {
         Post post = new Post();
         beanCopierForPost.copy(postDto, post, null);
-        post.setRole(JSON.toJSONString(postDto.getRoleIdList()));
+        if (CollUtil.isNotEmpty(postDto.getRoleIdList())) {
+            post.setRole(JSON.toJSONString(postDto.getRoleIdList()));
+        } else {
+            post.setRole("");
+        }
         return post;
     }
 

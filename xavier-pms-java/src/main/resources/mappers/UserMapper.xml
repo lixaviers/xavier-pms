@@ -74,4 +74,28 @@
     </select>
 
 
+    <select id="getCard" resultType="com.xavier.pms.vo.EmployeeCardVo">
+        SELECT
+            tb_user.*,
+            tb_post.post_name,
+            tb_professional_title.title_name,
+            tb_department.dept_name,
+            (select a.nick_name from tb_user a where a.id = tb_user.direct_leader_id and a.is_deleted = 0) AS directLeader
+        FROM
+            tb_user
+        LEFT JOIN
+            tb_post ON tb_user.post_id = tb_post.id
+        AND tb_post.is_deleted = 0
+        LEFT JOIN
+            tb_professional_title ON tb_user.professional_title_id = tb_professional_title.id
+        AND tb_professional_title.is_deleted = 0
+        LEFT JOIN
+            tb_department ON tb_user.department_id = tb_department.id
+        AND tb_department.is_deleted = 0
+        WHERE
+            tb_user.is_deleted = 0
+        AND tb_user.id = #{id, jdbcType=BIGINT}
+    </select>
+
+
 </mapper>
