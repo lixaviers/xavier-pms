@@ -6,7 +6,7 @@
       :inline="true"
       v-show="showSearch"
     >
-      <el-form-item label="职称名称" prop="sealName">
+      <el-form-item label="印章名称" prop="sealName">
         <el-input
           v-model="queryParams.sealName"
           placeholder="请输入"

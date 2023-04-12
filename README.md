@@ -64,3 +64,18 @@
 | 🚀  |      | 抄送我的  |  ❌   |
 
 ### 截图预览
+<img src="images/印章管理.png" width="100%" />
+<hr/>
+<img src="images/车辆管理.png" width="100%" />
+<hr/>
+<img src="images/会议室管理.png" width="100%" />
+<hr/>
+<img src="images/职位管理.png" width="100%" />
+<hr/>
+<img src="images/职称管理.png" width="100%" />
+<hr/>
+<img src="images/部门管理.png" width="100%" />
+<hr/>
+<img src="images/员工入职.png" width="100%" />
+<hr/>
+<img src="images/员工管理.png" width="100%" />
