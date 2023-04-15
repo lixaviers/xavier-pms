@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.ApplicationGroupMapper">
+
+    <resultMap id="BaseResultMap" type="com.xavier.pms.vo.ApplicationGroupVo">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <collection property="applicationList" ofType="com.xavier.pms.vo.ApplicationVo">
+            <id column="id" jdbcType="BIGINT" property="id" />
+            <result column="app_name" jdbcType="VARCHAR" property="appName" />
+            <result column="submit_type" jdbcType="VARCHAR" property="submitType" />
+            <result column="icon" jdbcType="VARCHAR" property="icon" />
+            <result column="app_status" jdbcType="VARCHAR" property="appStatus" />
+        </collection>
+    </resultMap>
+
+    <select id="queryApplicationGroup" resultMap="BaseResultMap">
+        SELECT
+            tb_application_group.id,
+            tb_application_group.group_name,
+            tb_application.id,
+            tb_application.app_name,
+            tb_application.submit_type,
+            tb_application.icon,
+            tb_application.app_status
+        FROM
+            tb_application_group
+        LEFT JOIN
+            tb_application ON tb_application.application_group_id = tb_application_group.id
+        AND tb_application.is_deleted = 0
+        WHERE
+            tb_application_group.is_deleted = 0
+        <if test="dto.keyword != null and dto.keyword != ''">
+        AND tb_application_group.group_name LIKE CONCAT('%', #{dto.keyword}, '%')
+        OR  tb_application.app_name LIKE CONCAT('%', #{dto.keyword}, '%')
+        </if>
+        ORDER BY
+            tb_application_group.sort_number,
+            tb_application.sort_number
+    </select>
+
+
+</mapper>

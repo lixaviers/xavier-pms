@@ -77,6 +77,7 @@
               <el-input-number
                 v-model="dataForm.sortNumber"
                 controls-position="right"
+                :precision="0"
                 :min="1"
               />
             </el-form-item>

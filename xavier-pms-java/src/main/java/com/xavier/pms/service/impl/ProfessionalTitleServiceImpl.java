@@ -78,7 +78,7 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
     @Override
     public ProfessionalTitle getBaseProfessionalTitle(Long id) {
         ProfessionalTitle professionalTitle = super.getById(id);
-        if (Objects.isNull(professionalTitle) || professionalTitle.getIsDeleted()) {
+        if (Objects.isNull(professionalTitle)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "职称");
         }
         return professionalTitle;

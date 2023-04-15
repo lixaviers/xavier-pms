@@ -69,7 +69,7 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
     @Override
     public Car getBaseCar(Long id) {
         Car car = super.getById(id);
-        if(Objects.isNull(car) || car.getIsDeleted()) {
+        if(Objects.isNull(car)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "车辆");
         }
         return car;

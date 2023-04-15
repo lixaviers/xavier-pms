@@ -93,7 +93,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public Department getBaseDepartment(Long id) {
         Department department = super.getById(id);
-        if (Objects.isNull(department) || department.getIsDeleted()) {
+        if (Objects.isNull(department)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "部门");
         }
         return department;

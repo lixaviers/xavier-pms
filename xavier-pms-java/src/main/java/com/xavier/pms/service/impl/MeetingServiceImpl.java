@@ -69,7 +69,7 @@ public class MeetingServiceImpl extends ServiceImpl<MeetingMapper, Meeting> impl
     @Override
     public Meeting getBaseMeeting(Long id) {
         Meeting meeting = super.getById(id);
-        if(Objects.isNull(meeting) || meeting.getIsDeleted()) {
+        if(Objects.isNull(meeting)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "会议室");
         }
         return meeting;

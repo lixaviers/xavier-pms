@@ -68,7 +68,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
     @Override
     public UserGroup getBaseUserGroup(Long id) {
         UserGroup userGroup = super.getById(id);
-        if (Objects.isNull(userGroup) || userGroup.getIsDeleted()) {
+        if (Objects.isNull(userGroup)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "员工组");
         }
         return userGroup;

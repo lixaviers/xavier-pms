@@ -155,7 +155,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User getBaseUser(Long id) {
         User user = super.getById(id);
-        if (Objects.isNull(user) || user.getIsDeleted()) {
+        if (Objects.isNull(user)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "用户");
         }
         return user;

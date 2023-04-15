@@ -79,7 +79,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Override
     public Role getBaseRole(Long id) {
         Role role = super.getById(id);
-        if (Objects.isNull(role) || role.getIsDeleted()) {
+        if (Objects.isNull(role)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "角色");
         }
         return role;

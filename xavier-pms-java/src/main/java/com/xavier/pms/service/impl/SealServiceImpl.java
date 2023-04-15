@@ -68,7 +68,7 @@ public class SealServiceImpl extends ServiceImpl<SealMapper, Seal> implements IS
     @Override
     public Seal getBaseSeal(Long id) {
         Seal seal = super.getById(id);
-        if (Objects.isNull(seal) || seal.getIsDeleted()) {
+        if (Objects.isNull(seal)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "印章");
         }
         return seal;

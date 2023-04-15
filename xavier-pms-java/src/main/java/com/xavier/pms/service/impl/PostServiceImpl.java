@@ -78,7 +78,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     @Override
     public Post getBasePost(Long id) {
         Post post = super.getById(id);
-        if (Objects.isNull(post) || post.getIsDeleted()) {
+        if (Objects.isNull(post)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "职位");
         }
         return post;

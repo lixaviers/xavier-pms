@@ -91,7 +91,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public Menu getBaseMenu(Long id) {
         Menu menu = super.getById(id);
-        if (Objects.isNull(menu) || menu.getIsDeleted()) {
+        if (Objects.isNull(menu)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "菜单");
         }
         return menu;
