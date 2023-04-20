@@ -65,6 +65,7 @@
 
 ### 截图预览
 #### 审批管理
+<img src="images/审批管理.png" width="100%" />
 <img src="images/基础信息.png" width="100%" />
 <img src="images/表单设计.png" width="100%" />
 <img src="images/流程设计.png" width="100%" />

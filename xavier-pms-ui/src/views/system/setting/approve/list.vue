@@ -177,6 +177,7 @@ onMounted(async () => {
               .desc {
                 margin-top: 5px;
                 color: var(--el-color-info);
+                font-size: 14px;
               }
             }
           }
