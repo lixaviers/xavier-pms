@@ -3,6 +3,7 @@ package com.xavier.pms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xavier.pms.dto.ApplicationDto;
 import com.xavier.pms.model.Application;
+import com.xavier.pms.vo.ApplicationDetailVo;
 import com.xavier.pms.vo.ApplicationVo;
 
 /**
@@ -44,7 +45,7 @@ public interface IApplicationService extends IService<Application> {
      * @param id
      * @return 应用信息
      */
-    ApplicationVo getApplication(Long id);
+    ApplicationDetailVo getApplication(Long id);
 
     /**
      * 根据ID获取应用信息

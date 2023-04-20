@@ -18,8 +18,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("员工组员工列表出参")
-public class UserGroupEmployeeVo implements Serializable {
+@ApiModel("员工json出参")
+public class EmployeeJsonVo implements Serializable {
 
     /**
      * serialVersionUID

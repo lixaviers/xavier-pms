@@ -5,6 +5,9 @@ import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
 
 import '@/assets/styles/index.scss' // global css
 
+import VForm3 from 'vform3-builds' //引入VForm 3库
+import 'vform3-builds/dist/designer.style.css' //引入VForm3样式
+
 import App from './App'
 import store from './store'
 import router from './router'
@@ -33,6 +36,8 @@ import ImagePreview from '@/components/ImagePreview'
 import TreeSelect from '@/components/TreeSelect'
 // 自定义选择员工组件
 import selectEmployee from '@/components/selectEmployee'
+// 自定义选择员工组件
+import buttonSelectEmployee from '@/components/selectEmployee/button.vue'
 // 员工卡片
 import employeeCard from '@/components/employeeCard'
 
@@ -51,6 +56,7 @@ app.component('TreeSelect', TreeSelect)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('selectEmployee', selectEmployee)
+app.component('buttonSelectEmployee', buttonSelectEmployee)
 app.component('employeeCard', employeeCard)
 
 app.use(router)
@@ -58,6 +64,7 @@ app.use(store)
 app.use(plugins)
 app.use(elementIcons)
 app.component('svg-icon', SvgIcon)
+app.use(VForm3) //全局注册VForm 3(同时注册了v-form-designer和v-form-render组件)
 
 directive(app)
 

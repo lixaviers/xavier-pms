@@ -3,6 +3,7 @@ package com.xavier.pms.controller;
 import com.xavier.pms.dto.ApplicationDto;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IApplicationService;
+import com.xavier.pms.vo.ApplicationDetailVo;
 import com.xavier.pms.vo.ApplicationVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,7 +54,7 @@ public class ApplicationController extends CommonController {
 
     @ApiOperation(value = "获取应用信息", notes = "根据应用ID获取应用信息")
     @GetMapping("get/{id}")
-    public Result<ApplicationVo> get(@ApiParam("id") @PathVariable Long id) {
+    public Result<ApplicationDetailVo> get(@ApiParam("id") @PathVariable Long id) {
         return Result.ok(applicationService.getApplication(id));
     }
 

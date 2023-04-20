@@ -27,16 +27,16 @@ public class Application {
     private Long id;
 
     /**
+     * 应用分组id
+     */
+    @TableField(value = "application_group_id")
+    private Long applicationGroupId;
+
+    /**
      * 应用名称
      */
     @TableField(value = "app_name")
     private String appName;
-
-    /**
-     * 分组名称
-     */
-    @TableField(value = "group_name")
-    private String groupName;
 
     /**
      * 提交类型
@@ -49,6 +49,18 @@ public class Application {
      */
     @TableField(value = "icon")
     private String icon;
+
+    /**
+     * 表单json
+     */
+    @TableField(value = "form")
+    private String form;
+
+    /**
+     * 流程json
+     */
+    @TableField(value = "process")
+    private String process;
 
     /**
      * 应用状态

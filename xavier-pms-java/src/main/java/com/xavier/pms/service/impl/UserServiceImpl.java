@@ -102,7 +102,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 设置默认密码
         user.setUserPwd(passwordEncoderUtil.encode(Constant.DEFAULT_USER_PWD));
         user.setIsInitPwd(true);
-        // 待审批状态
         user.setUserStatus(UserStatusEnum.NORMAL.getValue());
         add(user);
         return user.getId();

@@ -8,6 +8,7 @@ import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.Application;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IApplicationService;
+import com.xavier.pms.vo.ApplicationDetailVo;
 import com.xavier.pms.vo.ApplicationVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,8 +55,8 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Appli
     }
 
     @Override
-    public ApplicationVo getApplication(Long id) {
-        return ApplicationConvertor.toApplicationVo(getBaseApplication(id));
+    public ApplicationDetailVo getApplication(Long id) {
+        return ApplicationConvertor.toApplicationDetailVo(getBaseApplication(id));
     }
 
 

@@ -78,7 +78,9 @@ function handleCancel() {
  * 表单重置
  */
 function reset() {
-  dataForm.value = {}
+  dataForm.value = {
+    sortNumber: 1
+  }
   proxy.resetForm('formRef')
 }
 

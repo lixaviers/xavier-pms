@@ -1,5 +1,6 @@
 package com.xavier.pms.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xavier.pms.utils.LongJsonDeserializer;
@@ -11,15 +12,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用出参")
-public class ApplicationVo implements Serializable {
+@ApiModel("应用详情出参")
+public class ApplicationDetailVo implements Serializable {
 
     /**
      * serialVersionUID
@@ -72,5 +73,17 @@ public class ApplicationVo implements Serializable {
      */
     @ApiModelProperty("备注")
     private String remarks;
+
+    /**
+     * 表单设计
+     */
+    @ApiModelProperty("表单设计")
+    private String form;
+
+    /**
+     * 流程列表
+     */
+    @ApiModelProperty(value = "流程列表")
+    private List<ApplicationProcessJsonVo> processList;
 
 }

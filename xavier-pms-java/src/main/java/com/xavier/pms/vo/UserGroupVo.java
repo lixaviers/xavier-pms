@@ -46,7 +46,7 @@ public class UserGroupVo implements Serializable {
      * 员工列表
      */
     @ApiModelProperty(value = "员工列表")
-    private List<UserGroupEmployeeVo> employeeList;
+    private List<EmployeeJsonVo> employeeList;
 
     /**
      * 备注

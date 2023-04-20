@@ -53,64 +53,65 @@
 </template>
 
 <script setup>
-import ScrollPane from "./ScrollPane";
-import { getNormalPath } from "@/utils/xavier";
-import useTagsViewStore from "@/store/modules/tagsView";
-import useSettingsStore from "@/store/modules/settings";
-import usePermissionStore from "@/store/modules/permission";
+import ScrollPane from './ScrollPane'
+import { getNormalPath } from '@/utils/xavier'
+import useTagsViewStore from '@/store/modules/tagsView'
+import useSettingsStore from '@/store/modules/settings'
+import usePermissionStore from '@/store/modules/permission'
 
-const visible = ref(false);
-const top = ref(0);
-const left = ref(0);
-const selectedTag = ref({});
-const affixTags = ref([]);
-const scrollPaneRef = ref(null);
+const visible = ref(false)
+const top = ref(0)
+const left = ref(0)
+const selectedTag = ref({})
+const affixTags = ref([])
+const scrollPaneRef = ref(null)
 
-const { proxy } = getCurrentInstance();
-const route = useRoute();
-const router = useRouter();
+const { proxy } = getCurrentInstance()
+const route = useRoute()
+const router = useRouter()
 
-const visitedViews = computed(() => useTagsViewStore().visitedViews);
-const routes = computed(() => usePermissionStore().routes);
-const theme = computed(() => useSettingsStore().theme);
+const visitedViews = computed(() => useTagsViewStore().visitedViews)
+const routes = computed(() => usePermissionStore().routes)
+const theme = computed(() => useSettingsStore().theme)
 
+console.log(visitedViews)
 watch(route, () => {
-  addTags();
-  moveToCurrentTag();
-});
+  addTags()
+  moveToCurrentTag()
+})
 watch(visible, (value) => {
   if (value) {
-    document.body.addEventListener("click", closeMenu);
+    document.body.addEventListener('click', closeMenu)
   } else {
-    document.body.removeEventListener("click", closeMenu);
+    document.body.removeEventListener('click', closeMenu)
   }
-});
+})
 onMounted(() => {
-  initTags();
-  addTags();
-});
+  initTags()
+  addTags()
+})
 
 function isActive(r) {
-  return r.path === route.path;
+  return r.path === route.path
 }
 function activeStyle(tag) {
-  if (!isActive(tag)) return {};
+  if (!isActive(tag)) return {}
   return {
-    "background-color": theme.value,
-    "border-color": theme.value,
-  };
+    'background-color': theme.value,
+    'border-color': theme.value
+  }
 }
 function isAffix(tag) {
-  return tag.meta && tag.meta.affix;
+  return tag.meta && tag.meta.affix
 }
 function isFirstView() {
   try {
     return (
-      selectedTag.value.fullPath === "/index" ||
+      selectedTag.value.fullPath === '/index' ||
       selectedTag.value.fullPath === visitedViews.value[1].fullPath
-    );
+    )
   } catch (err) {
-    return false;
+    return false
   }
 }
 function isLastView() {
@@ -118,143 +119,143 @@ function isLastView() {
     return (
       selectedTag.value.fullPath ===
       visitedViews.value[visitedViews.value.length - 1].fullPath
-    );
+    )
   } catch (err) {
-    return false;
+    return false
   }
 }
-function filterAffixTags(routes, basePath = "") {
-  let tags = [];
+function filterAffixTags(routes, basePath = '') {
+  let tags = []
   routes.forEach((route) => {
     if (route.meta && route.meta.affix) {
-      const tagPath = getNormalPath(basePath + "/" + route.path);
+      const tagPath = getNormalPath(basePath + '/' + route.path)
       tags.push({
         fullPath: tagPath,
         path: tagPath,
         name: route.name,
-        meta: { ...route.meta },
-      });
+        meta: { ...route.meta }
+      })
     }
     if (route.children) {
-      const tempTags = filterAffixTags(route.children, route.path);
+      const tempTags = filterAffixTags(route.children, route.path)
       if (tempTags.length >= 1) {
-        tags = [...tags, ...tempTags];
+        tags = [...tags, ...tempTags]
       }
     }
-  });
-  return tags;
+  })
+  return tags
 }
 function initTags() {
-  const res = filterAffixTags(routes.value);
-  affixTags.value = res;
+  const res = filterAffixTags(routes.value)
+  affixTags.value = res
   for (const tag of res) {
     // Must have tag name
     if (tag.name) {
-      useTagsViewStore().addVisitedView(tag);
+      useTagsViewStore().addVisitedView(tag)
     }
   }
 }
 function addTags() {
-  const { name } = route;
+  const { name } = route
   if (name) {
-    useTagsViewStore().addView(route);
+    useTagsViewStore().addView(route)
     if (route.meta.link) {
-      useTagsViewStore().addIframeView(route);
+      useTagsViewStore().addIframeView(route)
     }
   }
-  return false;
+  return false
 }
 function moveToCurrentTag() {
   nextTick(() => {
     for (const r of visitedViews.value) {
       if (r.path === route.path) {
-        scrollPaneRef.value.moveToTarget(r);
+        scrollPaneRef.value.moveToTarget(r)
         // when query is different then update
         if (r.fullPath !== route.fullPath) {
-          useTagsViewStore().updateVisitedView(route);
+          useTagsViewStore().updateVisitedView(route)
         }
       }
     }
-  });
+  })
 }
 function refreshSelectedTag(view) {
-  proxy.$tab.refreshPage(view);
+  proxy.$tab.refreshPage(view)
   if (route.meta.link) {
-    useTagsViewStore().delIframeView(route);
+    useTagsViewStore().delIframeView(route)
   }
 }
 function closeSelectedTag(view) {
   proxy.$tab.closePage(view).then(({ visitedViews }) => {
     if (isActive(view)) {
-      toLastView(visitedViews, view);
+      toLastView(visitedViews, view)
     }
-  });
+  })
 }
 function closeRightTags() {
   proxy.$tab.closeRightPage(selectedTag.value).then((visitedViews) => {
     if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
-      toLastView(visitedViews);
+      toLastView(visitedViews)
     }
-  });
+  })
 }
 function closeLeftTags() {
   proxy.$tab.closeLeftPage(selectedTag.value).then((visitedViews) => {
     if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
-      toLastView(visitedViews);
+      toLastView(visitedViews)
     }
-  });
+  })
 }
 function closeOthersTags() {
-  router.push(selectedTag.value).catch(() => {});
+  router.push(selectedTag.value).catch(() => {})
   proxy.$tab.closeOtherPage(selectedTag.value).then(() => {
-    moveToCurrentTag();
-  });
+    moveToCurrentTag()
+  })
 }
 function closeAllTags(view) {
   proxy.$tab.closeAllPage().then(({ visitedViews }) => {
     if (affixTags.value.some((tag) => tag.path === route.path)) {
-      return;
+      return
     }
-    toLastView(visitedViews, view);
-  });
+    toLastView(visitedViews, view)
+  })
 }
 function toLastView(visitedViews, view) {
-  const latestView = visitedViews.slice(-1)[0];
+  const latestView = visitedViews.slice(-1)[0]
   if (latestView) {
-    router.push(latestView.fullPath);
+    router.push(latestView.fullPath)
   } else {
     // now the default is to redirect to the home page if there is no tags-view,
     // you can adjust it according to your needs.
-    if (view.name === "Dashboard") {
+    if (view.name === 'Dashboard') {
       // to reload home page
-      router.replace({ path: "/redirect" + view.fullPath });
+      router.replace({ path: '/redirect' + view.fullPath })
     } else {
-      router.push("/");
+      router.push('/')
     }
   }
 }
 function openMenu(tag, e) {
-  const menuMinWidth = 105;
-  const offsetLeft = proxy.$el.getBoundingClientRect().left; // container margin left
-  const offsetWidth = proxy.$el.offsetWidth; // container width
-  const maxLeft = offsetWidth - menuMinWidth; // left boundary
-  const l = e.clientX - offsetLeft + 15; // 15: margin right
+  const menuMinWidth = 105
+  const offsetLeft = proxy.$el.getBoundingClientRect().left // container margin left
+  const offsetWidth = proxy.$el.offsetWidth // container width
+  const maxLeft = offsetWidth - menuMinWidth // left boundary
+  const l = e.clientX - offsetLeft + 15 // 15: margin right
 
   if (l > maxLeft) {
-    left.value = maxLeft;
+    left.value = maxLeft
   } else {
-    left.value = l;
+    left.value = l
   }
 
-  top.value = e.clientY;
-  visible.value = true;
-  selectedTag.value = tag;
+  top.value = e.clientY
+  visible.value = true
+  selectedTag.value = tag
 }
 function closeMenu() {
-  visible.value = false;
+  visible.value = false
 }
 function handleScroll() {
-  closeMenu();
+  closeMenu()
 }
 </script>
 
@@ -290,7 +291,7 @@ function handleScroll() {
         color: #fff;
         border-color: #42b983;
         &::before {
-          content: "";
+          content: '';
           background: #fff;
           display: inline-block;
           width: 8px;

@@ -209,8 +209,15 @@ function handleCancel() {
  * 确定选择
  */
 function submitForm() {
-  emits('update:modelValue', deepClone(dataList.value)) // to update v-model
+  let data = []
+  if (dataList.value && dataList.value.length > 0) {
+    dataList.value.forEach((item) => {
+      data.push({ id: item.id, nickName: item.nickName })
+    })
+  }
+  emits('update:modelValue', data) // to update v-model
   visible.value = false
+  emits('submitForm')
 }
 
 /**

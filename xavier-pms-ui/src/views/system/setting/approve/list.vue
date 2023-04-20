@@ -10,7 +10,13 @@
       </div>
       <div class="header-right">
         <el-button @click="handleEditGroup()">新建分组</el-button>
-        <el-button icon="Plus" type="primary">新建审批</el-button>
+        <el-button
+          v-if="dataList && dataList.length > 0"
+          @click="handleCreate()"
+          icon="Plus"
+          type="primary"
+          >新建审批</el-button
+        >
       </div>
     </div>
 
@@ -20,25 +26,51 @@
           <div>{{ item.groupName }}</div>
           <div>
             <el-button @click="handleEditGroup(item.id)" circle icon="Edit" />
-            <el-button @click="handleDelete(item.id)" circle icon="Delete" />
+
+            <el-popconfirm
+              v-if="!item.applicationList || item.applicationList.length === 0"
+              @confirm="handleDelete(item.id)"
+              title="是否确认删除"
+            >
+              <template #reference>
+                <el-button icon="Delete" circle></el-button>
+              </template>
+            </el-popconfirm>
           </div>
         </div>
         <div class="app-list">
-          <div v-for="i in 5" :key="i" class="app-item">
+          <div
+            v-for="application in item.applicationList"
+            :key="application.id"
+            class="app-item"
+          >
             <div class="item-left">
-              <div class="item-icon">
-                <svg-icon icon-class="user" />
+              <div class="xavier-approve-icon">
+                <svg-icon :icon-class="application.icon" />
               </div>
               <div class="item-content">
-                <div class="name">招聘</div>
-                <div class="desc">111111</div>
+                <div class="name">{{ application.appName }}</div>
+                <div class="desc">{{ application.remarks }}</div>
               </div>
             </div>
-            <div class="item-center">全员可见</div>
+            <div class="item-center">
+              <span v-if="application.submitType === 'all'">全员可见</span>
+            </div>
             <div class="item-right">
-              <el-button circle icon="Delete" />
-              <el-button circle icon="Delete" />
-              <el-button circle icon="Delete" />
+              <el-button
+                @click="handleCreate(application.id)"
+                circle
+                icon="Edit"
+              />
+
+              <el-popconfirm
+                @confirm="handleDeleteApp(application.id)"
+                title="是否确认删除"
+              >
+                <template #reference>
+                  <el-button icon="Delete" circle></el-button>
+                </template>
+              </el-popconfirm>
             </div>
           </div>
         </div>
@@ -54,7 +86,9 @@ import {
   queryApplicationGroupApi,
   deleteApplicationGroupApi
 } from '@/api/system/applicationGroup'
+import { deleteApplicationApi } from '@/api/system/application'
 import editGroup from './editGroup.vue'
+const router = useRouter()
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
 
@@ -72,6 +106,10 @@ function handleEditGroup(id) {
   editGroupRef.value.init(id)
 }
 
+function handleCreate(id) {
+  router.push({ path: '/system/editApproval', query: { id: id } })
+}
+
 async function getDataList() {
   dataList.value = await queryApplicationGroupApi(queryParams.value)
 }
@@ -80,16 +118,20 @@ async function getDataList() {
  * 删除按钮操作
  */
 function handleDelete(id) {
-  proxy.$modal
-    .confirm('是否确认删除分组？')
-    .then(function () {
-      return deleteApplicationGroupApi(id)
-    })
-    .then(() => {
-      proxy.$modal.msgSuccess('删除成功')
-      getDataList()
-    })
-    .catch(() => {})
+  deleteApplicationGroupApi(id).then(() => {
+    proxy.$modal.msgSuccess('删除成功')
+    getDataList()
+  })
+}
+
+/**
+ * 删除应用按钮操作
+ */
+function handleDeleteApp(id) {
+  deleteApplicationApi(id).then(() => {
+    proxy.$modal.msgSuccess('删除成功')
+    getDataList()
+  })
 }
 
 onMounted(async () => {
@@ -127,17 +169,7 @@ onMounted(async () => {
           padding: 20px 20px 10px 20px;
           .item-left {
             display: flex;
-
-            .item-icon {
-              width: 45px;
-              height: 45px;
-              font-size: 25px;
-              margin-right: 10px;
-              border: 1px solid #000;
-              border-radius: 50%;
-              padding: 6px 5px 3px 5px;
-              text-align: center;
-            }
+            min-width: 300px;
 
             .item-content {
               .name {

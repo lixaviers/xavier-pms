@@ -1,12 +1,13 @@
 package com.xavier.pms.convertor;
 
-import com.xavier.pms.model.Application;
+import com.alibaba.fastjson2.JSON;
 import com.xavier.pms.dto.ApplicationDto;
-import com.xavier.pms.vo.ApplicationVo;
+import com.xavier.pms.model.Application;
+import com.xavier.pms.utils.BeanUtil;
+import com.xavier.pms.vo.ApplicationDetailVo;
+import com.xavier.pms.vo.ApplicationProcessJsonVo;
 import org.springframework.cglib.beans.BeanCopier;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,33 +19,29 @@ import java.util.Objects;
  */
 public abstract class ApplicationConvertor {
 
-    private static final BeanCopier beanCopierForApplicationVo = BeanCopier.create(Application.class, ApplicationVo.class, false);
     private static final BeanCopier beanCopierForApplication = BeanCopier.create(ApplicationDto.class, Application.class, false);
 
-    public static ApplicationVo toApplicationVo(Application application) {
+    public static ApplicationDetailVo toApplicationDetailVo(Application application) {
         if (Objects.isNull(application)) {
             return null;
         }
-        ApplicationVo applicationVo = new ApplicationVo();
-        beanCopierForApplicationVo.copy(application, applicationVo, null);
-        return applicationVo;
+        ApplicationDetailVo vo = BeanUtil.beanCopy(application, ApplicationDetailVo.class);
+        vo.setProcessList(JSON.parseArray(application.getProcess(), ApplicationProcessJsonVo.class));
+        return vo;
     }
 
     public static Application toApplication(ApplicationDto applicationDto) {
         Application application = new Application();
         beanCopierForApplication.copy(applicationDto, application, null);
+        application.setProcess(JSON.toJSONString(applicationDto.getProcessList()));
+        for (ApplicationProcessJsonVo jsonVo : applicationDto.getProcessList()) {
+            if (Objects.equals(jsonVo.getType(), "start")) {
+                // 提交
+                application.setSubmitType(jsonVo.getSubmitType());
+            }
+        }
         return application;
     }
 
-    public static List<ApplicationVo> toApplicationVoList(List<Application> applicationList) {
-        if (Objects.isNull(applicationList) || applicationList.isEmpty()) {
-            return new ArrayList<>();
-        }
-        List<ApplicationVo> applicationInfoList = new ArrayList<ApplicationVo>(applicationList.size());
-        for (Application application : applicationList) {
-            applicationInfoList.add(toApplicationVo(application));
-        }
-        return applicationInfoList;
-    }
 
 }

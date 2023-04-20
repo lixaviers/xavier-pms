@@ -3,7 +3,7 @@ package com.xavier.pms.convertor;
 import com.alibaba.fastjson2.JSON;
 import com.xavier.pms.dto.UserGroupDto;
 import com.xavier.pms.model.UserGroup;
-import com.xavier.pms.vo.UserGroupEmployeeVo;
+import com.xavier.pms.vo.EmployeeJsonVo;
 import com.xavier.pms.vo.UserGroupVo;
 import org.springframework.cglib.beans.BeanCopier;
 
@@ -29,7 +29,7 @@ public abstract class UserGroupConvertor {
         }
         UserGroupVo userGroupVo = new UserGroupVo();
         beanCopierForUserGroupVo.copy(userGroup, userGroupVo, null);
-        userGroupVo.setEmployeeList(JSON.parseArray(userGroup.getMemberJson(), UserGroupEmployeeVo.class));
+        userGroupVo.setEmployeeList(JSON.parseArray(userGroup.getMemberJson(), EmployeeJsonVo.class));
         return userGroupVo;
     }
 

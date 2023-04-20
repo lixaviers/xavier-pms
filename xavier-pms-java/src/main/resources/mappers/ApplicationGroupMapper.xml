@@ -6,7 +6,7 @@
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="group_name" jdbcType="VARCHAR" property="groupName" />
         <collection property="applicationList" ofType="com.xavier.pms.vo.ApplicationVo">
-            <id column="id" jdbcType="BIGINT" property="id" />
+            <id column="application_id" jdbcType="BIGINT" property="id" />
             <result column="app_name" jdbcType="VARCHAR" property="appName" />
             <result column="submit_type" jdbcType="VARCHAR" property="submitType" />
             <result column="icon" jdbcType="VARCHAR" property="icon" />
@@ -18,7 +18,7 @@
         SELECT
             tb_application_group.id,
             tb_application_group.group_name,
-            tb_application.id,
+            tb_application.id application_id,
             tb_application.app_name,
             tb_application.submit_type,
             tb_application.icon,
