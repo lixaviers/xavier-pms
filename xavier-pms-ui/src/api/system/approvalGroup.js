@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-const url = '/applicationGroup'
+const url = '/approvalGroup'
 
 /**
  * 分页获取列表信息
  * @returns
  */
-export const queryApplicationGroupApi = (data) => {
+export const queryApprovalGroupApi = (data) => {
   return request({
     url: `${url}/query`,
     method: 'post',
@@ -18,7 +18,7 @@ export const queryApplicationGroupApi = (data) => {
  * 创建/编辑
  * @returns
  */
-export function addOrUpdateApplicationGroupApi(data) {
+export function addOrUpdateApprovalGroupApi(data) {
   return request({
     url: `${url}${!data.id ? '/add' : '/update'}`,
     method: 'put',
@@ -31,7 +31,7 @@ export function addOrUpdateApplicationGroupApi(data) {
  * @param {*} id
  * @returns
  */
-export const deleteApplicationGroupApi = (id) => {
+export const deleteApprovalGroupApi = (id) => {
   return request({
     url: `${url}/delete/${id}`,
     method: 'delete'
@@ -43,7 +43,7 @@ export const deleteApplicationGroupApi = (id) => {
  * @param {*} id
  * @returns
  */
-export const getApplicationGroupApi = (id) => {
+export const getApprovalGroupApi = (id) => {
   return request({
     url: `${url}/get/${id}`,
     method: 'get'

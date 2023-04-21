@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@TableName("tb_application")
-public class Application {
+@TableName("tb_approval")
+public class Approval {
 
-    public static final LambdaQueryWrapper<Application> gw() {
+    public static final LambdaQueryWrapper<Approval> gw() {
         return new LambdaQueryWrapper<>();
     }
 
@@ -27,16 +27,16 @@ public class Application {
     private Long id;
 
     /**
-     * 应用分组id
+     * 审批分组id
      */
-    @TableField(value = "application_group_id")
-    private Long applicationGroupId;
+    @TableField(value = "approval_group_id")
+    private Long approvalGroupId;
 
     /**
-     * 应用名称
+     * 审批名称
      */
-    @TableField(value = "app_name")
-    private String appName;
+    @TableField(value = "approval_name")
+    private String approvalName;
 
     /**
      * 提交类型
@@ -63,7 +63,7 @@ public class Application {
     private String process;
 
     /**
-     * 应用状态
+     * 审批状态
      */
     @TableField(value = "app_status")
     private Byte appStatus;

@@ -37,16 +37,16 @@
           </div>
         </el-popover>
       </el-form-item>
-      <el-form-item label="应用名称" prop="appName">
+      <el-form-item label="审批名称" prop="approvalName">
         <el-input
-          v-model="props.dataForm.appName"
+          v-model="props.dataForm.approvalName"
           max="100"
           placeholder="请输入"
         />
       </el-form-item>
-      <el-form-item label="分组" prop="applicationGroupId">
+      <el-form-item label="分组" prop="approvalGroupId">
         <el-select
-          v-model="props.dataForm.applicationGroupId"
+          v-model="props.dataForm.approvalGroupId"
           style="width: 100%"
         >
           <el-option
@@ -86,8 +86,8 @@ const props = defineProps({
 const data = reactive({
   rules: {
     icon: [{ required: true, message: '请选择', trigger: 'blur' }],
-    appName: [{ required: true, message: '请输入', trigger: 'blur' }],
-    applicationGroupId: [
+    approvalName: [{ required: true, message: '请输入', trigger: 'blur' }],
+    approvalGroupId: [
       { required: true, message: '请选择', trigger: 'change' }
     ],
     submitType: [{ required: true, message: '请选择', trigger: 'change' }]

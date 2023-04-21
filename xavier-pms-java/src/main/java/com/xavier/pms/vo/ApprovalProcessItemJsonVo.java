@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用流程json出参")
-public class ApplicationProcessItemJsonVo implements Serializable {
+@ApiModel("审批流程json出参")
+public class ApprovalProcessItemJsonVo implements Serializable {
 
     /**
      * serialVersionUID

@@ -12,15 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用分组出参")
-public class ApplicationGroupVo implements Serializable {
+@ApiModel("审批分组出参")
+public class ApprovalGroupVo implements Serializable {
 
     /**
      * serialVersionUID
@@ -55,9 +54,9 @@ public class ApplicationGroupVo implements Serializable {
     private String remarks;
 
     /**
-     * 应用列表
+     * 审批列表
      */
-    @ApiModelProperty("应用列表")
-    private List<ApplicationVo> applicationList;
+    @ApiModelProperty("审批列表")
+    private List<ApprovalVo> approvalList;
 
 }

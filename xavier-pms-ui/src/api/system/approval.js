@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-const url = '/application'
+const url = '/approval'
 
 /**
  * 创建/编辑
  * @returns
  */
-export function addOrUpdateApplicationApi(data) {
+export function addOrUpdateApprovalApi(data) {
   return request({
     url: `${url}${!data.id ? '/add' : '/update'}`,
     method: 'put',
@@ -19,10 +19,23 @@ export function addOrUpdateApplicationApi(data) {
  * @param {*} id
  * @returns
  */
-export const deleteApplicationApi = (id) => {
+export const deleteApprovalApi = (id) => {
   return request({
     url: `${url}/delete/${id}`,
     method: 'delete'
+  })
+}
+
+/**
+ * 修改状态
+ * @param {*} id
+ * @returns
+ */
+export const updateStatusApprovalApi = (data) => {
+  return request({
+    url: `${url}/updateStatus`,
+    method: 'post',
+    data
   })
 }
 
@@ -31,7 +44,7 @@ export const deleteApplicationApi = (id) => {
  * @param {*} id
  * @returns
  */
-export const getApplicationApi = (id) => {
+export const getApprovalApi = (id) => {
   return request({
     url: `${url}/get/${id}`,
     method: 'get'

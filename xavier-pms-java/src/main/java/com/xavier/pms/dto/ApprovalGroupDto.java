@@ -17,8 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用分组入参")
-public class ApplicationGroupDto implements Serializable {
+@ApiModel("审批分组入参")
+public class ApprovalGroupDto implements Serializable {
 
     /**
      * serialVersionUID

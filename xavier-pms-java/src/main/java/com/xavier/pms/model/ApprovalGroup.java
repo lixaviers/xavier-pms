@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@TableName("tb_application_group")
-public class ApplicationGroup {
+@TableName("tb_approval_group")
+public class ApprovalGroup {
 
-    public static final LambdaQueryWrapper<ApplicationGroup> gw() {
+    public static final LambdaQueryWrapper<ApprovalGroup> gw() {
         return new LambdaQueryWrapper<>();
     }
 

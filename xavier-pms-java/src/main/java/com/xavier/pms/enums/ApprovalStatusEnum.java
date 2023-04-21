@@ -1,17 +1,18 @@
 package com.xavier.pms.enums;
 
 /**
- * @Comments: 应用状态枚举
+ * @Comments: 审批状态枚举
  */
-public enum ApplicationStatusEnum {
+public enum ApprovalStatusEnum {
     UNPUBLISHED              ((byte) 0, "未发布"),
     NORMAL                   ((byte) 1, "正常"),
+    DEACTIVATE               ((byte) 2, "停用"),
     ;
 
     private byte value;
     private String desc;
 
-    ApplicationStatusEnum(byte value, String desc) {
+    ApprovalStatusEnum(byte value, String desc) {
         this.value = value;
         this.desc = desc;
     }
@@ -33,7 +34,7 @@ public enum ApplicationStatusEnum {
     }
 
     public static boolean exists(byte s) {
-        for (ApplicationStatusEnum element : ApplicationStatusEnum.values()) {
+        for (ApprovalStatusEnum element : ApprovalStatusEnum.values()) {
             if (element.value == s) {
                 return true;
             }
@@ -49,7 +50,7 @@ public enum ApplicationStatusEnum {
         if (value == null) {
             return "";
         }
-        for (ApplicationStatusEnum element : ApplicationStatusEnum.values()) {
+        for (ApprovalStatusEnum element : ApprovalStatusEnum.values()) {
             if (element.value == value.byteValue()) {
                 return element.desc;
             }

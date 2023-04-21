@@ -45,9 +45,9 @@
 
 <script setup>
 import {
-  addOrUpdateApplicationGroupApi,
-  getApplicationGroupApi
-} from '@/api/system/applicationGroup'
+  addOrUpdateApprovalGroupApi,
+  getApprovalGroupApi
+} from '@/api/system/approvalGroup'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -90,7 +90,7 @@ function reset() {
 function submitForm() {
   proxy.$refs['formRef'].validate((valid) => {
     if (valid) {
-      addOrUpdateApplicationGroupApi(dataForm.value).then((response) => {
+      addOrUpdateApprovalGroupApi(dataForm.value).then((response) => {
         proxy.$modal.msgSuccess(`${!dataForm.value.id ? '新增' : '编辑'}成功`)
         visible.value = false
         emits('refreshDataList')
@@ -106,7 +106,7 @@ async function init(id) {
   visible.value = true
   if (id) {
     title.value = '编辑分组'
-    dataForm.value = await getApplicationGroupApi(id)
+    dataForm.value = await getApprovalGroupApi(id)
   } else {
     reset()
     title.value = '新增分组'

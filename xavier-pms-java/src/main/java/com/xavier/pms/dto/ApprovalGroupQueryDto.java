@@ -12,8 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用分组查询入参")
-public class ApplicationGroupQueryDto extends QueryDto {
+@ApiModel("审批分组查询入参")
+public class ApprovalGroupQueryDto extends QueryDto {
 
     /**
      * serialVersionUID

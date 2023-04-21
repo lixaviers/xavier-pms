@@ -1,6 +1,5 @@
 package com.xavier.pms.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xavier.pms.utils.LongJsonDeserializer;
@@ -19,8 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用详情出参")
-public class ApplicationDetailVo implements Serializable {
+@ApiModel("审批详情出参")
+public class ApprovalDetailVo implements Serializable {
 
     /**
      * serialVersionUID
@@ -37,18 +36,18 @@ public class ApplicationDetailVo implements Serializable {
     private Long id;
 
     /**
-     * 应用名称
+     * 审批名称
      */
-    @ApiModelProperty("应用名称")
-    private String appName;
+    @ApiModelProperty("审批名称")
+    private String approvalName;
 
     /**
-     * 应用分组id
+     * 审批分组id
      */
-    @ApiModelProperty("应用分组id")
+    @ApiModelProperty("审批分组id")
     @JsonSerialize(using = LongJsonSerializer.class)
     @JsonDeserialize(using = LongJsonDeserializer.class)
-    private Long applicationGroupId;
+    private Long approvalGroupId;
 
     /**
      * 提交类型
@@ -63,9 +62,9 @@ public class ApplicationDetailVo implements Serializable {
     private String icon;
 
     /**
-     * 应用状态
+     * 审批状态
      */
-    @ApiModelProperty("应用状态")
+    @ApiModelProperty("审批状态")
     private Byte appStatus;
 
     /**
@@ -84,6 +83,6 @@ public class ApplicationDetailVo implements Serializable {
      * 流程列表
      */
     @ApiModelProperty(value = "流程列表")
-    private List<ApplicationProcessJsonVo> processList;
+    private List<ApprovalProcessJsonVo> processList;
 
 }

@@ -2,7 +2,13 @@
   <div class="app-container xavier-approval">
     <div class="approval-header">
       <div class="header-left">
-        <el-input clearable @keyup.enter="getDataList()" style="width: 240px">
+        <el-input
+          v-model="queryParams.keyword"
+          clearable
+          @keyup.enter="getDataList()"
+          @clear="getDataList()"
+          style="width: 240px"
+        >
           <template #append>
             <el-button @click="getDataList()" icon="Search" />
           </template>
@@ -20,62 +26,111 @@
       </div>
     </div>
 
-    <div class="approval-list">
+    <div v-if="dataList && dataList.length > 0" class="approval-list">
       <div v-for="(item, index) in dataList" :key="index" class="approval-item">
         <div class="title">
           <div>{{ item.groupName }}</div>
           <div>
-            <el-button @click="handleEditGroup(item.id)" circle icon="Edit" />
+            <el-tooltip effect="dark" content="编辑">
+              <el-button @click="handleEditGroup(item.id)" circle icon="Edit" />
+            </el-tooltip>
 
-            <el-popconfirm
-              v-if="!item.applicationList || item.applicationList.length === 0"
-              @confirm="handleDelete(item.id)"
-              title="是否确认删除"
+            <el-tooltip
+              effect="dark"
+              content="删除"
+              v-if="!item.approvalList || item.approvalList.length === 0"
             >
-              <template #reference>
-                <el-button icon="Delete" circle></el-button>
-              </template>
-            </el-popconfirm>
+              <el-button
+                @click="handleDelete(item.id)"
+                icon="Delete"
+                circle
+                type="danger"
+              ></el-button>
+            </el-tooltip>
           </div>
         </div>
         <div class="app-list">
           <div
-            v-for="application in item.applicationList"
-            :key="application.id"
+            v-for="approval in item.approvalList"
+            :key="approval.id"
             class="app-item"
           >
             <div class="item-left">
               <div class="xavier-approve-icon">
-                <svg-icon :icon-class="application.icon" />
+                <svg-icon :icon-class="approval.icon" />
               </div>
               <div class="item-content">
-                <div class="name">{{ application.appName }}</div>
-                <div class="desc">{{ application.remarks }}</div>
+                <div class="name">
+                  <span>{{ approval.approvalName }}</span>
+                  <el-tag
+                    v-if="approval.appStatus === 0"
+                    type="info"
+                    class="ml5"
+                    >未发布</el-tag
+                  >
+                  <el-tag
+                    v-else-if="approval.appStatus === 2"
+                    type="danger"
+                    class="ml5"
+                    >已停用</el-tag
+                  >
+                </div>
+                <div class="desc">{{ approval.remarks }}</div>
               </div>
             </div>
             <div class="item-center">
-              <span v-if="application.submitType === 'all'">全员可见</span>
+              <span v-if="approval.submitType === 'all'">全员可见</span>
             </div>
             <div class="item-right">
-              <el-button
-                @click="handleCreate(application.id)"
-                circle
-                icon="Edit"
-              />
+              <el-tooltip effect="dark" content="编辑">
+                <el-button
+                  @click="handleCreate(approval.id)"
+                  circle
+                  icon="Edit"
+                />
+              </el-tooltip>
 
-              <el-popconfirm
-                @confirm="handleDeleteApp(application.id)"
-                title="是否确认删除"
+              <el-tooltip
+                v-if="approval.appStatus === 2"
+                effect="dark"
+                content="启用"
               >
-                <template #reference>
-                  <el-button icon="Delete" circle></el-button>
-                </template>
-              </el-popconfirm>
+                <el-button
+                  @click="handleUpdateStatus(approval.id, 1)"
+                  circle
+                  icon="Select"
+                  type="success"
+                />
+              </el-tooltip>
+
+              <el-tooltip
+                v-if="approval.appStatus === 1"
+                effect="dark"
+                content="停用"
+              >
+                <el-button
+                  @click="handleUpdateStatus(approval.id, 2)"
+                  circle
+                  icon="CloseBold"
+                  type="warning"
+                />
+              </el-tooltip>
+
+              <el-tooltip effect="dark" content="删除">
+                <el-button
+                  @click="handleDeleteApp(approval.id)"
+                  icon="Delete"
+                  circle
+                  type="danger"
+                ></el-button>
+              </el-tooltip>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <el-empty v-else />
     <!-- 添加或修改分组对话框 -->
     <edit-group ref="editGroupRef" @refreshDataList="getDataList" />
   </div>
@@ -83,10 +138,13 @@
 
 <script setup>
 import {
-  queryApplicationGroupApi,
-  deleteApplicationGroupApi
-} from '@/api/system/applicationGroup'
-import { deleteApplicationApi } from '@/api/system/application'
+  queryApprovalGroupApi,
+  deleteApprovalGroupApi
+} from '@/api/system/approvalGroup'
+import {
+  deleteApprovalApi,
+  updateStatusApprovalApi
+} from '@/api/system/approval'
 import editGroup from './editGroup.vue'
 const router = useRouter()
 const { proxy } = getCurrentInstance()
@@ -107,31 +165,67 @@ function handleEditGroup(id) {
 }
 
 function handleCreate(id) {
-  router.push({ path: '/system/editApproval', query: { id: id } })
+  let url = '/system/editApproval'
+  if (id) {
+    url += '?id=' + id
+  }
+  window.open(url, '_blank')
 }
 
 async function getDataList() {
-  dataList.value = await queryApplicationGroupApi(queryParams.value)
+  dataList.value = await queryApprovalGroupApi(queryParams.value)
 }
 
 /**
  * 删除按钮操作
  */
 function handleDelete(id) {
-  deleteApplicationGroupApi(id).then(() => {
-    proxy.$modal.msgSuccess('删除成功')
-    getDataList()
-  })
+  proxy.$modal
+    .confirm('是否确认删除?')
+    .then(function () {
+      return deleteApprovalGroupApi(id)
+    })
+    .then(() => {
+      getDataList()
+      proxy.$modal.msgSuccess('删除成功')
+    })
+    .catch(() => {})
 }
 
 /**
- * 删除应用按钮操作
+ * 删除审批按钮操作
  */
 function handleDeleteApp(id) {
-  deleteApplicationApi(id).then(() => {
-    proxy.$modal.msgSuccess('删除成功')
-    getDataList()
-  })
+  proxy.$modal
+    .confirm('删除审批后，进行中的申请将无法继续，确定要删除吗?')
+    .then(function () {
+      return deleteApprovalApi(id)
+    })
+    .then(() => {
+      getDataList()
+      proxy.$modal.msgSuccess('删除成功')
+    })
+    .catch(() => {})
+}
+
+/**
+ * 修改状态
+ */
+function handleUpdateStatus(id, appStatus) {
+  let text = '启用'
+  if (appStatus === 2) {
+    text = '停用'
+  }
+  proxy.$modal
+    .confirm(`确定${text}审批吗?`)
+    .then(function () {
+      return updateStatusApprovalApi({ id: id, appStatus: appStatus })
+    })
+    .then(() => {
+      getDataList()
+      proxy.$modal.msgSuccess(`${text}成功`)
+    })
+    .catch(() => {})
 }
 
 onMounted(async () => {
@@ -184,6 +278,8 @@ onMounted(async () => {
           .item-center {
           }
           .item-right {
+            min-width: 150px;
+            text-align: right;
           }
         }
       }

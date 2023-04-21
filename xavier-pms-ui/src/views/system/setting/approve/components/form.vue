@@ -16,7 +16,6 @@
         <el-form-item v-if="dataForm.type === 'start'" label="谁可以提交">
           <el-select v-model="dataForm.submitType" style="width: 100%">
             <el-option label="全员" value="all" />
-            <el-option label="指定人员" value="employee" />
           </el-select>
         </el-form-item>
 

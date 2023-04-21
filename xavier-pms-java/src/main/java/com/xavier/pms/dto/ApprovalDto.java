@@ -1,6 +1,6 @@
 package com.xavier.pms.dto;
 
-import com.xavier.pms.vo.ApplicationProcessJsonVo;
+import com.xavier.pms.vo.ApprovalProcessJsonVo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("应用入参")
-public class ApplicationDto implements Serializable {
+@ApiModel("审批入参")
+public class ApprovalDto implements Serializable {
 
     /**
      * serialVersionUID
@@ -34,20 +34,20 @@ public class ApplicationDto implements Serializable {
     private Long id;
 
     /**
-     * 应用名称
+     * 审批名称
      */
-    @ApiModelProperty(value = "应用名称", required = true)
-    @NotNull(message = "应用名称不能为空")
-    @NotEmpty(message = "应用名称不能为空")
-    @Size(max = 255, message = "应用名称不能超过255位")
-    private String appName;
+    @ApiModelProperty(value = "审批名称", required = true)
+    @NotNull(message = "审批名称不能为空")
+    @NotEmpty(message = "审批名称不能为空")
+    @Size(max = 255, message = "审批名称不能超过255位")
+    private String approvalName;
 
     /**
-     * 应用分组id
+     * 审批分组id
      */
-    @ApiModelProperty(value = "应用分组id", required = true)
-    @NotNull(message = "请选择应用分组")
-    private Long applicationGroupId;
+    @ApiModelProperty(value = "审批分组id", required = true)
+    @NotNull(message = "请选择审批分组")
+    private Long approvalGroupId;
 
     /**
      * 图标
@@ -59,10 +59,10 @@ public class ApplicationDto implements Serializable {
     private String icon;
 
     /**
-     * 应用状态
+     * 审批状态
      */
     @ApiModelProperty(value = "图标", required = true)
-    @NotNull(message = "应用状态为空")
+    @NotNull(message = "审批状态为空")
     private Byte appStatus;
 
     /**
@@ -84,7 +84,7 @@ public class ApplicationDto implements Serializable {
     @ApiModelProperty(value = "流程列表")
     @NotNull(message = "流程列表不能为空")
     @Size(min = 2, message = "流程列表不能为空")
-    private List<ApplicationProcessJsonVo> processList;
+    private List<ApprovalProcessJsonVo> processList;
 
 
 }

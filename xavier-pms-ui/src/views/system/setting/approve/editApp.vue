@@ -15,12 +15,20 @@
       </el-tab-pane>
     </el-tabs>
     <div class="submit">
+      <el-button @click="router.push('/system/approvalList')" auto-insert-space
+        >返回</el-button
+      >
       <el-button
         v-if="!dataForm.appStatus || dataForm.appStatus === 0"
         @click="handelSave"
+        type="primary"
+        plain
+        auto-insert-space
         >保存</el-button
       >
-      <el-button @click="handelRelease" type="primary">发布</el-button>
+      <el-button @click="handelRelease" type="primary" auto-insert-space
+        >发布</el-button
+      >
     </div>
   </div>
 </template>
@@ -29,10 +37,10 @@
 import appBasicForm from './components/basic.vue'
 import appProcess from './components/process.vue'
 import {
-  addOrUpdateApplicationApi,
-  getApplicationApi
-} from '@/api/system/application'
-import { queryApplicationGroupApi } from '@/api/system/applicationGroup'
+  addOrUpdateApprovalApi,
+  getApprovalApi
+} from '@/api/system/approval'
+import { queryApprovalGroupApi } from '@/api/system/approvalGroup'
 
 const router = useRouter()
 const route = useRoute()
@@ -43,7 +51,7 @@ const data = reactive({
   dataForm: {}
 })
 const { dataForm } = toRefs(data)
-// 应用分组列表
+// 审批分组列表
 const groupList = ref([])
 const vfDesignerRef = ref(null)
 const designerConfig = reactive({
@@ -64,7 +72,7 @@ const designerConfig = reactive({
 function handelSave() {
   dataForm.value.form = JSON.stringify(vfDesignerRef.value.getFormJson())
   console.log(dataForm.value)
-  addOrUpdateApplicationApi(dataForm.value).then(() => {
+  addOrUpdateApprovalApi(dataForm.value).then(() => {
     proxy.$modal.msgSuccess(`保存成功`)
     proxy.$tab.closePage().then(() => {
       router.push('/system/approvalList')
@@ -76,7 +84,7 @@ function handelRelease() {
   dataForm.value.appStatus = 1
   dataForm.value.form = JSON.stringify(vfDesignerRef.value.getFormJson())
   console.log(dataForm.value)
-  addOrUpdateApplicationApi(dataForm.value).then(() => {
+  addOrUpdateApprovalApi(dataForm.value).then(() => {
     proxy.$modal.msgSuccess(`发布成功`)
     proxy.$tab.closePage().then(() => {
       router.push('/system/approvalList')
@@ -85,20 +93,20 @@ function handelRelease() {
 }
 
 async function getDataList() {
-  groupList.value = await queryApplicationGroupApi({})
+  groupList.value = await queryApprovalGroupApi({})
 }
 
 onMounted(async () => {
   await getDataList()
   const id = route.query.id
   if (id) {
-    dataForm.value = await getApplicationApi(id)
+    dataForm.value = await getApprovalApi(id)
     vfDesignerRef.value.setFormJson(dataForm.value.form)
   } else {
     dataForm.value.appStatus = 0
     dataForm.value.icon = 'user'
-    dataForm.value.appName = '未命名审批'
-    dataForm.value.applicationGroupId = groupList.value[0].id
+    dataForm.value.approvalName = '未命名审批'
+    dataForm.value.approvalGroupId = groupList.value[0].id
     dataForm.value.processList = [
       {
         type: 'start',
@@ -131,7 +139,7 @@ onMounted(async () => {
     }
     .submit {
       position: absolute;
-      top: 20px;
+      top: 15px;
       right: 20px;
     }
   }

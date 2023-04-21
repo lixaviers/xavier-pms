@@ -59,7 +59,6 @@ export const constantRoutes = [
   },
   {
     path: '/system',
-    component: Layout,
     hidden: true,
     redirect: 'noredirect',
     children: [
