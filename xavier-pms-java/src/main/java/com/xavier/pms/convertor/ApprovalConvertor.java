@@ -35,7 +35,7 @@ public abstract class ApprovalConvertor {
         beanCopierForApproval.copy(dto, approval, null);
         approval.setProcess(JSON.toJSONString(dto.getProcessList()));
         for (ApprovalProcessJsonVo jsonVo : dto.getProcessList()) {
-            if (Objects.equals(jsonVo.getType(), "start")) {
+            if (Objects.equals(jsonVo.getApprovalType(), "start")) {
                 // 提交
                 approval.setSubmitType(jsonVo.getSubmitType());
             }

@@ -147,7 +147,7 @@
 </template>
 <script setup name="userGroup">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryUserGroupApi, deleteUserGroupApi } from '@/api/company/userGroup'
+import { queryUserGroupApi, deleteUserGroupApi } from '@/api/modules/userGroup'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

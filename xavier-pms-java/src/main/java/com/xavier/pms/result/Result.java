@@ -78,8 +78,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> error(String message) {
-        Result<T> result = new Result<T>(ResultCode.COMMON_MESSAGE.code, message, false, null);
-        return result;
+        return new Result<T>(ResultCode.COMMON_MESSAGE.code, message, false, null);
     }
 
     /**

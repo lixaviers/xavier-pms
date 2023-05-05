@@ -118,7 +118,7 @@
 
 <script setup name="Dept">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryDepartmentApi, deleteDepartmentApi } from '@/api/company/dept'
+import { queryDepartmentApi, deleteDepartmentApi } from '@/api/modules/dept'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

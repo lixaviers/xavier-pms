@@ -22,25 +22,22 @@ public interface IMeetingService extends IService<Meeting> {
      * 创建会议室
      *
      * @param meetingDto 会议室入参
-     * @return id
      */
-    Long createMeeting(MeetingDto meetingDto);
+    void createMeeting(MeetingDto meetingDto);
 
     /**
      * 更新会议室
      *
      * @param meetingDto 会议室入参
-     * @return 是否成功
      */
-    Boolean updateMeeting(MeetingDto meetingDto);
+    void updateMeeting(MeetingDto meetingDto);
 
     /**
      * 删除会议室
      *
      * @param idList id列表
-     * @return 是否成功
      */
-    Boolean deleteMeeting(List<Long> idList);
+    void deleteMeeting(List<Long> idList);
 
     /**
      * 根据ID获取会议室信息

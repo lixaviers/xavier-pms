@@ -31,4 +31,26 @@ public interface Constant {
      */
     String MENU_INTERFACE = "I";
 
+    /**
+     * 审批类型-提交
+     */
+    String APPROVAL_TYPE_START = "start";
+    /**
+     * 审批类型-审批
+     */
+    String APPROVAL_TYPE_APPROVAL = "approval";
+    /**
+     * 审批类型-办理
+     */
+    String APPROVAL_TYPE_HANDLER = "handler";
+    /**
+     * 审批类型-抄送
+     */
+    String APPROVAL_TYPE_CC = "cc";
+    /**
+     * 审批类型-结束
+     */
+    String APPROVAL_TYPE_END = "end";
+
+
 }

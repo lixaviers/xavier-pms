@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 @Component
 @Slf4j
 public class PasswordEncoderUtil {
-    private Pattern BCRYPT_PATTERN = Pattern
+    private final Pattern BCRYPT_PATTERN = Pattern
             .compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
 
     public String encode(CharSequence rawPassword) {

@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { updateUserPwd } from '@/api/system/user'
+import { updateUserPwd } from '@/api/modules/user'
 
 const { proxy } = getCurrentInstance()
 

@@ -1,12 +1,10 @@
 package com.xavier.pms.convertor;
 
-import com.xavier.pms.model.ApprovalGroup;
 import com.xavier.pms.dto.ApprovalGroupDto;
+import com.xavier.pms.model.ApprovalGroup;
 import com.xavier.pms.vo.ApprovalGroupVo;
 import org.springframework.cglib.beans.BeanCopier;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,17 +32,6 @@ public abstract class ApprovalGroupConvertor {
         ApprovalGroup approvalGroup = new ApprovalGroup();
         beanCopierForApprovalGroup.copy(approvalGroupDto, approvalGroup, null);
         return approvalGroup;
-    }
-
-    public static List<ApprovalGroupVo> toApprovalGroupVoList(List<ApprovalGroup> approvalGroupList) {
-        if (Objects.isNull(approvalGroupList) || approvalGroupList.isEmpty()) {
-            return new ArrayList<>();
-        }
-        List<ApprovalGroupVo> approvalGroupInfoList = new ArrayList<ApprovalGroupVo>(approvalGroupList.size());
-        for (ApprovalGroup approvalGroup : approvalGroupList) {
-            approvalGroupInfoList.add(toApprovalGroupVo(approvalGroup));
-        }
-        return approvalGroupInfoList;
     }
 
 }

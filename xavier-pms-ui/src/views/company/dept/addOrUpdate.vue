@@ -55,8 +55,10 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm" auto-insert-space
+          >确定</el-button
+        >
+        <el-button @click="cancel" auto-insert-space>取消</el-button>
       </div>
     </template>
   </el-dialog>
@@ -67,8 +69,8 @@ import {
   addOrUpdateDepartmentApi,
   getDepartmentApi,
   queryDepartmentApi
-} from '@/api/company/dept'
-import { getUserByDepartmentIdApi } from '@/api/company/user'
+} from '@/api/modules/dept'
+import { getUserByDepartmentIdApi } from '@/api/modules/user'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()

@@ -22,25 +22,22 @@ public interface ICarService extends IService<Car> {
      * 创建车辆
      *
      * @param carDto 车辆入参
-     * @return id
      */
-    Long createCar(CarDto carDto);
+    void createCar(CarDto carDto);
 
     /**
      * 更新车辆
      *
      * @param carDto 车辆入参
-     * @return 是否成功
      */
-    Boolean updateCar(CarDto carDto);
+    void updateCar(CarDto carDto);
 
     /**
      * 删除车辆
      *
      * @param idList id列表
-     * @return 是否成功
      */
-    Boolean deleteCar(List<Long> idList);
+    void deleteCar(List<Long> idList);
 
     /**
      * 根据ID获取车辆信息

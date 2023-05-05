@@ -8,26 +8,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("待审核员工查询入参")
-public class ApprovalQueryDto extends QueryDto {
+@ApiModel("审批单查询入参")
+public class AuditFormQueryDto extends QueryDto {
 
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("工号")
-    private String employeeNumber;
+    @ApiModelProperty(value = "用户id", hidden = true)
+    private Long userId;
 
-    @ApiModelProperty("姓名")
-    private String nickName;
+    @ApiModelProperty("审批状态")
+    private Byte auditStatus;
 
-    @ApiModelProperty("手机号")
-    private String mobile;
+    @ApiModelProperty("创建时间起")
+    private LocalDateTime createTimeFrom;
+
+    @ApiModelProperty("创建时间止")
+    private LocalDateTime createTimeTo;
 
 
 }

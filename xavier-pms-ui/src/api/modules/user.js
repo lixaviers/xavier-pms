@@ -1,7 +1,5 @@
 import request from '@/utils/request'
-
 const url = '/user'
-
 /**
  * 分页获取列表信息
  * @returns

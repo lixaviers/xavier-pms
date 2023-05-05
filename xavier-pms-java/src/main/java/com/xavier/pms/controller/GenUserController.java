@@ -8,9 +8,7 @@ import com.xavier.pms.dto.EmployeeWorkExperienceDto;
 import com.xavier.pms.model.Post;
 import com.xavier.pms.model.User;
 import com.xavier.pms.result.Result;
-import com.xavier.pms.service.IDepartmentService;
 import com.xavier.pms.service.IPostService;
-import com.xavier.pms.service.IProfessionalTitleService;
 import com.xavier.pms.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,10 +39,6 @@ public class GenUserController extends CommonController {
     private IUserService userService;
     @Resource
     private IPostService postService;
-    @Resource
-    private IDepartmentService departmentService;
-    @Resource
-    private IProfessionalTitleService professionalTitleService;
 
     @ApiOperation(value = "生成员工", notes = "生成员工")
     @PutMapping("generate")
@@ -310,14 +304,14 @@ public class GenUserController extends CommonController {
         userService.createUser(dto);
     }
 
-    private static List<String> relations = CollUtil.newArrayList("父母", "子女", "配偶", "兄妹", "其他");
+    private static final List<String> relations = CollUtil.newArrayList("父母", "子女", "配偶", "兄妹", "其他");
 
     private static final String[] SURNAME_LIST = {
             "丁", "安", "艾", "白", "张", "王", "孔", "康", "李", "潘", "赵", "陶", "田", "任", "陈", "刘", "吴", "孙", "周", "杨", "朱", "冯", "何", "邹", "熊", "邱", "秦", "江", "尹", "蒋", "崔", "隋", "金", "谢", "魏", "夏", "萧", "叶", "梁", "韩", "秦", "宋", "欧阳", "诸葛", "鄂"};
     private static final String[] MALE_NAME_LIST = {"峰", "坤", "冬", "宁", "岩", "子平", "飞星", "弘深", "元魁", "鸿", "睿好", "修平", "丰茂", "元洲", "立诚", "明远", "彦博", "怡和", "开霁", "圣杰", "磊", "强", "伟", "勇", "俊", "军", "亮", "刚", "桂华", "欢", "佳", "瑞", "玉", "红"};
     private static final String[] FEMALE_NAME_LIST = {"婷", "敏", "娜", "秀英", "慧", "亮", "静", "丽", "桂英", "桂兰", "桂芳", "欢", "娇", "佳", "媛", "玲", "瑞", "欣", "艳", "芳", "芸", "芝", "芹", "玉", "雪", "萍", "红", "莉", "俊英", "俊慧", "俊琪"};
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static String generateRandomChineseName(String gender) {
         String surname = SURNAME_LIST[random.nextInt(SURNAME_LIST.length)];
@@ -349,14 +343,14 @@ public class GenUserController extends CommonController {
     }
 
     public static void main(String[] args) {
-//        String idCard = generateIDCard();
-//        System.out.println("Generated ID Card: " + idCard);
-//        System.out.println("Birth Date: " + getBirthDate(idCard));
-//        String gender = getGender(idCard);
-//        System.out.println("Gender: " + gender);
+        String idCard = generateIDCard();
+        System.out.println("Generated ID Card: " + idCard);
+        System.out.println("Birth Date: " + getBirthDate(idCard));
+        String gender = getGender(idCard);
+        System.out.println("Gender: " + gender);
     }
 
-    private static String[] cities = {"110000", "310000", "440100", "440300", "330100", "320500", "320100", "420100", "510100", "500000"};
+    private static final String[] cities = {"110000", "310000", "440100", "440300", "330100", "320500", "320100", "420100", "510100", "500000"};
 
     private static String generateIDCard() {
         Random random = new Random();
@@ -374,8 +368,7 @@ public class GenUserController extends CommonController {
         int checkCode = random.nextInt(10); // 校验码，可以随机生成
 
         // 拼接身份证号
-        String idCard = String.format("%s%d%02d%02d%03d%1d%d", cityCode, year, month, day, serialNum, genderNum, checkCode);
-        return idCard;
+        return String.format("%s%d%02d%02d%03d%1d%d", cityCode, year, month, day, serialNum, genderNum, checkCode);
     }
 
     private static String getCity(String idCard) {

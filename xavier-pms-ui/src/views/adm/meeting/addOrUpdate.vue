@@ -32,15 +32,15 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="handleCancel">取消</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { addOrUpdateMeetingApi, getMeetingApi } from '@/api/adm/meeting'
+import { addOrUpdateMeetingApi, getMeetingApi } from '@/api/modules/meeting'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()

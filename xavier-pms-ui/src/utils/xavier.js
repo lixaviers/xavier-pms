@@ -1,7 +1,7 @@
 /**
  * 通用js方法封装处理
  */
-import { queryDepartmentApi } from '@/api/company/dept'
+import { queryDepartmentApi } from '@/api/modules/dept'
 
 // 日期格式化
 export function parseTime(time, pattern) {

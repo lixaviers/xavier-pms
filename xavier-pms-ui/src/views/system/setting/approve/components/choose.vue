@@ -60,8 +60,8 @@
 </template>
 
 <script setup>
-import { queryUserGroupApi } from '@/api/company/userGroup'
-import { queryRoleApi } from '@/api/system/role'
+import { queryUserGroupApi } from '@/api/modules/userGroup'
+import { queryRoleApi } from '@/api/modules/role'
 const props = defineProps({
   title: {
     type: String,

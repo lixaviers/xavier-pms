@@ -112,7 +112,7 @@
 </template>
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryRoleApi, deleteRoleApi } from '@/api/system/role'
+import { queryRoleApi, deleteRoleApi } from '@/api/modules/role'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

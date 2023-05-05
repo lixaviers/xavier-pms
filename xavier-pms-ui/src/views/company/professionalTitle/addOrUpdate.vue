@@ -22,8 +22,10 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm" auto-insert-space
+          >确定</el-button
+        >
+        <el-button @click="handleCancel" auto-insert-space>取消</el-button>
       </div>
     </template>
   </el-dialog>
@@ -33,7 +35,7 @@
 import {
   addOrUpdateProfessionalTitleApi,
   getProfessionalTitleApi
-} from '@/api/company/professionalTitle'
+} from '@/api/modules/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()

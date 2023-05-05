@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("待审批员工出参")
-public class ApprovalEmployeeVo implements Serializable {
+@ApiModel("审批单流程详细出参")
+public class AuditFormFlowDetailVo implements Serializable {
 
     /**
      * serialVersionUID
@@ -33,13 +33,7 @@ public class ApprovalEmployeeVo implements Serializable {
     @ApiModelProperty("id")
     @JsonSerialize(using = LongJsonSerializer.class)
     @JsonDeserialize(using = LongJsonDeserializer.class)
-    private Long id;
-
-    /**
-     * 工号
-     */
-    @ApiModelProperty("工号")
-    private String employeeNumber;
+    private Long userId;
 
     /**
      * 姓名
@@ -48,27 +42,21 @@ public class ApprovalEmployeeVo implements Serializable {
     private String nickName;
 
     /**
-     * 手机号
+     * 审批类型
      */
-    @ApiModelProperty("手机号")
-    private String mobile;
+    @ApiModelProperty("审批类型")
+    private String approvalType;
 
     /**
-     * 邮箱
+     * 审批状态
      */
-    @ApiModelProperty("邮箱")
-    private String email;
+    @ApiModelProperty("审批状态")
+    private Byte auditStatus;
 
     /**
-     * 性别
+     * 修改时间
      */
-    @ApiModelProperty("性别")
-    private String gender;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
+    @ApiModelProperty("修改时间")
+    private LocalDateTime updateTime;
 
 }

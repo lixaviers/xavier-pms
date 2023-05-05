@@ -9,8 +9,8 @@ public enum ApprovalStatusEnum {
     DEACTIVATE               ((byte) 2, "停用"),
     ;
 
-    private byte value;
-    private String desc;
+    private final byte value;
+    private final String desc;
 
     ApprovalStatusEnum(byte value, String desc) {
         this.value = value;

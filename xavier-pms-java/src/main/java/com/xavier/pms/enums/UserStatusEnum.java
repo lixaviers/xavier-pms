@@ -9,8 +9,8 @@ public enum UserStatusEnum {
     HAVE_LEFT                ((byte) 2, "已离职"),
     ;
 
-    private byte value;
-    private String desc;
+    private final byte value;
+    private final String desc;
 
     UserStatusEnum(byte value, String desc) {
         this.value = value;

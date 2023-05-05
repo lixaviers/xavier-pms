@@ -23,8 +23,7 @@ public class ServletUtil {
 
     public static HttpSession getSession() {
         HttpServletRequest request = getRequest();
-        HttpSession session = request == null ? null : request.getSession();
-        return session;
+        return request == null ? null : request.getSession();
     }
 
     /**

@@ -22,25 +22,22 @@ public interface ISealService extends IService<Seal> {
      * 创建印章
      *
      * @param sealDto 印章入参
-     * @return id
      */
-    Long createSeal(SealDto sealDto);
+    void createSeal(SealDto sealDto);
 
     /**
      * 更新印章
      *
      * @param sealDto 印章入参
-     * @return 是否成功
      */
-    Boolean updateSeal(SealDto sealDto);
+    void updateSeal(SealDto sealDto);
 
     /**
      * 删除印章
      *
      * @param idList id列表
-     * @return 是否成功
      */
-    Boolean deleteSeal(List<Long> idList);
+    void deleteSeal(List<Long> idList);
 
     /**
      * 根据ID获取印章信息

@@ -128,7 +128,7 @@
 </template>
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryCarApi, deleteCarApi } from '@/api/adm/car'
+import { queryCarApi, deleteCarApi } from '@/api/modules/car'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

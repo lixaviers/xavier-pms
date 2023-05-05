@@ -42,17 +42,17 @@ public class ApprovalServiceImpl extends ServiceImpl<ApprovalMapper, Approval> i
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateApproval(ApprovalDto dto) {
+    public void updateApproval(ApprovalDto dto) {
         getBaseApproval(dto.getId());
         Approval approval = ApprovalConvertor.toApproval(dto);
-        return super.updateById(approval);
+        super.updateById(approval);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteApproval(Long id) {
+    public void deleteApproval(Long id) {
         getBaseApproval(id);
-        return super.removeById(id);
+        super.removeById(id);
     }
 
     @Override
@@ -75,4 +75,6 @@ public class ApprovalServiceImpl extends ServiceImpl<ApprovalMapper, Approval> i
         getBaseApproval(dto.getId());
         super.updateById(BeanUtil.beanCopy(dto, Approval.class));
     }
+
+
 }

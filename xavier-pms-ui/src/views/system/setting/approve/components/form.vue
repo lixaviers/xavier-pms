@@ -2,7 +2,7 @@
   <div class="approve-form">
     <el-drawer
       v-model="visible"
-      size="500px"
+      size="600px"
       :title="dataForm.title"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -13,21 +13,24 @@
         :rules="rules"
         label-position="top"
       >
-        <el-form-item v-if="dataForm.type === 'start'" label="谁可以提交">
+        <el-form-item
+          v-if="dataForm.approvalType === 'start'"
+          label="谁可以提交"
+        >
           <el-select v-model="dataForm.submitType" style="width: 100%">
             <el-option label="全员" value="all" />
           </el-select>
         </el-form-item>
 
         <!-- 审批 -->
-        <div v-if="dataForm.type === 'approval'">
-          <el-form-item label="审批类型">
-            <el-radio-group v-model="dataForm.approvalType">
+        <div v-if="dataForm.approvalType === 'approval'">
+          <el-form-item label="审批方式">
+            <el-radio-group v-model="dataForm.approvalMode">
               <el-radio label="manual">人工审批</el-radio>
               <el-radio label="autoPass">自动通过</el-radio>
             </el-radio-group>
           </el-form-item>
-          <div v-if="dataForm.approvalType === 'manual'">
+          <div v-if="dataForm.approvalMode === 'manual'">
             <div v-if="dataForm.itemList && dataForm.itemList.length > 0">
               <app-choose
                 v-for="(item, index) in dataForm.itemList"
@@ -58,12 +61,14 @@
             <button-select-employee
               v-if="dataForm.emptyType === 'employee'"
               v-model="dataForm.employeeList"
+              class="mb20"
             />
-            <div v-if="dataForm.itemList && dataForm.itemList.length > 1">
-              <el-form-item label="多人审批时采用的审批放松">
+            <div v-if="isShowMoreType">
+              <el-form-item label="多人审批时采用的审批方式">
                 <el-radio-group v-model="dataForm.approvalMoreType">
                   <el-radio label="all">所有审批人同意</el-radio>
                   <el-radio label="one">一名审批人同意即可</el-radio>
+                  <el-radio label="order">按顺序依次审批</el-radio>
                 </el-radio-group>
               </el-form-item>
             </div>
@@ -71,7 +76,7 @@
         </div>
 
         <!-- 办理 -->
-        <div v-if="dataForm.type === 'handler'">
+        <div v-if="dataForm.approvalType === 'handler'">
           <p class="handler-desc">
             当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等。
           </p>
@@ -105,17 +110,27 @@
           <button-select-employee
             v-if="dataForm.emptyType === 'employee'"
             v-model="dataForm.employeeList"
+            class="mb20"
           />
+          <div v-if="isShowMoreType">
+            <el-form-item label="多人办理时采用的处理方式">
+              <el-radio-group v-model="dataForm.approvalMoreType">
+                <el-radio label="all">需所有办理人提交</el-radio>
+                <el-radio label="one">一名办理人提交即可</el-radio>
+                <el-radio label="order">按顺序依次提交</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </div>
         </div>
 
         <!-- 抄送 -->
         <div
           v-if="
-            dataForm.type === 'start' ||
-            dataForm.type === 'cc' ||
-            (dataForm.type === 'approval' &&
-              dataForm.approvalType === 'manual') ||
-            dataForm.type === 'end'
+            dataForm.approvalType === 'start' ||
+            dataForm.approvalType === 'cc' ||
+            (dataForm.approvalType === 'approval' &&
+              dataForm.approvalMode === 'manual') ||
+            dataForm.approvalType === 'end'
           "
         >
           <div v-if="dataForm.ccList && dataForm.ccList.length > 0">
@@ -143,8 +158,10 @@
         </div>
       </el-form>
       <template #footer>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm" auto-insert-space
+          >确定</el-button
+        >
+        <el-button @click="handleCancel" auto-insert-space>取消</el-button>
       </template>
     </el-drawer>
   </div>
@@ -162,6 +179,33 @@ const data = reactive({
 })
 const { dataForm, rules } = toRefs(data)
 const visible = ref(false)
+
+// 是否展示多人时采用的方式
+const isShowMoreType = computed(() => {
+  const itemList = dataForm.value.itemList
+  if (itemList && itemList.length > 0) {
+    if (itemList.length > 1) {
+      return true
+    }
+    const list = itemList.filter((item) => {
+      if (item.type === 'role' || item.type === 'userGroup') {
+        return true
+      }
+      if (
+        item.type === 'employee' &&
+        item.employeeList &&
+        item.employeeList.length > 1
+      ) {
+        return true
+      }
+      return false
+    })
+    if (list && list.length > 0) {
+      return true
+    }
+  }
+  return false
+})
 
 /**
  * 添加
@@ -233,9 +277,9 @@ function handelDelete(type, index) {
 function init(item) {
   visible.value = true
   dataForm.value = deepClone(item)
-  if (dataForm.value.type === 'approval') {
-    if (!dataForm.value.approvalType) {
-      dataForm.value.approvalType = 'manual'
+  if (dataForm.value.approvalType === 'approval') {
+    if (!dataForm.value.approvalMode) {
+      dataForm.value.approvalMode = 'manual'
     }
     if (!dataForm.value.approvalMoreType) {
       dataForm.value.approvalMoreType = 'all'
@@ -244,14 +288,17 @@ function init(item) {
       dataForm.value.emptyType = 'autoPass'
     }
     if (!dataForm.value.itemList || dataForm.value.itemList.length === 0) {
-      handelAdd(dataForm.value.type)
+      handelAdd(dataForm.value.approvalType)
     }
-  } else if (dataForm.value.type === 'handler') {
+  } else if (dataForm.value.approvalType === 'handler') {
     if (!dataForm.value.emptyType) {
       dataForm.value.emptyType = 'autoPass'
     }
+    if (!dataForm.value.approvalMoreType) {
+      dataForm.value.approvalMoreType = 'all'
+    }
     if (!dataForm.value.itemList || dataForm.value.itemList.length === 0) {
-      handelAdd(dataForm.value.type)
+      handelAdd(dataForm.value.approvalType)
     }
   }
 }

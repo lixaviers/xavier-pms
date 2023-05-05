@@ -1,15 +1,12 @@
 package com.xavier.pms.controller;
 
-import com.xavier.pms.dto.ApprovalQueryDto;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
-import com.xavier.pms.vo.ApprovalEmployeeVo;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
-import com.xavier.pms.vo.MenuVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -48,19 +45,6 @@ public class UserController extends CommonController {
     @GetMapping("getEstimatedConversionDate")
     public Result<LocalDate> getEstimatedConversionDate(@RequestParam LocalDate entryDate, @RequestParam int probationPeriod) {
         return Result.ok(entryDate.plusMonths(probationPeriod));
-    }
-
-    @ApiOperation(value = "分页获取待审核员工列表信息", notes = "分页获取待审核员工列表信息")
-    @PostMapping("queryApproval")
-    public Result<QueryResultVo<ApprovalEmployeeVo>> queryApproval(@Validated @RequestBody ApprovalQueryDto dto) {
-        return Result.ok(userService.queryApproval(dto));
-    }
-
-    @ApiOperation(value = "审批通过", notes = "审批通过")
-    @PostMapping("approval")
-    public Result approval(@RequestBody List<Long> idList) {
-        userService.approval(idList);
-        return Result.ok();
     }
 
     @ApiOperation(value = "分页获取员工列表信息", notes = "分页获取员工列表信息")

@@ -433,8 +433,10 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm" auto-insert-space
+            >确定</el-button
+          >
+          <el-button @click="cancel" auto-insert-space>取消</el-button>
         </div>
       </template>
     </el-dialog>
@@ -480,8 +482,12 @@
       </el-upload>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitFileForm">确 定</el-button>
-          <el-button @click="upload.open = false">取 消</el-button>
+          <el-button type="primary" @click="submitFileForm" auto-insert-space
+            >确定</el-button
+          >
+          <el-button @click="upload.open = false" auto-insert-space
+            >取消</el-button
+          >
         </div>
       </template>
     </el-dialog>
@@ -499,7 +505,7 @@ import {
   updateUser,
   addUser,
   deptTreeSelect
-} from '@/api/system/user'
+} from '@/api/modules/user'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()

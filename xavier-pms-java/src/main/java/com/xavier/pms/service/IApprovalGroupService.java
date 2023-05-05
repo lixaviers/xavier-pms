@@ -21,25 +21,22 @@ public interface IApprovalGroupService extends IService<ApprovalGroup> {
      * 创建审批分组
      *
      * @param approvalGroupDto 审批分组入参
-     * @return id
      */
-    Long createApprovalGroup(ApprovalGroupDto approvalGroupDto);
+    void createApprovalGroup(ApprovalGroupDto approvalGroupDto);
 
     /**
      * 更新审批分组
      *
      * @param approvalGroupDto 审批分组入参
-     * @return 是否成功
      */
-    Boolean updateApprovalGroup(ApprovalGroupDto approvalGroupDto);
+    void updateApprovalGroup(ApprovalGroupDto approvalGroupDto);
 
     /**
      * 删除审批分组
      *
      * @param id
-     * @return 是否成功
      */
-    Boolean deleteApprovalGroup(Long id);
+    void deleteApprovalGroup(Long id);
 
     /**
      * 根据ID获取审批分组信息
@@ -50,20 +47,19 @@ public interface IApprovalGroupService extends IService<ApprovalGroup> {
     ApprovalGroupVo getApprovalGroup(Long id);
 
     /**
-     * 根据ID获取审批分组信息
-     *
-     * @param id
-     * @return 审批分组信息
-     */
-    ApprovalGroup getBaseApprovalGroup(Long id);
-
-    /**
      * 分页查询审批分组信息
      *
      * @param approvalGroupQueryDto 审批分组查询入参
      * @return 审批分组信息
      */
     List<ApprovalGroupVo> queryApprovalGroup(ApprovalGroupQueryDto approvalGroupQueryDto);
+
+
+    /**
+     * 获取生效的审批列表
+     * @return
+     */
+    List<ApprovalGroupVo> getList();
 
 
 }

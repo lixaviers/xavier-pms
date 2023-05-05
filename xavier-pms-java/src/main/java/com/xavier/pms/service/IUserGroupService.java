@@ -22,25 +22,22 @@ public interface IUserGroupService extends IService<UserGroup> {
      * 创建员工组
      *
      * @param userGroupDto 员工组入参
-     * @return id
      */
-    Long createUserGroup(UserGroupDto userGroupDto);
+    void createUserGroup(UserGroupDto userGroupDto);
 
     /**
      * 更新员工组
      *
      * @param userGroupDto 员工组入参
-     * @return 是否成功
      */
-    Boolean updateUserGroup(UserGroupDto userGroupDto);
+    void updateUserGroup(UserGroupDto userGroupDto);
 
     /**
      * 删除员工组
      *
      * @param idList
-     * @return 是否成功
      */
-    Boolean deleteUserGroup(List<Long> idList);
+    void deleteUserGroup(List<Long> idList);
 
     /**
      * 根据ID获取员工组信息

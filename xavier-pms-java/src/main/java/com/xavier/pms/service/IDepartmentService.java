@@ -7,8 +7,6 @@ import com.xavier.pms.vo.DepartmentVo;
 import com.xavier.pms.model.Department;
 import com.xavier.pms.query.QueryResultVo;
 
-import java.util.List;
-
 /**
  * 业务逻辑层-部门接口类
  *
@@ -30,17 +28,15 @@ public interface IDepartmentService extends IService<Department> {
      * 更新部门
      *
      * @param departmentDto 部门入参
-     * @return 是否成功
      */
-    Boolean updateDepartment(DepartmentDto departmentDto);
+    void updateDepartment(DepartmentDto departmentDto);
 
     /**
      * 删除部门
      *
      * @param id
-     * @return 是否成功
      */
-    Boolean deleteDepartment(Long id);
+    void deleteDepartment(Long id);
 
     /**
      * 根据ID获取部门信息

@@ -44,12 +44,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createRole(RoleDto roleDto) {
+    public void createRole(RoleDto roleDto) {
         Role role = RoleConvertor.toRole(roleDto);
         role.setId(null);
         super.save(role);
         roleMenuService.createRoleMenu(role.getId(), roleDto.getMenuIdList());
-        return role.getId();
     }
 
     @Override

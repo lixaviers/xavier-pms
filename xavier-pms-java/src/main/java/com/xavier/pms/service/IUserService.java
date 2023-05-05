@@ -1,13 +1,11 @@
 package com.xavier.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xavier.pms.dto.ApprovalQueryDto;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.dto.LoginDto;
 import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
-import com.xavier.pms.vo.ApprovalEmployeeVo;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
 
@@ -42,14 +40,8 @@ public interface IUserService extends IService<User> {
      * 创建用户
      *
      * @param userDto 用户入参
-     * @return id
      */
-    Long createUser(EmployeeAddDto userDto);
-
-    /**
-     * 分页获取待审核员工列表信息
-     */
-    QueryResultVo<ApprovalEmployeeVo> queryApproval(ApprovalQueryDto dto);
+    void createUser(EmployeeAddDto userDto);
 
     /**
      * 根据ID获取用户信息
@@ -58,13 +50,6 @@ public interface IUserService extends IService<User> {
      * @return 用户信息
      */
     User getBaseUser(Long id);
-
-    /**
-     * 审批通过
-     *
-     * @param idList
-     */
-    void approval(List<Long> idList);
 
     /**
      * 分页获取待审核员工列表信息
@@ -86,5 +71,21 @@ public interface IUserService extends IService<User> {
      * @return
      */
     EmployeeCardVo getCard(Long id);
+
+    /**
+     * 获取员工直属上级
+     *
+     * @param id
+     * @return
+     */
+    User getDirectLeader(Long id);
+
+    /**
+     * 获取员工所在部门的负责人
+     *
+     * @param id
+     * @return
+     */
+    User getDepartmentUser(Long id);
 
 }

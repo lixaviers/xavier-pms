@@ -6,13 +6,16 @@
         :key="index"
         class="flow-container"
       >
-        <div @click="handelForm(item, index)" :class="'flow-node ' + item.type">
+        <div
+          @click="handelForm(item, index)"
+          :class="'flow-node ' + item.approvalType"
+        >
           <div class="title">
             <span>{{ item.title }}</span>
             <div
               v-if="
-                item.type !== 'start' &&
-                item.type !== 'end' &&
+                item.approvalType !== 'start' &&
+                item.approvalType !== 'end' &&
                 processList.length > 3
               "
             >
@@ -33,11 +36,11 @@
           </div>
           <div class="node-content">
             <div class="node-detail">
-              <div v-if="item.type === 'start'">
+              <div v-if="item.approvalType === 'start'">
                 <span>提交人：</span>
                 <span v-if="item.submitType === 'all'">全员可提交</span>
               </div>
-              <div v-else-if="item.type === 'approval'">
+              <div v-else-if="item.approvalType === 'approval'">
                 <div v-if="item.itemList && item.itemList.length > 0">
                   <span>审批人：</span>
                   <span
@@ -51,7 +54,7 @@
                 <div v-else class="noset">请设置审批人</div>
               </div>
 
-              <div v-else-if="item.type === 'handler'">
+              <div v-else-if="item.approvalType === 'handler'">
                 <div v-if="item.itemList && item.itemList.length > 0">
                   <span>办理人：</span>
                   <span
@@ -67,10 +70,10 @@
 
               <div
                 v-if="
-                  item.type === 'start' ||
-                  item.type === 'end' ||
-                  item.type === 'cc' ||
-                  item.type === 'approval'
+                  item.approvalType === 'start' ||
+                  item.approvalType === 'end' ||
+                  item.approvalType === 'cc' ||
+                  item.approvalType === 'approval'
                 "
               >
                 <div v-if="item.ccList && item.ccList.length > 0">
@@ -91,7 +94,7 @@
             </div>
           </div>
         </div>
-        <div v-if="item.type !== 'end'">
+        <div v-if="item.approvalType !== 'end'">
           <div class="flow-line"></div>
           <div class="flow-arrow"></div>
           <div class="flow-add">
@@ -159,7 +162,7 @@
 import approvalForm from './form.vue'
 import { deepClone } from '@/utils'
 import { getDeptListUtil } from '@/utils/xavier'
-import { getUserByDepartmentIdApi } from '@/api/company/user'
+import { getUserByDepartmentIdApi } from '@/api/modules/user'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -229,11 +232,11 @@ function setItemRef(el, index) {
   }
 }
 
-async function handelAdd(type, index) {
+async function handelAdd(approvalType, index) {
   processList.value[index].visible = false
   processList.value.splice(index + 1, 0, {
-    type: type,
-    title: getTitle(type)
+    approvalType: approvalType,
+    title: getTitle(approvalType)
   })
 }
 
@@ -247,8 +250,8 @@ function handelShowType(index) {
   })
 }
 
-function getTitle(type) {
-  switch (type) {
+function getTitle(approvalType) {
+  switch (approvalType) {
     case 'approval':
       return '审批'
     case 'cc':

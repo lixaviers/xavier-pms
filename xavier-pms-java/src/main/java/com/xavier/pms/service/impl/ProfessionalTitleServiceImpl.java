@@ -44,29 +44,28 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteProfessionalTitle(List<Long> idList) {
+    public void deleteProfessionalTitle(List<Long> idList) {
         // 判断是否有员工
         if (userService.count(User.gw().in(User::getProfessionalTitleId, idList)) > 0) {
             throw new ServiceException("职称下有员工，无法删除");
         }
-        return super.removeBatchByIds(idList);
+        super.removeBatchByIds(idList);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
+    public void createProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
         ProfessionalTitle professionalTitle = ProfessionalTitleConvertor.toProfessionalTitle(professionalTitleDto);
         professionalTitle.setId(null);
         super.save(professionalTitle);
-        return professionalTitle.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
+    public void updateProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
         getBaseProfessionalTitle(professionalTitleDto.getId());
         ProfessionalTitle professionalTitle = ProfessionalTitleConvertor.toProfessionalTitle(professionalTitleDto);
-        return super.updateById(professionalTitle);
+        super.updateById(professionalTitle);
     }
 
     @Override

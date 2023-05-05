@@ -22,25 +22,22 @@ public interface IProfessionalTitleService extends IService<ProfessionalTitle> {
      * 删除职称
      *
      * @param idList
-     * @return 是否成功
      */
-    Boolean deleteProfessionalTitle(List<Long> idList);
+    void deleteProfessionalTitle(List<Long> idList);
 
     /**
      * 创建职称
      *
      * @param professionalTitleDto 职称入参
-     * @return id
      */
-    Long createProfessionalTitle(ProfessionalTitleDto professionalTitleDto);
+    void createProfessionalTitle(ProfessionalTitleDto professionalTitleDto);
 
     /**
      * 更新职称
      *
      * @param professionalTitleDto 职称入参
-     * @return 是否成功
      */
-    Boolean updateProfessionalTitle(ProfessionalTitleDto professionalTitleDto);
+    void updateProfessionalTitle(ProfessionalTitleDto professionalTitleDto);
 
     /**
      * 根据ID获取职称信息

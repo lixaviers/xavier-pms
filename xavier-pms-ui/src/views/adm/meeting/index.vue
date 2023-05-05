@@ -119,7 +119,7 @@
 </template>
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
-import { queryMeetingApi, deleteMeetingApi } from '@/api/adm/meeting'
+import { queryMeetingApi, deleteMeetingApi } from '@/api/modules/meeting'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

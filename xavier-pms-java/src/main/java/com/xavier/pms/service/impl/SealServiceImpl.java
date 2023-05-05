@@ -38,25 +38,24 @@ public class SealServiceImpl extends ServiceImpl<SealMapper, Seal> implements IS
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createSeal(SealDto sealDto) {
+    public void createSeal(SealDto sealDto) {
         Seal seal = SealConvertor.toSeal(sealDto);
         seal.setId(null);
         super.save(seal);
-        return seal.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateSeal(SealDto sealDto) {
+    public void updateSeal(SealDto sealDto) {
         getBaseSeal(sealDto.getId());
         Seal seal = SealConvertor.toSeal(sealDto);
-        return super.updateById(seal);
+        super.updateById(seal);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteSeal(List<Long> idList) {
-        return super.removeBatchByIds(idList);
+    public void deleteSeal(List<Long> idList) {
+        super.removeBatchByIds(idList);
     }
 
     @Override

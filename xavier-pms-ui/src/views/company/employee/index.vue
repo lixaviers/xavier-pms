@@ -129,7 +129,7 @@
   </div>
 </template>
 <script setup>
-import { queryUserApi } from '@/api/company/user'
+import { queryUserApi } from '@/api/modules/user'
 import { getDeptListUtil } from '@/utils/xavier'
 
 const { proxy } = getCurrentInstance()
@@ -195,23 +195,6 @@ function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.id)
   single.value = selection.length != 1
   multiple.value = !selection.length
-}
-
-/**
- * 审批通过操作
- */
-function handleApproval(id) {
-  const idList = id ? [id] : ids.value
-  proxy.$modal
-    .confirm('是否确认审批通过？')
-    .then(function () {
-      return approvalUserApi(idList)
-    })
-    .then(() => {
-      proxy.$modal.msgSuccess('审批成功')
-      getDataList()
-    })
-    .catch(() => {})
 }
 
 /**

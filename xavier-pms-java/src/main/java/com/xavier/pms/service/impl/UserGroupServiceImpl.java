@@ -38,25 +38,24 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createUserGroup(UserGroupDto userGroupDto) {
+    public void createUserGroup(UserGroupDto userGroupDto) {
         UserGroup userGroup = UserGroupConvertor.toUserGroup(userGroupDto);
         userGroup.setId(null);
         super.save(userGroup);
-        return userGroup.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateUserGroup(UserGroupDto userGroupDto) {
+    public void updateUserGroup(UserGroupDto userGroupDto) {
         getBaseUserGroup(userGroupDto.getId());
         UserGroup userGroup = UserGroupConvertor.toUserGroup(userGroupDto);
-        return super.updateById(userGroup);
+        super.updateById(userGroup);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteUserGroup(List<Long> idList) {
-        return super.removeBatchByIds(idList);
+    public void deleteUserGroup(List<Long> idList) {
+        super.removeBatchByIds(idList);
     }
 
     @Override

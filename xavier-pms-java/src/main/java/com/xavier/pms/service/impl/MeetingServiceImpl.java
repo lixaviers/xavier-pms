@@ -1,6 +1,5 @@
 package com.xavier.pms.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,25 +38,24 @@ public class MeetingServiceImpl extends ServiceImpl<MeetingMapper, Meeting> impl
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createMeeting(MeetingDto meetingDto) {
+    public void createMeeting(MeetingDto meetingDto) {
         Meeting meeting = MeetingConvertor.toMeeting(meetingDto);
         meeting.setId(null);
         super.save(meeting);
-        return meeting.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateMeeting(MeetingDto meetingDto) {
+    public void updateMeeting(MeetingDto meetingDto) {
         getBaseMeeting(meetingDto.getId());
         Meeting meeting  = MeetingConvertor.toMeeting(meetingDto);
-        return super.updateById(meeting);
+        super.updateById(meeting);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteMeeting(List<Long> idList) {
-        return super.removeBatchByIds(idList);
+    public void deleteMeeting(List<Long> idList) {
+        super.removeBatchByIds(idList);
     }
 
     @Override

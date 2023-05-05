@@ -59,7 +59,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateDepartment(DepartmentDto departmentDto) {
+    public void updateDepartment(DepartmentDto departmentDto) {
         Department departmentLast = getBaseDepartment(departmentDto.getId());
         Department department = DepartmentConvertor.toDepartment(departmentDto);
         if (!Objects.equals(department.getParentId(), departmentLast.getParentId())) {
@@ -70,18 +70,18 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             }
             department.setFullId(fullId + "-" + department.getId());
         }
-        return super.updateById(department);
+        super.updateById(department);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteDepartment(Long id) {
+    public void deleteDepartment(Long id) {
         getBaseDepartment(id);
         // 判断是否有员工
         if (userService.count(User.gw().eq(User::getDepartmentId, id)) > 0) {
             throw new ServiceException("部门下有员工，无法删除");
         }
-        return super.removeById(id);
+        super.removeById(id);
     }
 
     @Override

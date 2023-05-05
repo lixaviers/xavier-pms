@@ -38,8 +38,8 @@ public enum ResultCode {
     ;
 
 
-    public int code;
-    public String desc;
+    public final int code;
+    public final String desc;
 
     ResultCode(int code, String desc) {
         this.code = code;

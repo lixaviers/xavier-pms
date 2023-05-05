@@ -23,5 +23,8 @@ public class ApprovalGroupQueryDto extends QueryDto {
     @ApiModelProperty("关键字")
     private String keyword;
 
+    @ApiModelProperty(value = "关键字", hidden = true)
+    private Byte appStatus;
+
 
 }

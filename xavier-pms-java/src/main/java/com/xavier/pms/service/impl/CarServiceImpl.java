@@ -1,6 +1,5 @@
 package com.xavier.pms.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,25 +38,24 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createCar(CarDto carDto) {
+    public void createCar(CarDto carDto) {
         Car car = CarConvertor.toCar(carDto);
         car.setId(null);
         super.save(car);
-        return car.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateCar(CarDto carDto) {
+    public void updateCar(CarDto carDto) {
         getBaseCar(carDto.getId());
         Car car  = CarConvertor.toCar(carDto);
-        return super.updateById(car);
+        super.updateById(car);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteCar(List<Long> idList) {
-        return super.removeBatchByIds(idList);
+    public void deleteCar(List<Long> idList) {
+        super.removeBatchByIds(idList);
     }
 
     @Override

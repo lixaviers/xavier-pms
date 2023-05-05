@@ -118,7 +118,7 @@
 </template>
 <script setup name="Post">
 import addOrUpdate from './addOrUpdate.vue'
-import { querySealApi, deleteSealApi } from '@/api/adm/seal'
+import { querySealApi, deleteSealApi } from '@/api/modules/seal'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

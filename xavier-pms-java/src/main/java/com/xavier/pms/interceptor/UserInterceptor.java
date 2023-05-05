@@ -33,8 +33,7 @@ public class UserInterceptor implements HandlerInterceptor {
     private IUserService userService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         try {
             String token = request.getHeader(Constant.HEADER_KEY);
             if (StrUtil.isBlank(token)) {
@@ -61,12 +60,11 @@ public class UserInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) throws Exception {
+                           ModelAndView modelAndView) {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         UserContainer.remove();
     }
 

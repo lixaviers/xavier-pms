@@ -27,17 +27,15 @@ public interface IApprovalService extends IService<Approval> {
      * 更新审批
      *
      * @param dto 审批入参
-     * @return 是否成功
      */
-    Boolean updateApproval(ApprovalDto dto);
+    void updateApproval(ApprovalDto dto);
 
     /**
      * 删除审批
      *
      * @param id
-     * @return 是否成功
      */
-    Boolean deleteApproval(Long id);
+    void deleteApproval(Long id);
 
     /**
      * 根据ID获取审批信息

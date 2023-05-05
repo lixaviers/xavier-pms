@@ -36,11 +36,8 @@
 <script setup>
 import appBasicForm from './components/basic.vue'
 import appProcess from './components/process.vue'
-import {
-  addOrUpdateApprovalApi,
-  getApprovalApi
-} from '@/api/system/approval'
-import { queryApprovalGroupApi } from '@/api/system/approvalGroup'
+import { addOrUpdateApprovalApi, getApprovalApi } from '@/api/modules/approval'
+import { queryApprovalGroupApi } from '@/api/modules/approvalGroup'
 
 const router = useRouter()
 const route = useRoute()
@@ -75,7 +72,7 @@ function handelSave() {
   addOrUpdateApprovalApi(dataForm.value).then(() => {
     proxy.$modal.msgSuccess(`保存成功`)
     proxy.$tab.closePage().then(() => {
-      router.push('/system/approvalList')
+      router.push('/modules/approvalList')
     })
   })
 }
@@ -109,16 +106,16 @@ onMounted(async () => {
     dataForm.value.approvalGroupId = groupList.value[0].id
     dataForm.value.processList = [
       {
-        type: 'start',
+        approvalType: 'start',
         title: '提交',
         submitType: 'all'
       },
       {
-        type: 'approval',
+        approvalType: 'approval',
         title: '审批'
       },
       {
-        type: 'end',
+        approvalType: 'end',
         title: '结束'
       }
     ]

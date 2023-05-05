@@ -22,9 +22,8 @@ public interface IRoleService extends IService<Role> {
      * 创建角色
      *
      * @param roleDto 角色入参
-     * @return id
      */
-    Long createRole(RoleDto roleDto);
+    void createRole(RoleDto roleDto);
 
     /**
      * 更新角色

@@ -31,6 +31,12 @@ public class ApprovalGroupController extends CommonController {
     @Resource
     private IApprovalGroupService approvalGroupService;
 
+    @ApiOperation(value = "获取生效的审批列表", notes = "获取生效的审批列表，根据分组名称分组，应用于发起申请页面")
+    @GetMapping("list")
+    public Result<List<ApprovalGroupVo>> list() {
+        return Result.ok(approvalGroupService.getList());
+    }
+
     @ApiOperation(value = "新增审批分组", notes = "新增审批分组")
     @PutMapping("add")
     public Result add(@Validated @RequestBody ApprovalGroupDto approvalGroupDto) {

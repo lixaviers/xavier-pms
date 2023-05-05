@@ -24,10 +24,10 @@ public class ApprovalProcessJsonVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 类型
+     * 审批类型
      */
-    @ApiModelProperty("类型 start:提交 approval:审批 handler:办理 cc:抄送 end:结束")
-    private String type;
+    @ApiModelProperty("审批类型 start:提交 approval:审批 handler:办理 cc:抄送 end:结束")
+    private String approvalType;
 
     /**
      * 标题
@@ -42,22 +42,32 @@ public class ApprovalProcessJsonVo implements Serializable {
     private String submitType;
 
     /**
-     * 审批类型
+     * 审批方式
      */
-    @ApiModelProperty("提交类型 manual:人工审批 autoPass:自动通过")
-    private String approvalType;
+    @ApiModelProperty("审批方式 manual:人工审批 autoPass:自动通过")
+    private String approvalMode;
 
     /**
-     * 为空时类型
+     * 审批人为空时类型
+     * 办理人为空时类型
      */
-    @ApiModelProperty("为空时类型 autoPass:自动通过 employee:指定人员审批")
+    @ApiModelProperty("审批人为空时类型 autoPass:自动通过 employee:指定人员审批")
     private String emptyType;
 
     /**
-     * 人员列表
+     * 审批人为空时指定人员列表
+     * 办理人为空时指定人员列表
      */
-    @ApiModelProperty("人员列表")
+    @ApiModelProperty("审批人为空时指定人员列表")
     private List<EmployeeJsonVo> employeeList;
+
+    /**
+     * 多人时采用方式
+     * 当审批类型为审批时：all:所有审批人同意 one:一名审批人同意即可 order:按顺序依次审批
+     * 当审批类型为办理时：all:所有办理人提交 one:一名办理人提交即可 order:按顺序依次提交
+     */
+    @ApiModelProperty("多人时采用方式 all:所有人 one:一名即可 order:按顺序")
+    private String approvalMoreType;
 
     /**
      * 列表

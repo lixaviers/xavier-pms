@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { queryUserApi } from '@/api/company/user'
+import { queryUserApi } from '@/api/modules/user'
 import { getDeptListUtil } from '@/utils/xavier'
 import { deepClone } from '@/utils'
 

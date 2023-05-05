@@ -60,26 +60,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteMenu(Long id) {
+    public void deleteMenu(Long id) {
         getBaseMenu(id);
-        return super.removeById(id);
+        super.removeById(id);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createMenu(MenuDto menuDto) {
+    public void createMenu(MenuDto menuDto) {
         Menu menu = MenuConvertor.toMenu(menuDto);
         menu.setId(null);
         super.save(menu);
-        return menu.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateMenu(MenuDto menuDto) {
+    public void updateMenu(MenuDto menuDto) {
         getBaseMenu(menuDto.getId());
         Menu menu = MenuConvertor.toMenu(menuDto);
-        return super.updateById(menu);
+        super.updateById(menu);
     }
 
     @Override

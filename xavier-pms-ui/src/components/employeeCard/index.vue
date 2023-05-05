@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { getUserCardApi } from '@/api/company/user'
+import { getUserCardApi } from '@/api/modules/user'
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
 
@@ -93,7 +93,7 @@ function handleShow() {
       .finally(() => {
         loading.value = false
       })
-  }, 500)
+  }, 200)
 }
 </script>
 

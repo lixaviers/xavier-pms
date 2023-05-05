@@ -64,4 +64,10 @@ public class ApprovalController extends CommonController {
         return Result.ok(approvalService.getApproval(id));
     }
 
+//    @ApiOperation(value = "获取审批流程信息", notes = "根据审批ID获取审批流程信息")
+//    @GetMapping("getApprovalProcess/{approvalId}")
+//    public Result<UserApprovalVo> getApprovalProcess(@ApiParam("审批id") @PathVariable Long approvalId) {
+//        return Result.ok(userApprovalFlowService.getApprovalProcess(approvalId));
+//    }
+
 }

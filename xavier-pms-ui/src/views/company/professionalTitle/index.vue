@@ -115,7 +115,7 @@ import addOrUpdate from './addOrUpdate.vue'
 import {
   queryProfessionalTitleApi,
   deleteProfessionalTitleApi
-} from '@/api/company/professionalTitle'
+} from '@/api/modules/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const addOrUpdateRef = ref()

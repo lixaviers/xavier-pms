@@ -116,7 +116,7 @@
 </template>
 
 <script setup name="Menu">
-import { deleteMenuApi, getMenuTreeApi } from '@/api/system/menu'
+import { deleteMenuApi, getMenuTreeApi } from '@/api/modules/menu'
 import SvgIcon from '@/components/SvgIcon'
 import IconSelect from '@/components/IconSelect'
 import { ClickOutside as vClickOutside } from 'element-plus'

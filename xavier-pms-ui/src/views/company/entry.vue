@@ -682,10 +682,10 @@ import {
   addOrUpdateUserApi,
   queryUserApi,
   getEstimatedConversionDateApi
-} from '@/api/company/user'
-import { queryDepartmentApi } from '@/api/company/dept'
-import { queryPostApi } from '@/api/company/post'
-import { queryProfessionalTitleApi } from '@/api/company/professionalTitle'
+} from '@/api/modules/user'
+import { queryDepartmentApi } from '@/api/modules/dept'
+import { queryPostApi } from '@/api/modules/post'
+import { queryProfessionalTitleApi } from '@/api/modules/professionalTitle'
 
 const { proxy } = getCurrentInstance()
 const data = reactive({

@@ -40,15 +40,12 @@
       <el-form-item label="审批名称" prop="approvalName">
         <el-input
           v-model="props.dataForm.approvalName"
-          max="100"
+          max="30"
           placeholder="请输入"
         />
       </el-form-item>
       <el-form-item label="分组" prop="approvalGroupId">
-        <el-select
-          v-model="props.dataForm.approvalGroupId"
-          style="width: 100%"
-        >
+        <el-select v-model="props.dataForm.approvalGroupId" style="width: 100%">
           <el-option
             v-for="item in props.groupList"
             :key="item.id"
@@ -87,9 +84,7 @@ const data = reactive({
   rules: {
     icon: [{ required: true, message: '请选择', trigger: 'blur' }],
     approvalName: [{ required: true, message: '请输入', trigger: 'blur' }],
-    approvalGroupId: [
-      { required: true, message: '请选择', trigger: 'change' }
-    ],
+    approvalGroupId: [{ required: true, message: '请选择', trigger: 'change' }],
     submitType: [{ required: true, message: '请选择', trigger: 'change' }]
   }
 })

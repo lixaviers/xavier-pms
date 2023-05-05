@@ -44,29 +44,28 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deletePost(List<Long> idList) {
+    public void deletePost(List<Long> idList) {
         // 判断是否有员工
         if (userService.count(User.gw().in(User::getPostId, idList)) > 0) {
             throw new ServiceException("职位下有员工，无法删除");
         }
-        return super.removeBatchByIds(idList);
+        super.removeBatchByIds(idList);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createPost(PostDto postDto) {
+    public void createPost(PostDto postDto) {
         Post post = PostConvertor.toPost(postDto);
         post.setId(null);
         super.save(post);
-        return post.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updatePost(PostDto postDto) {
+    public void updatePost(PostDto postDto) {
         getBasePost(postDto.getId());
         Post post = PostConvertor.toPost(postDto);
-        return super.updateById(post);
+        super.updateById(post);
     }
 
     @Override

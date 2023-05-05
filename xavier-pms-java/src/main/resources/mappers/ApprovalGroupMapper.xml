@@ -32,6 +32,9 @@
         AND tb_approval.is_deleted = 0
         WHERE
             tb_approval_group.is_deleted = 0
+        <if test="dto.appStatus != null">
+        AND tb_approval.app_status = #{dto.appStatus, jdbcType=TINYINT}
+        </if>
         <if test="dto.keyword != null and dto.keyword != ''">
         AND tb_approval_group.group_name LIKE CONCAT('%', #{dto.keyword}, '%')
         OR  tb_approval.approval_name LIKE CONCAT('%', #{dto.keyword}, '%')

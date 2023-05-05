@@ -38,25 +38,22 @@ public interface IMenuService extends IService<Menu> {
      * 删除菜单
      *
      * @param id
-     * @return 是否成功
      */
-    Boolean deleteMenu(Long id);
+    void deleteMenu(Long id);
 
     /**
      * 创建菜单
      *
      * @param menuDto 菜单入参
-     * @return id
      */
-    Long createMenu(MenuDto menuDto);
+    void createMenu(MenuDto menuDto);
 
     /**
      * 更新菜单
      *
      * @param menuDto 菜单入参
-     * @return 是否成功
      */
-    Boolean updateMenu(MenuDto menuDto);
+    void updateMenu(MenuDto menuDto);
 
     /**
      * 根据ID获取菜单信息

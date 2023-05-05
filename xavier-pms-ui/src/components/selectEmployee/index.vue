@@ -86,17 +86,21 @@
     </el-row>
     <template #footer>
       <div class="dialog-footer">
-        <el-button v-if="props.multiple" type="primary" @click="submitForm"
-          >确 定</el-button
+        <el-button
+          v-if="props.multiple"
+          type="primary"
+          @click="submitForm"
+          auto-insert-space
+          >确定</el-button
         >
-        <el-button @click="handleCancel">取 消</el-button>
+        <el-button @click="handleCancel">取消</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { queryUserApi } from '@/api/company/user'
+import { queryUserApi } from '@/api/modules/user'
 import { getDeptListUtil } from '@/utils/xavier'
 import { deepClone } from '@/utils'
 

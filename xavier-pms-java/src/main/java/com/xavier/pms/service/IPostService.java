@@ -22,25 +22,22 @@ public interface IPostService extends IService<Post> {
      * 删除职位
      *
      * @param idList
-     * @return 是否成功
      */
-    Boolean deletePost(List<Long> idList);
+    void deletePost(List<Long> idList);
 
     /**
      * 创建职位
      *
      * @param postDto 职位入参
-     * @return id
      */
-    Long createPost(PostDto postDto);
+    void createPost(PostDto postDto);
 
     /**
      * 更新职位
      *
      * @param postDto 职位入参
-     * @return 是否成功
      */
-    Boolean updatePost(PostDto postDto);
+    void updatePost(PostDto postDto);
 
     /**
      * 根据ID获取职位信息

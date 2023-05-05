@@ -1,6 +1,6 @@
 import auth from '@/plugins/auth'
 import router, { constantRoutes } from '@/router'
-import { getUserMenuApi } from '@/api/system/menu'
+import { getUserMenuApi } from '@/api/modules/menu'
 import { deepClone } from '@/utils'
 import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'

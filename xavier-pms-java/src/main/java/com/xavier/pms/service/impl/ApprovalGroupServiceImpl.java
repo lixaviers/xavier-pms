@@ -5,6 +5,7 @@ import com.xavier.pms.convertor.ApprovalGroupConvertor;
 import com.xavier.pms.dao.ApprovalGroupMapper;
 import com.xavier.pms.dto.ApprovalGroupDto;
 import com.xavier.pms.dto.ApprovalGroupQueryDto;
+import com.xavier.pms.enums.ApprovalStatusEnum;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.model.ApprovalGroup;
 import com.xavier.pms.result.ResultCode;
@@ -33,26 +34,25 @@ public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, A
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Long createApprovalGroup(ApprovalGroupDto approvalGroupDto) {
+    public void createApprovalGroup(ApprovalGroupDto approvalGroupDto) {
         ApprovalGroup approvalGroup = ApprovalGroupConvertor.toApprovalGroup(approvalGroupDto);
         approvalGroup.setId(null);
         super.save(approvalGroup);
-        return approvalGroup.getId();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean updateApprovalGroup(ApprovalGroupDto approvalGroupDto) {
+    public void updateApprovalGroup(ApprovalGroupDto approvalGroupDto) {
         getBaseApprovalGroup(approvalGroupDto.getId());
         ApprovalGroup approvalGroup = ApprovalGroupConvertor.toApprovalGroup(approvalGroupDto);
-        return super.updateById(approvalGroup);
+        super.updateById(approvalGroup);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
-    public Boolean deleteApprovalGroup(Long id) {
+    public void deleteApprovalGroup(Long id) {
         getBaseApprovalGroup(id);
-        return super.removeById(id);
+        super.removeById(id);
     }
 
     @Override
@@ -61,8 +61,7 @@ public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, A
     }
 
 
-    @Override
-    public ApprovalGroup getBaseApprovalGroup(Long id) {
+    private ApprovalGroup getBaseApprovalGroup(Long id) {
         ApprovalGroup approvalGroup = super.getById(id);
         if (Objects.isNull(approvalGroup)) {
             throw new ServiceException(ResultCode.DATA_NOT_EXIST, "审批分组");
@@ -73,6 +72,13 @@ public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, A
     @Override
     public List<ApprovalGroupVo> queryApprovalGroup(ApprovalGroupQueryDto queryDTO) {
         return baseMapper.queryApprovalGroup(queryDTO);
+    }
+
+    @Override
+    public List<ApprovalGroupVo> getList() {
+        ApprovalGroupQueryDto dto = new ApprovalGroupQueryDto();
+        dto.setAppStatus(ApprovalStatusEnum.NORMAL.getValue());
+        return baseMapper.queryApprovalGroup(dto);
     }
 
 }

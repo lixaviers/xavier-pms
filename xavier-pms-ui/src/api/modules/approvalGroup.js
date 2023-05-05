@@ -49,3 +49,14 @@ export const getApprovalGroupApi = (id) => {
     method: 'get'
   })
 }
+
+/**
+ * 获取生效的审批列表
+ * @returns
+ */
+export const listApprovalGroupApi = () => {
+  return request({
+    url: `${url}/list`,
+    method: 'get'
+  })
+}

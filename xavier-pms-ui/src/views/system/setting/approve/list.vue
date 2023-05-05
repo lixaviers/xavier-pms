@@ -8,6 +8,7 @@
           @keyup.enter="getDataList()"
           @clear="getDataList()"
           style="width: 240px"
+          placeholder="搜索"
         >
           <template #append>
             <el-button @click="getDataList()" icon="Search" />
@@ -140,11 +141,11 @@
 import {
   queryApprovalGroupApi,
   deleteApprovalGroupApi
-} from '@/api/system/approvalGroup'
+} from '@/api/modules/approvalGroup'
 import {
   deleteApprovalApi,
   updateStatusApprovalApi
-} from '@/api/system/approval'
+} from '@/api/modules/approval'
 import editGroup from './editGroup.vue'
 const router = useRouter()
 const { proxy } = getCurrentInstance()
