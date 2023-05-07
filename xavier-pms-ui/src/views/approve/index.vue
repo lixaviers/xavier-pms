@@ -1,7 +1,7 @@
 <template>
   <div class="app-container xavier-approve-initiate">
     <el-row :gutter="20">
-      <el-col :span="6">
+      <el-col v-if="props.type === 'self'" :span="6">
         <el-card>
           <template #header>
             <div class="title">全部申请</div>
@@ -29,12 +29,14 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="18">
+      <el-col :span="props.type === 'self' ? 18 : 24">
         <el-tabs @tab-change="handelChange">
-          <el-tab-pane label="全部" name="0"></el-tab-pane>
-          <el-tab-pane label="审批中" name="2"></el-tab-pane>
-          <el-tab-pane label="审批通过" name="3"></el-tab-pane>
-          <el-tab-pane label="审批拒绝" name="4"></el-tab-pane>
+          <el-tab-pane
+            v-for="item in props.statusList"
+            :key="item.value"
+            :label="item.label"
+            :name="item.value"
+          ></el-tab-pane>
         </el-tabs>
         <el-table v-loading="loading" :data="dataList" border>
           <el-table-column label="编号" align="center" prop="id" width="120" />
@@ -45,12 +47,7 @@
                 :label="scope.row.nickName"
             /></template>
           </el-table-column>
-          <el-table-column
-            label="申请时间"
-            align="center"
-            prop="createTime"
-            width="180"
-          />
+          <el-table-column label="申请时间" align="center" prop="createTime" />
           <el-table-column
             label="审批状态"
             align="center"
@@ -58,7 +55,6 @@
           />
           <el-table-column
             label="操作"
-            width="100"
             align="center"
             class-name="small-padding fixed-width"
           >
@@ -91,6 +87,17 @@ import { queryAuditFormApi } from '@/api/modules/auditForm'
 import { listApprovalGroupApi } from '@/api/modules/approvalGroup'
 
 const { proxy } = getCurrentInstance()
+
+const props = defineProps({
+  type: {
+    type: String,
+    required: true
+  },
+  statusList: {
+    type: Array,
+    default: []
+  }
+})
 
 const approvalList = ref([])
 const approveEditRef = ref(null)
@@ -127,6 +134,7 @@ function handelChange(tabPaneName) {
  */
 function getDataList() {
   loading.value = true
+  queryParams.value.type = props.type
   queryAuditFormApi(queryParams.value)
     .then((response) => {
       dataList.value = response.records

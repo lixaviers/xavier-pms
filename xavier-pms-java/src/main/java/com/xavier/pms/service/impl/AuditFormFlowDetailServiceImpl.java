@@ -46,7 +46,7 @@ public class AuditFormFlowDetailServiceImpl extends ServiceImpl<AuditFormFlowDet
     private IUserGroupService userGroupService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createAuditFlowDetail(UserInfoVo loginUser, AuditFormFlow flow, ApprovalProcessJsonVo vo) {
         List<AuditFormFlowDetail> detailList = new ArrayList<>();
         if (Objects.equals(vo.getApprovalType(), Constant.APPROVAL_TYPE_APPROVAL) || Objects.equals(vo.getApprovalType(), Constant.APPROVAL_TYPE_HANDLER)) {
@@ -59,6 +59,7 @@ public class AuditFormFlowDetailServiceImpl extends ServiceImpl<AuditFormFlowDet
             for (int i = 0; i < employeeJsonVoList.size(); i++) {
                 EmployeeJsonVo employeeJsonVo = employeeJsonVoList.get(i);
                 AuditFormFlowDetail auditFlowDetail = new AuditFormFlowDetail();
+                auditFlowDetail.setAuditFormId(flow.getAuditFormId());
                 auditFlowDetail.setAuditFormFlowId(flow.getId());
                 auditFlowDetail.setUserId(employeeJsonVo.getId());
                 auditFlowDetail.setNickName(employeeJsonVo.getNickName());
@@ -73,12 +74,10 @@ public class AuditFormFlowDetailServiceImpl extends ServiceImpl<AuditFormFlowDet
                 detailList.add(auditFlowDetail);
             }
         }
-        if (Objects.equals(vo.getApprovalType(), Constant.APPROVAL_TYPE_HANDLER)) {
-            // 办理
-        }
         if (Objects.equals(vo.getApprovalType(), Constant.APPROVAL_TYPE_START)) {
             // 提交
             AuditFormFlowDetail auditFlowDetail = new AuditFormFlowDetail();
+            auditFlowDetail.setAuditFormId(flow.getAuditFormId());
             auditFlowDetail.setAuditFormFlowId(flow.getId());
             auditFlowDetail.setUserId(loginUser.getId());
             auditFlowDetail.setNickName(loginUser.getNickName());
@@ -91,12 +90,13 @@ public class AuditFormFlowDetailServiceImpl extends ServiceImpl<AuditFormFlowDet
         if (CollUtil.isNotEmpty(ccList)) {
             for (EmployeeJsonVo employeeJsonVo : ccList) {
                 AuditFormFlowDetail auditFlowDetail = new AuditFormFlowDetail();
+                auditFlowDetail.setAuditFormId(flow.getAuditFormId());
                 auditFlowDetail.setAuditFormFlowId(flow.getId());
                 auditFlowDetail.setUserId(employeeJsonVo.getId());
                 auditFlowDetail.setNickName(employeeJsonVo.getNickName());
                 auditFlowDetail.setApprovalType(Constant.APPROVAL_TYPE_CC);
                 auditFlowDetail.setSortNumber(1);
-                auditFlowDetail.setAuditStatus(AuditStatusEnum.CC.getValue());
+                auditFlowDetail.setAuditStatus(AuditStatusEnum.PENDING.getValue());
                 detailList.add(auditFlowDetail);
             }
         }
@@ -133,9 +133,6 @@ public class AuditFormFlowDetailServiceImpl extends ServiceImpl<AuditFormFlowDet
                         if (Objects.nonNull(user)) {
                             voList.add(BeanUtil.beanCopy(user, EmployeeJsonVo.class));
                         }
-                        break;
-                    case "role":
-                        // todo 角色未处理，等待用户与角色关系
                         break;
                     case "userGroup":
                         // 员工组

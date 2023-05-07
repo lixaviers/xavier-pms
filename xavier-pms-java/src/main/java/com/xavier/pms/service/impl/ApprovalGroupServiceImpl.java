@@ -33,7 +33,7 @@ import java.util.Objects;
 public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, ApprovalGroup> implements IApprovalGroupService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createApprovalGroup(ApprovalGroupDto approvalGroupDto) {
         ApprovalGroup approvalGroup = ApprovalGroupConvertor.toApprovalGroup(approvalGroupDto);
         approvalGroup.setId(null);
@@ -41,7 +41,7 @@ public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, A
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateApprovalGroup(ApprovalGroupDto approvalGroupDto) {
         getBaseApprovalGroup(approvalGroupDto.getId());
         ApprovalGroup approvalGroup = ApprovalGroupConvertor.toApprovalGroup(approvalGroupDto);
@@ -49,7 +49,7 @@ public class ApprovalGroupServiceImpl extends ServiceImpl<ApprovalGroupMapper, A
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteApprovalGroup(Long id) {
         getBaseApprovalGroup(id);
         super.removeById(id);

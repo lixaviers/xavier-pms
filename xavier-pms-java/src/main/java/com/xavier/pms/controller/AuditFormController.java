@@ -1,7 +1,9 @@
 package com.xavier.pms.controller;
 
+import com.xavier.pms.dto.AuditFormAuditDto;
 import com.xavier.pms.dto.AuditFormDto;
 import com.xavier.pms.dto.AuditFormQueryDto;
+import com.xavier.pms.dto.AuditFormRevocationDto;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IAuditFormFlowService;
@@ -48,7 +50,7 @@ public class AuditFormController extends CommonController {
     @ApiOperation(value = "获取审批单信息", notes = "根据审批单ID获取审批单信息")
     @GetMapping("get/{id}")
     public Result<AuditFormVo> get(@ApiParam("id") @PathVariable Long id) {
-        return Result.ok(auditFormService.getAuditForm(id));
+        return Result.ok(auditFormService.getAuditForm(id, getLoginUser().getId()));
     }
 
     @ApiOperation(value = "根据审批单id获取审批单流程信息", notes = "根据审批单id获取审批单流程信息")
@@ -62,6 +64,20 @@ public class AuditFormController extends CommonController {
     public Result<QueryResultVo<AuditFormVo>> queryAuditForm(@Validated @RequestBody AuditFormQueryDto auditFormQueryDto) {
         auditFormQueryDto.setUserId(getLoginUser().getId());
         return Result.ok(auditFormService.queryAuditForm(auditFormQueryDto));
+    }
+
+    @ApiOperation(value = "撤回审批单", notes = "撤回审批单")
+    @PostMapping("revocation")
+    public Result revocation(@Validated @RequestBody AuditFormRevocationDto dto) {
+        auditFormService.revocation(dto, getLoginUser());
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "审批审批单", notes = "审批审批单")
+    @PostMapping("audit")
+    public Result audit(@Validated @RequestBody AuditFormAuditDto dto) {
+        auditFormService.audit(dto, getLoginUser());
+        return Result.ok();
     }
 
 }

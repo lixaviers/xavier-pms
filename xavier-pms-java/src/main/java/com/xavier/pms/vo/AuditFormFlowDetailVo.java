@@ -53,10 +53,4 @@ public class AuditFormFlowDetailVo implements Serializable {
     @ApiModelProperty("审批状态")
     private Byte auditStatus;
 
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty("修改时间")
-    private LocalDateTime updateTime;
-
 }

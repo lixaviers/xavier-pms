@@ -105,4 +105,31 @@ public class AuditFormVo implements Serializable {
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
 
+    /**
+     * 展示操作按钮
+     */
+    @ApiModelProperty("展示操作按钮")
+    private Button button;
+
+    @Data
+    @ToString(callSuper = true)
+    @ApiModel("审批单按钮出参")
+    public static class Button {
+
+        @ApiModelProperty("是否展示审批按钮")
+        private Boolean audit;
+
+        @ApiModelProperty("是否展示办理按钮")
+        private Boolean handler;
+
+        @ApiModelProperty("是否展示撤回按钮")
+        private Boolean revocation;
+
+        public Button() {
+            this.audit = false;
+            this.handler = false;
+            this.revocation = false;
+        }
+    }
+
 }

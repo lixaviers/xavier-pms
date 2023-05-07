@@ -20,8 +20,6 @@ import com.xavier.pms.vo.AuditFormFlowVo;
 import com.xavier.pms.vo.UserInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -48,7 +46,7 @@ public class AuditFormFlowServiceImpl extends ServiceImpl<AuditFormFlowMapper, A
     private IAuditFormFlowDetailService auditFlowDetailService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createAuditFlow(UserInfoVo loginUser, AuditForm auditForm) {
         List<ApprovalProcessJsonVo> vos = JSON.parseArray(auditForm.getApprovalProcess(), ApprovalProcessJsonVo.class);
         for (int i = 0; i < vos.size(); i++) {
@@ -66,7 +64,7 @@ public class AuditFormFlowServiceImpl extends ServiceImpl<AuditFormFlowMapper, A
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateAuditStatus(Long id, byte auditStatus, LocalDateTime dealTime) {
         AuditFormFlow bean = new AuditFormFlow();
         bean.setId(id);
@@ -94,22 +92,23 @@ public class AuditFormFlowServiceImpl extends ServiceImpl<AuditFormFlowMapper, A
                     if (CollUtil.isNotEmpty(details)) {
                         List<AuditFormFlowDetail> notccList = details.stream().filter(bean -> !Constant.APPROVAL_TYPE_CC.equals(bean.getApprovalType())).collect(Collectors.toList());
                         if (CollUtil.isNotEmpty(notccList)) {
-                            AuditFormFlowVo vo = AuditFormConvertor.toAuditFormFlowVo(auditFormFlow);
-                            vo.setDetailList(BeanUtil.beanCopy(notccList, AuditFormFlowDetailVo.class));
-                            List<AuditFormFlowDetail> remarks = notccList.stream().filter(bean -> StrUtil.isNotBlank(bean.getRemarks())).collect(Collectors.toList());
-                            if (CollUtil.isNotEmpty(remarks)) {
-                                vo.setRemarks(remarks.get(0).getRemarks());
+                            if ((Objects.equals(auditFormFlow.getApprovalType(), Constant.APPROVAL_TYPE_APPROVAL) || Objects.equals(auditFormFlow.getApprovalType(), Constant.APPROVAL_TYPE_HANDLER)) &&
+                                    !Objects.equals(auditFormFlow.getApprovalMoreType(), "one")) {
+                                // 多人时采用方式 不是 一名审批人同意即可
+                                for (AuditFormFlowDetail detail : notccList) {
+                                    voList.add(AuditFormConvertor.toAuditFormFlowVo(auditFormFlow, CollUtil.toList(detail)));
+                                }
+                            } else {
+                                voList.add(AuditFormConvertor.toAuditFormFlowVo(auditFormFlow, notccList));
                             }
-                            voList.add(vo);
                         }
                         List<AuditFormFlowDetail> ccList = details.stream().filter(bean -> Constant.APPROVAL_TYPE_CC.equals(bean.getApprovalType())).collect(Collectors.toList());
                         if (CollUtil.isNotEmpty(ccList)) {
-                            AuditFormFlowVo vo = AuditFormConvertor.toAuditFormFlowVo(auditFormFlow);
+                            AuditFormFlowVo vo = AuditFormConvertor.toAuditFormFlowVo(auditFormFlow, ccList);
                             if (!Objects.equals(auditFormFlow.getApprovalType(), Constant.APPROVAL_TYPE_END)) {
                                 vo.setTitle("抄送");
                             }
                             vo.setAuditStatus(AuditStatusEnum.CC.getValue());
-                            vo.setDetailList(BeanUtil.beanCopy(ccList, AuditFormFlowDetailVo.class));
                             voList.add(vo);
                         }
                     }

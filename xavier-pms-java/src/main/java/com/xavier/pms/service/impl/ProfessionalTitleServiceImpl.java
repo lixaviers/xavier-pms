@@ -43,7 +43,7 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
     private IUserService userService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteProfessionalTitle(List<Long> idList) {
         // 判断是否有员工
         if (userService.count(User.gw().in(User::getProfessionalTitleId, idList)) > 0) {
@@ -53,7 +53,7 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
         ProfessionalTitle professionalTitle = ProfessionalTitleConvertor.toProfessionalTitle(professionalTitleDto);
         professionalTitle.setId(null);
@@ -61,7 +61,7 @@ public class ProfessionalTitleServiceImpl extends ServiceImpl<ProfessionalTitleM
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateProfessionalTitle(ProfessionalTitleDto professionalTitleDto) {
         getBaseProfessionalTitle(professionalTitleDto.getId());
         ProfessionalTitle professionalTitle = ProfessionalTitleConvertor.toProfessionalTitle(professionalTitleDto);

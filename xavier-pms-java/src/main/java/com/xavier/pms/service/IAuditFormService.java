@@ -1,8 +1,10 @@
 package com.xavier.pms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xavier.pms.dto.AuditFormAuditDto;
 import com.xavier.pms.dto.AuditFormDto;
 import com.xavier.pms.dto.AuditFormQueryDto;
+import com.xavier.pms.dto.AuditFormRevocationDto;
 import com.xavier.pms.model.AuditForm;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.vo.AuditFormVo;
@@ -34,10 +36,11 @@ public interface IAuditFormService extends IService<AuditForm> {
     /**
      * 根据审批单id获取审批单流程信息
      *
-     * @param id
+     * @param id     审批单id
+     * @param userId 登录用户id
      * @return 审批单信息
      */
-    AuditFormVo getAuditForm(Long id);
+    AuditFormVo getAuditForm(Long id, Long userId);
 
     /**
      * 根据ID获取审批单信息
@@ -63,5 +66,21 @@ public interface IAuditFormService extends IService<AuditForm> {
      * @param auditStatus
      */
     void updateAuditStatus(Long id, byte auditStatus);
+
+    /**
+     * 撤回审批单
+     *
+     * @param dto        审批单
+     * @param userInfoVo 登录用户
+     */
+    void revocation(AuditFormRevocationDto dto, UserInfoVo userInfoVo);
+
+    /**
+     * 审批审批单
+     *
+     * @param dto        审批单
+     * @param loginUser 登录用户
+     */
+    void audit(AuditFormAuditDto dto, UserInfoVo loginUser);
 
 }

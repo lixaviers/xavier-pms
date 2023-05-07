@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements IRoleMenuService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createRoleMenu(Long roleId, List<Long> menuIdList) {
         if (CollUtil.isEmpty(menuIdList)) {
             return;
@@ -41,7 +41,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateRoleMenu(Long roleId, List<Long> menuIdList) {
         super.remove(RoleMenu.gw().eq(RoleMenu::getRoleId, roleId));
         createRoleMenu(roleId, menuIdList);

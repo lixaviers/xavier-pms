@@ -26,7 +26,7 @@ import java.util.UUID;
 public class UserTokenServiceImpl extends ServiceImpl<UserTokenMapper, UserToken> implements IUserTokenService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public String createUserToken(Long userId) {
         UserToken userToken = new UserToken();
         userToken.setUserId(userId);
@@ -38,7 +38,7 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenMapper, UserToken
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteByToken(String token) {
         super.remove(UserToken.gw().eq(UserToken::getToken, token));
     }

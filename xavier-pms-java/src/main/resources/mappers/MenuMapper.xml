@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.MenuMapper">
+
+
+    <select id="getUserMenuList" resultType="com.xavier.pms.model.Menu">
+        SELECT
+            tb_menu.*
+        FROM
+            tb_role_menu
+        INNER JOIN
+            tb_menu ON tb_role_menu.menu_id = tb_menu.id
+        WHERE
+            tb_role_menu.is_deleted = 0
+        AND tb_menu.is_deleted = 0
+        AND tb_menu.is_enable = 1
+        <foreach collection="typeList" open="AND tb_menu.menu_type IN (" close=")" separator="," item="item">
+            #{item, jdbcType=VARCHAR}
+        </foreach>
+        <foreach collection="roleIdList" open="AND tb_role_menu.role_id IN (" close=")" separator="," item="item">
+            #{item, jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+</mapper>

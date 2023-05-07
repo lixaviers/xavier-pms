@@ -5,9 +5,11 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.EmployeeInfoDto;
 import com.xavier.pms.dto.EmployeeWorkExperienceDto;
+import com.xavier.pms.model.Department;
 import com.xavier.pms.model.Post;
 import com.xavier.pms.model.User;
 import com.xavier.pms.result.Result;
+import com.xavier.pms.service.IDepartmentService;
 import com.xavier.pms.service.IPostService;
 import com.xavier.pms.service.IUserService;
 import io.swagger.annotations.Api;
@@ -39,6 +41,8 @@ public class GenUserController extends CommonController {
     private IUserService userService;
     @Resource
     private IPostService postService;
+    @Resource
+    private IDepartmentService departmentService;
 
     @ApiOperation(value = "生成员工", notes = "生成员工")
     @PutMapping("generate")
@@ -54,29 +58,34 @@ public class GenUserController extends CommonController {
         generate(2L, 4L, 4L);
         generate(2L, 4L, 5L);
         for (int i = 8; i <= 12; i++) {
-            int num = random.nextInt(5) + 6;
+            int num = random.nextInt(4) + 2;
+            System.out.println("技术经理数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 技术经理 6-8随机数
+                // 技术经理 2-5随机数
                 generate(new Long(i), 5L, new Long(random.nextInt(3) + 6));
             }
-            num = random.nextInt(11) + 20;
+            num = random.nextInt(4) + 2;
+            System.out.println("技术主管数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 技术主管 20-30随机数
+                // 技术主管 2-5随机数
                 generate(new Long(i), 6L, 9L);
             }
-            num = random.nextInt(101) + 100;
+            num = random.nextInt(11) + 20;
+            System.out.println("开发工程师数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 开发工程师 100-200随机数
+                // 开发工程师 20-30随机数
                 generate(new Long(i), 7L, new Long(random.nextInt(11) + 10));
             }
-            num = random.nextInt(5) + 6;
+            num = random.nextInt(4) + 2;
+            System.out.println("测试经理数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 测试经理 6-8随机数
+                // 测试经理 2-5随机数
                 generate(new Long(i), 8L, new Long(random.nextInt(3) + 6));
             }
-            num = random.nextInt(21) + 30;
+            num = random.nextInt(11) + 10;
+            System.out.println("测试工程师数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 测试工程师 30-50随机数
+                // 测试工程师 10-20随机数
                 generate(new Long(i), 9L, new Long(random.nextInt(11) + 10));
             }
         }
@@ -87,21 +96,26 @@ public class GenUserController extends CommonController {
         generate(3L, 11L, 4L);
         generate(3L, 11L, 5L);
         for (int i = 13; i <= 17; i++) {
-            int num = random.nextInt(5) + 6;
+
+            int num = random.nextInt(4) + 2;
+            System.out.println("市场经理数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 市场经理 6-8随机数
+                // 市场经理 2-5随机数
                 generate(new Long(i), 12L, new Long(random.nextInt(3) + 6));
             }
-            num = random.nextInt(11) + 20;
+            num = random.nextInt(4) + 2;
+            System.out.println("市场主管数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 市场主管 20-30随机数
+                // 市场主管 2-5随机数
                 generate(new Long(i), 13L, 9L);
             }
-            num = random.nextInt(101) + 100;
+            num = random.nextInt(11) + 20;
+            System.out.println("市场专员数量：" + num);
             for (int i1 = 0; i1 < num; i1++) {
-                // 市场专员 100-200随机数
+                // 市场专员 20-30随机数
                 generate(new Long(i), 14L, new Long(random.nextInt(11) + 10));
             }
+
         }
 
         // 人事总监
@@ -110,33 +124,35 @@ public class GenUserController extends CommonController {
         generate(4L, 16L, 4L);
         generate(4L, 16L, 5L);
         for (int i = 18; i <= 22; i++) {
-            int num = random.nextInt(5) + 6;
+            int num = random.nextInt(4) + 2;
+            ;
             for (int i1 = 0; i1 < num; i1++) {
-                // 人事经理 6-8随机数
+                // 人事经理
                 generate(new Long(i), 17L, new Long(random.nextInt(3) + 6));
             }
-            num = random.nextInt(11) + 20;
+            num = random.nextInt(4) + 2;
             for (int i1 = 0; i1 < num; i1++) {
-                // 人事主管 20-30随机数
+                // 人事主管
                 generate(new Long(i), 18L, 9L);
             }
-            num = random.nextInt(21) + 30;
+            num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 人事专员 30-50随机数
+                // 人事专员
                 generate(new Long(i), 19L, new Long(random.nextInt(11) + 10));
             }
+            num = random.nextInt(4) + 2;
             for (int i1 = 0; i1 < num; i1++) {
-                // 行政经理 6-8随机数
+                // 行政经理
                 generate(new Long(i), 20L, new Long(random.nextInt(3) + 6));
+            }
+            num = random.nextInt(4) + 2;
+            for (int i1 = 0; i1 < num; i1++) {
+                // 行政主管
+                generate(new Long(i), 21L, 9L);
             }
             num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 行政主管 20-30随机数
-                generate(new Long(i), 21L, 9L);
-            }
-            num = random.nextInt(21) + 30;
-            for (int i1 = 0; i1 < num; i1++) {
-                // 行政专员 30-50随机数
+                // 行政专员
                 generate(new Long(i), 22L, new Long(random.nextInt(5) + 16));
             }
         }
@@ -147,19 +163,19 @@ public class GenUserController extends CommonController {
         generate(5L, 24L, 4L);
         generate(5L, 24L, 5L);
         for (int i = 23; i <= 27; i++) {
-            int num = random.nextInt(5) + 6;
+            int num = random.nextInt(4) + 2;
             for (int i1 = 0; i1 < num; i1++) {
-                // 财务经理 6-8随机数
+                // 财务经理
                 generate(new Long(i), 25L, new Long(random.nextInt(3) + 6));
+            }
+            num = random.nextInt(4) + 2;
+            for (int i1 = 0; i1 < num; i1++) {
+                // 财务主管
+                generate(new Long(i), 26L, 9L);
             }
             num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 财务主管 20-30随机数
-                generate(new Long(i), 26L, 9L);
-            }
-            num = random.nextInt(21) + 30;
-            for (int i1 = 0; i1 < num; i1++) {
-                // 财务专员 30-50随机数
+                // 财务专员
                 generate(new Long(i), 27L, new Long(random.nextInt(5) + 16));
             }
         }
@@ -170,19 +186,19 @@ public class GenUserController extends CommonController {
         generate(6L, 29L, 4L);
         generate(6L, 29L, 5L);
         for (int i = 28; i <= 32; i++) {
-            int num = random.nextInt(5) + 6;
+            int num = random.nextInt(4) + 2;
             for (int i1 = 0; i1 < num; i1++) {
-                // 运营经理 6-8随机数
+                // 运营经理
                 generate(new Long(i), 30L, new Long(random.nextInt(3) + 6));
+            }
+            num = random.nextInt(4) + 2;
+            for (int i1 = 0; i1 < num; i1++) {
+                // 运营主管
+                generate(new Long(i), 31L, 9L);
             }
             num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 运营主管 20-30随机数
-                generate(new Long(i), 31L, 9L);
-            }
-            num = random.nextInt(101) + 100;
-            for (int i1 = 0; i1 < num; i1++) {
-                // 运营专员 100-200随机数
+                // 运营专员
                 generate(new Long(i), 32L, new Long(random.nextInt(5) + 16));
             }
         }
@@ -195,12 +211,12 @@ public class GenUserController extends CommonController {
         for (int i = 33; i <= 37; i++) {
             int num = random.nextInt(5) + 6;
             for (int i1 = 0; i1 < num; i1++) {
-                // 产品经理 6-8随机数
+                // 产品经理
                 generate(new Long(i), 35L, new Long(random.nextInt(3) + 6));
             }
-            num = random.nextInt(101) + 100;
+            num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 产品专员 100-200随机数
+                // 产品专员
                 generate(new Long(i), 36L, new Long(random.nextInt(5) + 16));
             }
         }
@@ -211,22 +227,36 @@ public class GenUserController extends CommonController {
         generate(38L, 38L, 4L);
         generate(38L, 38L, 5L);
         for (int i = 39; i <= 48; i++) {
-            int num = random.nextInt(5) + 6;
+            int num = random.nextInt(4) + 2;
             for (int i1 = 0; i1 < num; i1++) {
-                // 销售经理 6-8随机数
+                // 销售经理
                 generate(new Long(i), 39L, new Long(random.nextInt(3) + 6));
+            }
+            num = random.nextInt(4) + 2;
+            for (int i1 = 0; i1 < num; i1++) {
+                // 销售主管
+                generate(new Long(i), 40L, 9L);
             }
             num = random.nextInt(11) + 20;
             for (int i1 = 0; i1 < num; i1++) {
-                // 销售主管 20-30随机数
-                generate(new Long(i), 40L, 9L);
-            }
-            num = random.nextInt(101) + 100;
-            for (int i1 = 0; i1 < num; i1++) {
-                // 销售专员 100-200随机数
+                // 销售专员
                 generate(new Long(i), 41L, new Long(random.nextInt(5) + 16));
             }
         }
+
+        // 生成成功后，设置部门负责人
+        List<Department> list = departmentService.list();
+        for (Department department : list) {
+            User user = userService.getOne(User.gw()
+                    .eq(User::getDepartmentId, department.getId())
+                    .orderByAsc(User::getProfessionalTitleId)
+                    .orderByAsc(User::getId)
+                    .last("limit 1")
+            );
+            department.setUserId(user.getId());
+            departmentService.updateById(department);
+        }
+
 
         return Result.ok();
     }

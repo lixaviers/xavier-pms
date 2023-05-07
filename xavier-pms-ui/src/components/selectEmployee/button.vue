@@ -3,11 +3,12 @@
     <el-button icon="Plus" @click="handleSelect()"></el-button>
     <span v-if="props.modelValue && props.modelValue.length > 0">
       <el-tag
-        v-for="employee in props.modelValue"
+        v-for="(employee, index) in props.modelValue"
         :key="employee.id"
         closable
         class="ml5"
         size="large"
+        @close="handelDelete(index)"
         >{{ employee.nickName }}</el-tag
       >
     </span>
@@ -49,6 +50,10 @@ function setItemRef(el) {
 function handleSelect() {
   console.log(props.modelValue)
   selectEmployeeRef.value.init(props.modelValue)
+}
+
+function handelDelete(index) {
+  props.modelValue.splice(index, 1)
 }
 
 function submitForm() {

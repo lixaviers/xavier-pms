@@ -43,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     private IRoleMenuService roleMenuService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createRole(RoleDto roleDto) {
         Role role = RoleConvertor.toRole(roleDto);
         role.setId(null);
@@ -52,7 +52,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateRole(RoleDto roleDto) {
         getBaseRole(roleDto.getId());
         Role role = RoleConvertor.toRole(roleDto);
@@ -61,7 +61,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRole(List<Long> idList) {
         super.removeBatchByIds(idList);
         roleMenuService.remove(RoleMenu.gw().in(RoleMenu::getRoleId, idList));

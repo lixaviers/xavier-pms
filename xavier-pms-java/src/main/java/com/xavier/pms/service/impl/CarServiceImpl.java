@@ -37,7 +37,7 @@ import java.util.Objects;
 public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createCar(CarDto carDto) {
         Car car = CarConvertor.toCar(carDto);
         car.setId(null);
@@ -45,7 +45,7 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateCar(CarDto carDto) {
         getBaseCar(carDto.getId());
         Car car  = CarConvertor.toCar(carDto);
@@ -53,7 +53,7 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteCar(List<Long> idList) {
         super.removeBatchByIds(idList);
     }

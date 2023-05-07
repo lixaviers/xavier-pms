@@ -37,7 +37,7 @@ import java.util.Objects;
 public class SealServiceImpl extends ServiceImpl<SealMapper, Seal> implements ISealService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createSeal(SealDto sealDto) {
         Seal seal = SealConvertor.toSeal(sealDto);
         seal.setId(null);
@@ -45,7 +45,7 @@ public class SealServiceImpl extends ServiceImpl<SealMapper, Seal> implements IS
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateSeal(SealDto sealDto) {
         getBaseSeal(sealDto.getId());
         Seal seal = SealConvertor.toSeal(sealDto);
@@ -53,7 +53,7 @@ public class SealServiceImpl extends ServiceImpl<SealMapper, Seal> implements IS
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteSeal(List<Long> idList) {
         super.removeBatchByIds(idList);
     }

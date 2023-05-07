@@ -68,7 +68,11 @@
     >
       <el-table-column label="部门编号" align="center" prop="id" width="120" />
       <el-table-column prop="deptName" label="部门名称" />
-      <el-table-column prop="nickName" label="负责人" />
+      <el-table-column prop="nickName" label="负责人">
+        <template #default="scope">
+          <employee-card v-model="scope.row.userId" :label="scope.row.nickName"
+        /></template>
+      </el-table-column>
       <el-table-column
         label="创建时间"
         align="center"

@@ -87,10 +87,6 @@ const typeList = ref([
     label: '部门负责人'
   },
   {
-    value: 'role',
-    label: '角色'
-  },
-  {
     value: 'userGroup',
     label: '员工组'
   },

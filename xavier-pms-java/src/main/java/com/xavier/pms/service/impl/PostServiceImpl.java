@@ -43,7 +43,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     private IUserService userService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deletePost(List<Long> idList) {
         // 判断是否有员工
         if (userService.count(User.gw().in(User::getPostId, idList)) > 0) {
@@ -53,7 +53,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createPost(PostDto postDto) {
         Post post = PostConvertor.toPost(postDto);
         post.setId(null);
@@ -61,7 +61,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updatePost(PostDto postDto) {
         getBasePost(postDto.getId());
         Post post = PostConvertor.toPost(postDto);

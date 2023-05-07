@@ -11,11 +11,12 @@
             <span
               v-if="employeeInfo.gender === '女'"
               style="color: var(--el-color-danger)"
-              ><svg-icon icon-class="women"
-            /></span>
-            <span v-else style="color: var(--el-color-primary)"
-              ><svg-icon icon-class="man"
-            /></span>
+            >
+              <svg-icon icon-class="women" />
+            </span>
+            <span v-else style="color: var(--el-color-primary)">
+              <svg-icon icon-class="man" />
+            </span>
           </h3>
           <div class="card-item">
             <span class="label">工号</span>

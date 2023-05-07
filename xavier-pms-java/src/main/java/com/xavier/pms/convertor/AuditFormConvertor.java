@@ -1,10 +1,14 @@
 package com.xavier.pms.convertor;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.xavier.pms.dto.AuditFormDto;
 import com.xavier.pms.enums.AuditStatusEnum;
 import com.xavier.pms.model.AuditForm;
 import com.xavier.pms.model.AuditFormFlow;
+import com.xavier.pms.model.AuditFormFlowDetail;
 import com.xavier.pms.utils.BeanUtil;
+import com.xavier.pms.vo.AuditFormFlowDetailVo;
 import com.xavier.pms.vo.AuditFormFlowVo;
 import com.xavier.pms.vo.AuditFormVo;
 import org.springframework.cglib.beans.BeanCopier;
@@ -12,6 +16,7 @@ import org.springframework.cglib.beans.BeanCopier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 审批单对象相互转换
@@ -41,8 +46,19 @@ public abstract class AuditFormConvertor {
         return auditForm;
     }
 
-    public static AuditFormFlowVo toAuditFormFlowVo(AuditFormFlow auditFormFlow) {
-        return BeanUtil.beanCopy(auditFormFlow, AuditFormFlowVo.class);
+    public static AuditFormFlowVo toAuditFormFlowVo(AuditFormFlow auditFormFlow, List<AuditFormFlowDetail> detailList) {
+        AuditFormFlowVo vo = BeanUtil.beanCopy(auditFormFlow, AuditFormFlowVo.class);
+        vo.setDetailList(BeanUtil.beanCopy(detailList, AuditFormFlowDetailVo.class));
+        vo.setAuditStatus(detailList.get(0).getAuditStatus());
+        List<AuditFormFlowDetail> remarks = detailList.stream().filter(bean -> StrUtil.isNotBlank(bean.getRemarks())).collect(Collectors.toList());
+        List<AuditFormFlowDetail> dealTimes = detailList.stream().filter(bean -> Objects.nonNull(bean.getDealTime())).collect(Collectors.toList());
+        if (CollUtil.isNotEmpty(remarks)) {
+            vo.setRemarks(remarks.get(0).getRemarks());
+        }
+        if (CollUtil.isNotEmpty(dealTimes)) {
+            vo.setDealTime(dealTimes.get(0).getDealTime());
+        }
+        return vo;
     }
 
     public static List<AuditFormVo> toAuditFormVoList(List<AuditForm> auditFormList) {

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -71,6 +72,12 @@ public class AuditFormFlowVo implements Serializable {
      */
     @ApiModelProperty("审批单流程详细")
     private List<AuditFormFlowDetailVo> detailList;
+
+    /**
+     * 处理时间
+     */
+    @ApiModelProperty("处理时间")
+    private LocalDateTime dealTime;
 
     /**
      * 备注

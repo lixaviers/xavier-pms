@@ -20,7 +20,7 @@
     </div>
     <div v-if="id">
       <h4 class="mb20">审批进程</h4>
-      <el-table :data="processList">
+      <el-table border :data="processList" :span-method="cellMerge">
         <el-table-column prop="title" label="节点名称" width="80" />
         <el-table-column label="审批人">
           <template #default="scope">
@@ -31,20 +31,9 @@
             >
               <employee-card v-model="item.userId" :label="item.nickName" />
             </div>
-            <div
-              v-if="
-                scope.row.approvalMoreType && scope.row.detailList.length > 1
-              "
-              style="clear: both"
-            >
-              <div v-if="scope.row.approvalMoreType === 'one'" class="clearfix">
-                1人提交即可
-              </div>
-              <div v-else class="clearfix">需所有人通过</div>
-            </div>
           </template>
         </el-table-column>
-        <el-table-column label="审批结果" width="80">
+        <el-table-column label="审批结果" width="95" align="center">
           <template #default="scope">
             <el-tag v-if="scope.row.auditStatus === 4" type="success"
               >已通过</el-tag
@@ -61,17 +50,16 @@
             <el-tag v-else-if="scope.row.auditStatus === 1" type="info"
               >待处理</el-tag
             >
-          </template>
-        </el-table-column>
-        <el-table-column prop="remarks" label="审批意见" />
-        <el-table-column label="审批时间" width="180">
-          <template #default="scope">
-            <span
-              v-if="scope.row.auditStatus === 4 || scope.row.auditStatus === 2"
-              >{{ scope.row.detailList[0].updateTime }}</span
+            <el-tag v-else-if="scope.row.auditStatus === 6" type="danger"
+              >已撤回</el-tag
+            >
+            <el-tag v-else-if="scope.row.auditStatus === 5" type="danger"
+              >已拒绝</el-tag
             >
           </template>
         </el-table-column>
+        <el-table-column prop="remarks" label="审批意见" />
+        <el-table-column prop="dealTime" label="审批时间" width="180" />
       </el-table>
     </div>
     <template #footer>
@@ -84,6 +72,38 @@
           auto-insert-space
           >确定</el-button
         >
+        <el-button
+          v-if="optButton && optButton.handler"
+          type="primary"
+          icon="Check"
+          @click="handelAudit(2)"
+          :loading="loading"
+          >办理</el-button
+        >
+        <el-button
+          v-if="optButton && optButton.audit"
+          type="primary"
+          icon="Check"
+          @click="handelAudit(1)"
+          :loading="loading"
+          >同意</el-button
+        >
+        <el-button
+          v-if="optButton && optButton.audit"
+          icon="Close"
+          type="danger"
+          @click="handelAudit(0)"
+          :loading="loading"
+          >拒绝</el-button
+        >
+        <el-button
+          v-if="optButton && optButton.revocation"
+          icon="Back"
+          type="danger"
+          @click="handelRevocation"
+          :loading="loading"
+          >撤回</el-button
+        >
         <el-button @click="handleCancel" auto-insert-space>取消</el-button>
       </div>
     </template>
@@ -91,11 +111,14 @@
 </template>
 
 <script setup>
+import { ElMessageBox } from 'element-plus'
 import { getApprovalApi } from '@/api/modules/approval'
 import {
   addAuditFormApi,
   getAuditFormApi,
-  getAuditFormProcessApi
+  getAuditFormProcessApi,
+  revocationAuditFormApi,
+  auditAuditFormApi
 } from '@/api/modules/auditForm'
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -107,12 +130,27 @@ const loading = ref(false)
 const id = ref()
 // 审批id
 const approvalId = ref()
+// 操作按钮
+const optButton = ref(null)
 const formJson = ref()
 const formData = ref({})
 const optionData = ref({})
 const vformRenderRef = ref(null)
 // 审批流程
 const processList = ref([])
+const spanArr = ref([])
+const pos = ref(0)
+
+const cellMerge = ({ row, column, rowIndex, columnIndex }) => {
+  if (columnIndex === 0) {
+    const _row = spanArr.value[rowIndex]
+    const _col = _row > 0 ? 1 : 0
+    return {
+      rowspan: _row,
+      colspan: _col
+    }
+  }
+}
 
 /**
  * 初始化
@@ -123,6 +161,7 @@ async function init(auditId, appId) {
     title.value = '审批详情'
     id.value = auditId
     const res = await getAuditFormApi(auditId)
+    optButton.value = res.button
     visible.value = true
     nextTick(() => {
       vformRenderRef.value.setFormJson(JSON.parse(res.form))
@@ -131,9 +170,7 @@ async function init(auditId, appId) {
         vformRenderRef.value.disableForm()
       }, 10)
 
-      getAuditFormProcessApi(auditId).then((res) => {
-        processList.value = res
-      })
+      getProcessList()
     })
   } else {
     title.value = '发起申请'
@@ -144,6 +181,33 @@ async function init(auditId, appId) {
       vformRenderRef.value.enableForm()
     })
   }
+}
+
+/**
+ * 获取审批进程列表
+ */
+function getProcessList() {
+  getAuditFormProcessApi(id.value).then((res) => {
+    processList.value = res
+
+    spanArr.value = []
+    pos.value = 0
+    for (var i = 0; i < res.length; i++) {
+      if (i === 0) {
+        spanArr.value.push(1)
+        pos.value = 0
+      } else {
+        // 判断当前元素与上一个元素是否相同
+        if (res[i].id === res[i - 1].id) {
+          spanArr.value[pos.value] += 1
+          spanArr.value.push(0)
+        } else {
+          spanArr.value.push(1)
+          pos.value = i
+        }
+      }
+    }
+  })
 }
 
 function submitForm() {
@@ -173,6 +237,60 @@ function handleCancel() {
   visible.value = false
   processList.value = []
   id.value = undefined
+}
+
+/**
+ * 撤回审批单
+ */
+function handelRevocation() {
+  ElMessageBox.prompt('撤回理由', {
+    confirmButtonText: '撤回',
+    cancelButtonText: '取消',
+    inputType: 'textarea',
+    inputPlaceholder: '请输入',
+    inputPattern: /^.{1,100}$/,
+    inputErrorMessage: '请输入'
+  })
+    .then(({ value }) => {
+      const data = { id: id.value, remarks: value }
+      revocationAuditFormApi(data).then(() => {
+        proxy.$modal.msgSuccess('撤回成功')
+        emits('refreshDataList')
+        init(id.value)
+      })
+    })
+    .catch(() => {})
+}
+/**
+ * 审批审批单
+ */
+function handelAudit(type) {
+  let desc = '拒绝'
+  let pass = false
+  if (type === 1) {
+    desc = '同意'
+    pass = true
+  } else if (type === 2) {
+    desc = '办理'
+    pass = true
+  }
+  ElMessageBox.prompt(`${desc}理由`, {
+    confirmButtonText: desc,
+    cancelButtonText: '取消',
+    inputType: 'textarea',
+    inputPlaceholder: '请输入',
+    inputPattern: /^.{1,100}$/,
+    inputErrorMessage: '请输入'
+  })
+    .then(({ value }) => {
+      const data = { id: id.value, remarks: value, pass: pass }
+      auditAuditFormApi(data).then(() => {
+        proxy.$modal.msgSuccess(`${desc}成功`)
+        emits('refreshDataList')
+        init(id.value)
+      })
+    })
+    .catch(() => {})
 }
 
 defineExpose({

@@ -93,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createUser(EmployeeAddDto userDto) {
         User user = BeanUtil.beanCopy(userDto, User.class);
         user.setNickNamePy(PinyinUtil.getPinyin(userDto.getNickName(), ""));

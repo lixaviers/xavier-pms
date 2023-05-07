@@ -66,6 +66,14 @@ public class UserInfoVo implements Serializable {
     private String email;
 
     /**
+     * 职位id
+     */
+    @ApiModelProperty("职位id")
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    private Long postId;
+
+    /**
      * 过期时间
      */
     @ApiModelProperty("过期时间")

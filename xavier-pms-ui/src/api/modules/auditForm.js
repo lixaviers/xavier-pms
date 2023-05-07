@@ -28,19 +28,6 @@ export const queryAuditFormApi = (data) => {
 }
 
 /**
- * 修改状态
- * @param {*} id
- * @returns
- */
-export const updateStatusAuditFormApi = (data) => {
-  return request({
-    url: `${url}/updateStatus`,
-    method: 'post',
-    data
-  })
-}
-
-/**
  * 根据ID获取信息
  * @param {*} id
  * @returns
@@ -61,5 +48,29 @@ export const getAuditFormProcessApi = (id) => {
   return request({
     url: `${url}/getProcess/${id}`,
     method: 'get'
+  })
+}
+
+/**
+ * 撤回审批单
+ * @returns
+ */
+export const revocationAuditFormApi = (data) => {
+  return request({
+    url: `${url}/revocation`,
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 审批审批单
+ * @returns
+ */
+export const auditAuditFormApi = (data) => {
+  return request({
+    url: `${url}/audit`,
+    method: 'post',
+    data
   })
 }

@@ -40,7 +40,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     private IUserService userService;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createDepartment(DepartmentDto departmentDto) {
         Department department = DepartmentConvertor.toDepartment(departmentDto);
         String startId = "0-";
@@ -58,7 +58,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateDepartment(DepartmentDto departmentDto) {
         Department departmentLast = getBaseDepartment(departmentDto.getId());
         Department department = DepartmentConvertor.toDepartment(departmentDto);
@@ -74,7 +74,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteDepartment(Long id) {
         getBaseDepartment(id);
         // 判断是否有员工

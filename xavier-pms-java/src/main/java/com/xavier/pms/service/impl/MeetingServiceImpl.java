@@ -37,7 +37,7 @@ import java.util.Objects;
 public class MeetingServiceImpl extends ServiceImpl<MeetingMapper, Meeting> implements IMeetingService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createMeeting(MeetingDto meetingDto) {
         Meeting meeting = MeetingConvertor.toMeeting(meetingDto);
         meeting.setId(null);
@@ -45,7 +45,7 @@ public class MeetingServiceImpl extends ServiceImpl<MeetingMapper, Meeting> impl
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateMeeting(MeetingDto meetingDto) {
         getBaseMeeting(meetingDto.getId());
         Meeting meeting  = MeetingConvertor.toMeeting(meetingDto);
@@ -53,7 +53,7 @@ public class MeetingServiceImpl extends ServiceImpl<MeetingMapper, Meeting> impl
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteMeeting(List<Long> idList) {
         super.removeBatchByIds(idList);
     }

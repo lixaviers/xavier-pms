@@ -1,5 +1,9 @@
 package com.xavier.pms.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xavier.pms.utils.ListLongJsonSerializer;
+import com.xavier.pms.utils.LongJsonDeserializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,7 +30,7 @@ public class ApprovalProcessItemJsonVo implements Serializable {
     /**
      * 类型
      */
-    @ApiModelProperty("类型 parent:直属上级 dept:部门负责人 role:角色 userGroup:员工组 employee:指定员工 submitter:提交人")
+    @ApiModelProperty("类型 parent:直属上级 dept:部门负责人 userGroup:员工组 employee:指定员工 submitter:提交人")
     private String type;
 
     /**
@@ -39,6 +43,7 @@ public class ApprovalProcessItemJsonVo implements Serializable {
      * id列表
      */
     @ApiModelProperty("id列表")
+    @JsonSerialize(using = ListLongJsonSerializer.class)
     private List<Long> idList;
 
     /**

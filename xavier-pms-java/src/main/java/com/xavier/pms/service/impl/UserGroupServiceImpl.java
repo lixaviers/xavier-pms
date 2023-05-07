@@ -37,7 +37,7 @@ import java.util.Objects;
 public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup> implements IUserGroupService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void createUserGroup(UserGroupDto userGroupDto) {
         UserGroup userGroup = UserGroupConvertor.toUserGroup(userGroupDto);
         userGroup.setId(null);
@@ -45,7 +45,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateUserGroup(UserGroupDto userGroupDto) {
         getBaseUserGroup(userGroupDto.getId());
         UserGroup userGroup = UserGroupConvertor.toUserGroup(userGroupDto);
@@ -53,7 +53,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteUserGroup(List<Long> idList) {
         super.removeBatchByIds(idList);
     }

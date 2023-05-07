@@ -28,6 +28,12 @@ public class AuditFormFlowDetail {
     private Long id;
 
     /**
+     * 审批单id
+     */
+    @TableField(value = "audit_form_id")
+    private Long auditFormId;
+
+    /**
      * 审批单流程id
      */
     @TableField(value = "audit_form_flow_id")

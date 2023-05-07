@@ -49,18 +49,18 @@ public class AuditApproval implements IAudit {
                         if (Objects.equals(flow.getApprovalMoreType(), "order")) {
                             // 按顺序依次审批，只把第一人改为审批中
                             approvalList = approvalList.stream().sorted(Comparator.comparing(AuditFormFlowDetail::getSortNumber)).collect(Collectors.toList());
-                            detailList.add(new AuditFormFlowDetail(approvalList.get(0).getId(), AuditStatusEnum.UNDER.getValue(), now));
+                            detailList.add(new AuditFormFlowDetail(approvalList.get(0).getId(), AuditStatusEnum.UNDER.getValue(), null));
                         } else {
                             for (AuditFormFlowDetail detail : approvalList) {
-                                detailList.add(new AuditFormFlowDetail(detail.getId(), AuditStatusEnum.UNDER.getValue(), now));
+                                detailList.add(new AuditFormFlowDetail(detail.getId(), AuditStatusEnum.UNDER.getValue(), null));
                             }
                         }
-                        auditFormFlowService.updateAuditStatus(flow.getId(), AuditStatusEnum.UNDER.getValue(), now);
+                        auditFormFlowService.updateAuditStatus(flow.getId(), AuditStatusEnum.UNDER.getValue(), null);
                         // TODO 通知审批人
                         auditFormFlowDetailService.updateBatchById(detailList);
                         return AuditStatusEnum.UNDER.getValue();
                     } else {
-                        if (!Objects.equals(flow.getApprovalMoreType(), "one") && passeds != auditFormFlowDetailList.size()) {
+                        if (!Objects.equals(flow.getApprovalMoreType(), "one") && passeds != approvalList.size()) {
                             // 审批中
                             if (Objects.equals(flow.getApprovalMoreType(), "order")) {
                                 // 处理按顺序依次审批
@@ -69,7 +69,7 @@ public class AuditApproval implements IAudit {
                                     if (AuditStatusEnum.PENDING.equal(detail.getAuditStatus())) {
                                         // 将第一个是待处理的改为审批中
                                         // TODO 通知审批人
-                                        auditFormFlowDetailService.updateById(new AuditFormFlowDetail(detail.getId(), AuditStatusEnum.UNDER.getValue(), now));
+                                        auditFormFlowDetailService.updateById(new AuditFormFlowDetail(detail.getId(), AuditStatusEnum.UNDER.getValue(), null));
                                     }
                                 }
                             }

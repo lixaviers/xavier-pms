@@ -11,6 +11,7 @@
             tb_user.user_pwd,
             tb_user.mobile,
             tb_user.email,
+            tb_user.post_id,
             tb_user_token.expiration_time,
             tb_user.is_admin
         FROM

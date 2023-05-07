@@ -32,7 +32,7 @@ import java.util.Objects;
 public class ApprovalServiceImpl extends ServiceImpl<ApprovalMapper, Approval> implements IApprovalService {
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public Long createApproval(ApprovalDto dto) {
         Approval approval = ApprovalConvertor.toApproval(dto);
         approval.setId(null);
@@ -41,7 +41,7 @@ public class ApprovalServiceImpl extends ServiceImpl<ApprovalMapper, Approval> i
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void updateApproval(ApprovalDto dto) {
         getBaseApproval(dto.getId());
         Approval approval = ApprovalConvertor.toApproval(dto);
@@ -49,7 +49,7 @@ public class ApprovalServiceImpl extends ServiceImpl<ApprovalMapper, Approval> i
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void deleteApproval(Long id) {
         getBaseApproval(id);
         super.removeById(id);
