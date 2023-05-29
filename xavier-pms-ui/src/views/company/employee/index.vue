@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container xavier-employee-list">
     <el-row :gutter="20">
       <el-col :span="4" :xs="24">
         <div class="head-container">
@@ -114,6 +114,20 @@
             width="180"
           />
           <el-table-column label="操作" width="150" align="center">
+            <el-dropdown @command="handleCommand">
+              <span class="more-btn">
+                <el-icon><More /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="haveLeft"
+                    >操作离职</el-dropdown-item
+                  >
+                  <el-dropdown-item>Action 2</el-dropdown-item>
+                  <el-dropdown-item>Action 3</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </el-table-column>
         </el-table>
 
@@ -205,6 +219,13 @@ function handleNodeClick(data) {
   handleQuery()
 }
 
+function handleCommand(command) {
+  if (command === 'haveLeft') {
+    // 操作离职
+    alert(111)
+  }
+}
+
 /**
  * 通过条件过滤节点
  */
@@ -225,3 +246,14 @@ onMounted(async () => {
   getDataList()
 })
 </script>
+
+<style scoped lang="scss">
+.xavier-employee-list {
+  .more-btn {
+    cursor: pointer;
+    color: var(--el-color-primary);
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

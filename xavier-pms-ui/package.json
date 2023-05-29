@@ -17,6 +17,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "2.0.10",
     "@vueuse/core": "9.5.0",
+    "@vueup/vue-quill": "1.1.0",
     "axios": "0.27.2",
     "echarts": "5.4.0",
     "element-plus": "2.2.27",

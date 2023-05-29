@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.AnnouncementMapper">
+
+    <select id="queryAnnouncement" resultType="com.xavier.pms.model.Announcement">
+        SELECT
+            tb_announcement.*,
+            tb_announcement_type.type_name
+        FROM
+            tb_announcement
+        INNER JOIN
+            tb_announcement_type ON tb_announcement.announcement_type_id = tb_announcement_type.id
+        WHERE
+            tb_announcement.is_deleted = 0
+        AND tb_announcement_type.is_deleted = 0
+        <if test="dto.announcementTypeId != null">
+        AND tb_announcement.announcement_type_id = #{dto.announcementTypeId, jdbcType=BIGINT}
+        </if>
+        <if test="dto.title != null and dto.title != ''">
+        AND tb_announcement.title like CONCAT('%', #{dto.title}, '%')
+        </if>
+        ORDER BY
+            tb_announcement.sort_number,
+            tb_announcement.id DESC
+    </select>
+
+
+</mapper>
