@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element-plus": "^2.9.2",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14"
   },
@@ -17,6 +18,7 @@
     "@vue/compiler-sfc": "^3.2.33",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
+    "sass": "^1.83.1",
     "terser": "^5.19.1",
     "vite": "^4.4.4"
   }
