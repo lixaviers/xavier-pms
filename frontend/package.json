@@ -2,8 +2,8 @@
   "name": "ee",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --host --port 8080",
-    "serve": "vite --host --port 8080",
+    "dev": "vite --host --port 8888",
+    "serve": "vite --host --port 8888",
     "build-staging": "vite build --mode staging",
     "build": "vite build",
     "preview": "vite preview"

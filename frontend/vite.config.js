@@ -1,14 +1,12 @@
-import vue from '@vitejs/plugin-vue'
-import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite';
 
-import path from 'path'
+import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   return {
     // 项目插件
-    plugins: [
-      vue(),
-    ],
+    plugins: [vue()],
     // 基础配置
     base: './',
     publicDir: 'public',
@@ -43,7 +41,5 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
-  }
-})
-
-
+  };
+});
