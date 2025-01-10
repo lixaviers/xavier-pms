@@ -1,7 +1,7 @@
 {
-  "name": "ee",
+  "name": "星辰人事管理系统",
   "version": "3.15.0",
-  "description": "A fast, desktop software development framework",
+  "description": "星辰人事管理系统",
   "main": "main.js",
   "scripts": {
     "dev": "ee-bin dev",
@@ -36,13 +36,12 @@
     "build-lp-64": "electron-builder --config=./electron/config/builder.json -l=pacman --x64",
     "test": "set DEBUG=* && electron . --env=local"
   },
-  "repository": "https://github.com/dromara/electron-egg.git",
+  "repository": "https://github.com/lixaviers/xavier-pms",
   "keywords": [
-    "Electron",
-    "electron-egg",
-    "ElectronEgg"
+    "星辰",
+    "人事管理系统",
+    "星辰人事管理系统"
   ],
-  "author": "哆啦好梦, Inc <530353222@qq.com>",
   "license": "Apache",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",

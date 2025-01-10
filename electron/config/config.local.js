@@ -10,7 +10,7 @@ module.exports = (appInfo) => {
    * 开发者工具
    */
   config.openDevTools = {
-    mode: 'undocked'
+    mode: 'undocked',
   };
 
   /**
@@ -22,10 +22,10 @@ module.exports = (appInfo) => {
    * jobs
    */
   config.jobs = {
-    messageLog: true
-  };   
+    messageLog: true,
+  };
 
   return {
-    ...config
+    ...config,
   };
 };

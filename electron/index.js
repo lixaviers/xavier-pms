@@ -1,7 +1,7 @@
 const { Application } = require('ee-core');
+const { app: electronApp } = require('electron');
 
 class Index extends Application {
-
   constructor() {
     super();
     // this === eeApp;
@@ -10,21 +10,22 @@ class Index extends Application {
   /**
    * core app have been loaded
    */
-  async ready () {
-    // do some things
+  async ready() {
+    electronApp.commandLine.appendSwitch('enable-webgl');
+    electronApp.commandLine.appendSwitch('disable-web-security');
   }
 
   /**
    * electron app ready
    */
-  async electronAppReady () {
+  async electronAppReady() {
     // do some things
   }
 
   /**
    * main window have been loaded
    */
-  async windowReady () {
+  async windowReady() {
     // do some things
     // 延迟加载，无白屏
     const winOpt = this.config.windowsOption;
@@ -33,16 +34,15 @@ class Index extends Application {
       win.once('ready-to-show', () => {
         win.show();
         win.focus();
-      })
+      });
     }
   }
 
   /**
    * before app close
-   */  
-  async beforeClose () {
+   */
+  async beforeClose() {
     // do some things
-
   }
 }
 

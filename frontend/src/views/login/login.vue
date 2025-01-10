@@ -6,13 +6,28 @@
       </h1>
       <el-form :model="loginForm" ref="loginFormRef" :rules="rules" :inline="false">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" size="large" placeholder="请输入账号" />
+          <el-input v-model="loginForm.username" maxlength="20" :prefix-icon="User" size="large" placeholder="请输入账号" />
         </el-form-item>
         <el-form-item prop="password" style="margin-top: 25px">
-          <el-input v-model="loginForm.password" type="password" size="large" placeholder="请输入密码" />
+          <el-input v-model="loginForm.password" maxlength="20" type="password" :prefix-icon="Key" size="large" placeholder="请输入密码" />
+        </el-form-item>
+        <el-form-item prop="code">
+          <el-input
+            v-model="loginForm.verCode"
+            size="large"
+            :prefix-icon="Lock"
+            auto-complete="off"
+            placeholder="验证码"
+            style="width: 216px"
+            maxlength="5"
+            @keyup.enter="onSubmit"
+          />
+          <div class="login-code">
+            <img :src="codeUrl" @click="getCode" class="login-code-img" />
+          </div>
         </el-form-item>
         <el-form-item style="margin-top: 25px">
-          <el-button type="primary" @click="onSubmit" size="large" style="width: 100%">登录</el-button>
+          <el-button type="primary" @click="onSubmit" :loading="loading" size="large" style="width: 100%">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -20,28 +35,60 @@
 </template>
 
 <script setup>
-  import { onMounted, onUnmounted, reactive, ref } from 'vue';
+  import { loginApi } from '@/api/modules/login-api.js';
+
+  import { User, Lock, Key } from '@element-plus/icons-vue';
+  import useUserStore from '@/store/modules/user';
+
+  const userStore = useUserStore();
+  const router = useRouter();
 
   const loginFormRef = ref();
 
   const loginForm = reactive({
-    username: 'admin',
-    password: '',
-    captchaCode: '',
+    username: '10000',
+    password: 'qweasd123',
+    verCode: '',
+    uuid: '',
   });
   const rules = {
     username: [{ required: true, message: '用户名不能为空' }],
     password: [{ required: true, message: '密码不能为空' }],
-    captchaCode: [{ required: true, message: '验证码不能为空' }],
+    verCode: [{ required: true, message: '验证码不能为空' }],
   };
+  const codeUrl = ref('');
+  const loading = ref(false);
+
+  onMounted(() => {
+    getCode();
+  });
+
+  function getCode() {
+    loginApi.getCaptchaImage().then((res) => {
+      codeUrl.value = res.codeUrl;
+      loginForm.uuid = res.uuid;
+    });
+  }
 
   function onSubmit() {
     loginFormRef.value.validate((valid) => {
-      console.log(valid);
+      if (valid) {
+        userStore
+          .login(loginForm)
+          .then(() => {
+            router.push({ path: '/' });
+          })
+          .catch(() => {
+            getCode();
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+      }
     });
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   @import './login.scss';
 </style>

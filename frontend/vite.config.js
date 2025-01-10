@@ -1,12 +1,13 @@
-import vue from '@vitejs/plugin-vue';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
+import createVitePlugins from './plugins';
 
 import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd());
   return {
     // 项目插件
-    plugins: [vue()],
+    plugins: [createVitePlugins(env, command === 'build')],
     // 基础配置
     base: './',
     publicDir: 'public',

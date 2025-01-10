@@ -15,13 +15,13 @@ module.exports = {
       protocol: 'http://',
       hostname: 'localhost',
       port: 8888,
-      indexPath: 'index.html'
+      indexPath: 'index.html',
     },
     electron: {
       directory: './',
       cmd: 'electron',
       args: ['.', '--env=local', '--color=always'],
-    }
+    },
   },
 
   /**
@@ -33,19 +33,19 @@ module.exports = {
       directory: './frontend',
       cmd: 'npm',
       args: ['run', 'build'],
-    }
+    },
   },
 
   /**
    * 移动资源
-   * ee-bin move 
+   * ee-bin move
    */
   move: {
     frontend_dist: {
       dist: './frontend/dist',
-      target: './public/dist'
-    }
-  },  
+      target: './public/dist',
+    },
+  },
 
   /**
    * 预发布模式（prod）
@@ -54,12 +54,12 @@ module.exports = {
   start: {
     directory: './',
     cmd: 'electron',
-    args: ['.', '--env=prod']
+    args: ['.', '--env=prod'],
   },
 
   /**
    * 加密
-   */  
+   */
   encrypt: {
     type: 'confusion',
     files: [
@@ -71,11 +71,11 @@ module.exports = {
     ],
     fileExt: ['.js'],
     confusionOptions: {
-      compact: true,      
+      compact: true,
       stringArray: true,
       stringArrayEncoding: ['none'],
       deadCodeInjection: false,
-    }
+    },
   },
 
   /**
@@ -93,5 +93,5 @@ module.exports = {
       cmd: 'npm',
       args: ['-v'],
     },
-  },   
+  },
 };
