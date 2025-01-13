@@ -17,6 +17,7 @@
     "pinia": "^2.3.0",
     "sass": "^1.83.1",
     "vue": "^3.2.33",
+    "vue-cropper": "1.0.3",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {

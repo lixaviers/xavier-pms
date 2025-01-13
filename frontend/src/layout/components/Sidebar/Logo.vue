@@ -24,7 +24,7 @@
             color: sideTheme === 'theme-dark' ? variables.logoTitleColor : variables.logoLightTitleColor,
           }"
         >
-          星辰人事管理系统
+          {{ titile }}
         </h1>
       </router-link>
     </transition>
@@ -34,6 +34,7 @@
 <script setup>
   import variables from '@/assets/styles/variables.module.scss';
   import useSettingsStore from '@/store/modules/settings';
+  const titile = import.meta.env.VITE_TITLE;
 
   defineProps({
     collapse: {

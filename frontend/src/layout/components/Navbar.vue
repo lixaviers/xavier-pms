@@ -33,11 +33,8 @@
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <router-link to="/user/profile">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-              </router-link>
-              <el-dropdown-item command="setLayout">
-                <span>布局设置</span>
+              <el-dropdown-item command="updatePwd">
+                <span>修改密码</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
                 <span>退出登录</span>
@@ -47,6 +44,7 @@
         </el-dropdown>
       </div>
     </div>
+    <reset-pwd ref="updatePwdRef" />
   </div>
 </template>
 
@@ -56,6 +54,7 @@
   import TopNav from '@/components/TopNav/index.vue';
   import Hamburger from '@/components/Hamburger/index.vue';
   import notification from '@/components/notification/index.vue';
+  import resetPwd from './resetPwd.vue';
   import useAppStore from '@/store/modules/app';
   import useUserStore from '@/store/modules/user';
   import useSettingsStore from '@/store/modules/settings';
@@ -64,14 +63,16 @@
   const userStore = useUserStore();
   const settingsStore = useSettingsStore();
 
+  const updatePwdRef = ref();
+
   function toggleSideBar() {
     appStore.toggleSideBar();
   }
 
   function handleCommand(command) {
     switch (command) {
-      case 'setLayout':
-        setLayout();
+      case 'updatePwd':
+        updatePwdRef.value.init();
         break;
       case 'logout':
         logout();
@@ -93,11 +94,6 @@
         });
       })
       .catch(() => {});
-  }
-
-  const emits = defineEmits(['setLayout']);
-  function setLayout() {
-    emits('setLayout');
   }
 </script>
 

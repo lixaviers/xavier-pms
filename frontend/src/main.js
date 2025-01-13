@@ -11,7 +11,7 @@ import directive from './directive';
 
 import 'virtual:svg-icons-register';
 import SvgIcon from '@/components/SvgIcon/index.vue';
-import elementIcons from '@/components/SvgIcon/svgicon';
+import elementIcons from '@/components/SvgIcon/svgicon.js';
 import plugins from './plugins'; // plugins
 
 import './permission';
