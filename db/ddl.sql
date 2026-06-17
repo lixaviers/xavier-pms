@@ -420,3 +420,24 @@ CREATE TABLE `tb_announcement_type`
     `is_deleted`  tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公告类型表';
+
+CREATE TABLE `tb_operate_log` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_ip` varchar(50) DEFAULT NULL COMMENT '用户ip',
+  `operate_name` varchar(255) DEFAULT NULL COMMENT '操作名',
+  `request_method` varchar(255) DEFAULT NULL COMMENT '请求方法名',
+  `request_url` varchar(255) DEFAULT NULL COMMENT '请求地址',
+  `user_agent` varchar(2000) DEFAULT NULL COMMENT '浏览器UserAgent',
+  `java_method` varchar(255) DEFAULT NULL COMMENT 'Java方法名',
+  `java_method_args` varchar(5000) DEFAULT NULL COMMENT 'Java方法的参数',
+  `start_time` datetime DEFAULT NULL COMMENT '开始时间',
+  `duration` int unsigned DEFAULT NULL COMMENT '执行时长 毫秒',
+  `trace_id` varchar(255) DEFAULT NULL COMMENT '链路追踪id',
+  `token` varchar(255) DEFAULT NULL COMMENT '登录凭证',
+  `result_code` int DEFAULT NULL COMMENT '结果码',
+  `result_msg` varchar(500) DEFAULT NULL COMMENT '结果提示',
+  `result_data` varchar(5000) DEFAULT NULL COMMENT '结果数据',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user_id` bigint unsigned DEFAULT NULL COMMENT '创建人ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志表';

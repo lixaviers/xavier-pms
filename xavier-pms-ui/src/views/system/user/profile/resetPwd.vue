@@ -26,13 +26,15 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">保存</el-button>
-      <el-button type="danger" @click="close">关闭</el-button>
+      <el-button @click="handleClose">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup>
 import { updateUserPwd } from '@/api/modules/user'
+
+const emit = defineEmits(['success'])
 
 const { proxy } = getCurrentInstance()
 
@@ -65,14 +67,16 @@ const rules = ref({
 function submit() {
   proxy.$refs.pwdRef.validate((valid) => {
     if (valid) {
-      updateUserPwd(user.oldPassword, user.newPassword).then((response) => {
+      updateUserPwd(user.oldPassword, user.newPassword).then(() => {
         proxy.$modal.msgSuccess('修改成功')
+        emit('success')
       })
     }
   })
 }
-/** 关闭按钮 */
-function close() {
-  proxy.$tab.closePage()
+
+/** 取消按钮 */
+function handleClose() {
+  emit('success')
 }
 </script>

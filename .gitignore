@@ -8,3 +8,5 @@ yarn-error.log*
 target/
 *.iml
 *.yml
+/xavier-pms-ui/.dumate/
+/xavier-pms-java/.dumate/

@@ -23,6 +23,7 @@ import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
+import com.xavier.pms.vo.UserProfileVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -177,4 +178,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return super.getById(department.getUserId());
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = getBaseUser(userId);
+
+        if (!passwordEncoderUtil.matches(oldPassword, user.getUserPwd())) {
+            throw new ServiceException(ResultCode.COMMON_MESSAGE, "旧密码不正确");
+        }
+
+        String newEncodedPassword = passwordEncoderUtil.encode(newPassword);
+        User updateUser = new User();
+        updateUser.setId(userId);
+        updateUser.setUserPwd(newEncodedPassword);
+        updateUser.setIsInitPwd(false);
+        super.updateById(updateUser);
+    }
+
+
+    @Override
+    public UserProfileVo getUserProfile(Long userId) {
+        User user = getBaseUser(userId);
+        UserProfileVo profileVo = BeanUtil.beanCopy(user, UserProfileVo.class);
+
+        if (Objects.nonNull(user.getDirectLeaderId()) && user.getDirectLeaderId() > 0) {
+            User leader = super.getById(user.getDirectLeaderId());
+            if (Objects.nonNull(leader)) {
+                profileVo.setDirectLeaderName(leader.getNickName());
+            }
+        }
+
+        if (Objects.nonNull(user.getDepartmentId()) && user.getDepartmentId() > 0) {
+            Department department = departmentService.getBaseDepartment(user.getDepartmentId());
+            if (Objects.nonNull(department)) {
+                profileVo.setDepartmentName(department.getDeptName());
+            }
+        }
+
+        return profileVo;
+    }
+
+
 }

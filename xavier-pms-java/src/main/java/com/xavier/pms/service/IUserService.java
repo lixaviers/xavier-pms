@@ -8,6 +8,7 @@ import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
+import com.xavier.pms.vo.UserProfileVo;
 
 import java.util.List;
 
@@ -87,5 +88,9 @@ public interface IUserService extends IService<User> {
      * @return
      */
     User getDepartmentUser(Long id);
+
+    void changePassword(Long userId, String oldPassword, String newPassword);
+
+    UserProfileVo getUserProfile(Long userId);
 
 }

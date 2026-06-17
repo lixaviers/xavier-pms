@@ -1,5 +1,6 @@
 package com.xavier.pms.controller;
 
+import com.xavier.pms.dao.ChangePasswordDto;
 import com.xavier.pms.dto.EmployeeAddDto;
 import com.xavier.pms.dto.EmployeeQueryDto;
 import com.xavier.pms.query.QueryResultVo;
@@ -7,6 +8,7 @@ import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
+import com.xavier.pms.vo.UserProfileVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -63,6 +65,21 @@ public class UserController extends CommonController {
     @GetMapping("getCard/{id}")
     public Result<EmployeeCardVo> getCard(@ApiParam("id") @PathVariable Long id) {
         return Result.ok(userService.getCard(id));
+    }
+
+    @ApiOperation(value = "修改密码", notes = "根据旧密码修改新密码")
+    @PutMapping("changePassword")
+    public Result<Void> changePassword(@Validated @RequestBody ChangePasswordDto dto) {
+        Long userId = getLoginUser().getId();
+        userService.changePassword(userId, dto.getOldPassword(), dto.getNewPassword());
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "获取个人详细信息", notes = "获取当前登录用户的详细个人信息")
+    @GetMapping("getProfile")
+    public Result<UserProfileVo> getProfile() {
+        Long userId = getLoginUser().getId();
+        return Result.ok(userService.getUserProfile(userId));
     }
 
 

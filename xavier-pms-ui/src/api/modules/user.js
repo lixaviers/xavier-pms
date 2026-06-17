@@ -180,15 +180,25 @@ export const updateUserProfile = (data) => {
 
 export const updateUserPwd = (oldPassword, newPassword) => {
   return request({
-    url: `${url}/profile/updatePwd`,
+    url: `${url}/changePassword`,
     method: 'put',
-    params: { oldPassword, newPassword }
+    data: { oldPassword, newPassword }
   })
 }
 
 export const getUserProfile = () => {
   return request({
     url: `${url}/profile`,
+    method: 'get'
+  })
+}
+
+/**
+ * 获取当前登录用户详细个人信息
+ */
+export const getProfileApi = () => {
+  return request({
+    url: `${url}/getProfile`,
     method: 'get'
   })
 }
