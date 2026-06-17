@@ -59,7 +59,7 @@
           </div>
           <div class="field-item">
             <span class="field-label">直属上级</span>
-            <span class="field-value">{{ state.user.directLeaderName || '—' }}</span>
+            <span class="field-value">{{ state.user.directLeaderId === 0 ? '无（最上级）' : (state.user.directLeaderName || '—') }}</span>
           </div>
           <div class="field-item">
             <span class="field-label">职位</span>

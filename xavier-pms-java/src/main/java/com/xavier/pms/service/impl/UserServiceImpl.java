@@ -1,5 +1,6 @@
 package com.xavier.pms.service.impl;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import com.alibaba.fastjson2.JSON;
@@ -157,7 +158,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public EmployeeCardVo getCard(Long id) {
-        return baseMapper.getCard(id);
+        EmployeeCardVo vo = baseMapper.getCard(id);
+        vo.setMobile(DesensitizedUtil.mobilePhone(vo.getMobile()));
+        return vo;
     }
 
     @Override

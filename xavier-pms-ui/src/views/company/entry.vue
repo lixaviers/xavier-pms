@@ -79,7 +79,10 @@
                       v-model="dataForm.directLeaderId"
                       style="width: 100%"
                       filterable
+                      clearable
+                      placeholder="请选择"
                     >
+                      <el-option :value="0" label="无（最上级）" />
                       <el-option
                         v-for="item in employeeList"
                         :key="'employee-' + item.id"
