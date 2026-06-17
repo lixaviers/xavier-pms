@@ -23,6 +23,7 @@ import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DuplicateKeyException;
@@ -45,17 +46,14 @@ import java.util.Objects;
  */
 @Slf4j
 @Service("userService")
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
 
-    @Resource
-    private PasswordEncoderUtil passwordEncoderUtil;
+    private final PasswordEncoderUtil passwordEncoderUtil;
 
-    @Resource
-    private IUserTokenService userTokenService;
-    @Resource
-    @Lazy // 延迟，避免循环依赖报错
-    private IDepartmentService departmentService;
+    private final IUserTokenService userTokenService;
+    private final IDepartmentService departmentService;
 
     @Override
     public String login(LoginDto dto) {

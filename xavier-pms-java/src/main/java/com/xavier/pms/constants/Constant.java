@@ -7,6 +7,8 @@ public interface Constant {
      */
     String CAPTCHA_KEY = "xavier-captcha-";
 
+    String LOG_TRACE_ID = "traceId";
+
     /**
      * header key
      */
