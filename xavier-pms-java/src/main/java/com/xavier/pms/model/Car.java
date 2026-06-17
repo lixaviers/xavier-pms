@@ -27,6 +27,11 @@ public class Car {
     private Long id;
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
      * 车辆名称
      */
     @TableField(value = "car_name")

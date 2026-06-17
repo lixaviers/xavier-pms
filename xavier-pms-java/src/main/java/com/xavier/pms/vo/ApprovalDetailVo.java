@@ -2,8 +2,6 @@ package com.xavier.pms.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xavier.pms.utils.LongJsonDeserializer;
-import com.xavier.pms.utils.LongJsonSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -31,8 +29,6 @@ public class ApprovalDetailVo implements Serializable {
      * id
      */
     @ApiModelProperty("id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
 
     /**
@@ -45,8 +41,6 @@ public class ApprovalDetailVo implements Serializable {
      * 审批分组id
      */
     @ApiModelProperty("审批分组id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long approvalGroupId;
 
     /**

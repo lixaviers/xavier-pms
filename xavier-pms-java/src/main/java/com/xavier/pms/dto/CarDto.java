@@ -33,10 +33,16 @@ public class CarDto implements Serializable {
     private Long id;
 
     /**
+     * 用户id
+     */
+    @ApiModelProperty(value = "用户id")
+    @NotNull(message = "用户不能为空")
+    private Long userId;
+
+    /**
      * 车辆名称
      */
     @ApiModelProperty(value = "车辆名称", required = true)
-    @NotNull(message = "车辆名称不能为空")
     @NotEmpty(message = "车辆名称不能为空")
     @Size(max = 255, message = "车辆名称不能超过255位")
     private String carName;

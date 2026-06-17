@@ -36,6 +36,8 @@ public class DateConverterConfiguration {
                 .locale(Locale.CHINA)
                 .timeZone(TimeZone.getTimeZone("GMT+8"))
                 .modules(new XavierJavaTimeModule())
+                .serializerByType(Long.class, NumberSerializer.INSTANCE)
+                .serializerByType(Long.TYPE, NumberSerializer.INSTANCE)
                 .build();
         return objectMapper;
     }

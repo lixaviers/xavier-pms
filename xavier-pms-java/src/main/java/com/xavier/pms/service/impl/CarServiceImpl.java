@@ -107,6 +107,10 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
             // 创建时间小于等于
             wrapper.le(Car::getCreateTime, queryDTO.getCreateTimeTo());
         }
+        if (Objects.nonNull(queryDTO.getUserId())) {
+            // 用户id不为空
+            wrapper.eq(Car::getUserId, queryDTO.getUserId());
+        }
         wrapper.orderByDesc(Car::getId);
         Page<Car> result = super.page(page, wrapper);
         QueryResultVo<CarVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, CarVo.class);

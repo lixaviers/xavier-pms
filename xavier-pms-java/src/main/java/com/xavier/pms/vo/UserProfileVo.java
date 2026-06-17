@@ -2,8 +2,6 @@ package com.xavier.pms.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xavier.pms.utils.LongJsonDeserializer;
-import com.xavier.pms.utils.LongJsonSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,8 +24,6 @@ public class UserProfileVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
 
     @ApiModelProperty("工号")
@@ -49,8 +45,6 @@ public class UserProfileVo implements Serializable {
     private LocalDate firstEmploymentDate;
 
     @ApiModelProperty("直属领导id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long directLeaderId;
 
     @ApiModelProperty("直属领导姓名")
@@ -66,24 +60,18 @@ public class UserProfileVo implements Serializable {
     private LocalDate estimatedConversionDate;
 
     @ApiModelProperty("部门id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long departmentId;
 
     @ApiModelProperty("部门名称")
     private String departmentName;
 
     @ApiModelProperty("职位id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long postId;
 
     @ApiModelProperty("职位名称")
     private String postName;
 
     @ApiModelProperty("职称id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long professionalTitleId;
 
     @ApiModelProperty("职称名称")

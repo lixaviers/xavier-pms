@@ -1,10 +1,6 @@
 package com.xavier.pms.vo;
 
 import cn.hutool.core.collection.CollUtil;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xavier.pms.utils.LongJsonDeserializer;
-import com.xavier.pms.utils.LongJsonSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,16 +30,12 @@ public class MenuVo implements Serializable {
      * id
      */
     @ApiModelProperty("id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
 
     /**
      * 父id
      */
     @ApiModelProperty("父id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long parentId;
 
     /**

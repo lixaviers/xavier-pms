@@ -2,9 +2,6 @@ package com.xavier.pms.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xavier.pms.utils.ListLongJsonSerializer;
-import com.xavier.pms.utils.LongJsonDeserializer;
-import com.xavier.pms.utils.LongJsonSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -33,8 +30,6 @@ public class RoleVo implements Serializable {
      * id
      */
     @ApiModelProperty("id")
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
 
     /**
@@ -59,7 +54,6 @@ public class RoleVo implements Serializable {
      * 菜单id列表
      */
     @ApiModelProperty(value = "菜单id列表")
-    @JsonSerialize(using = ListLongJsonSerializer.class)
     private List<Long> menuIdList;
 
 }

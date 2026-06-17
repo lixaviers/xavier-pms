@@ -25,6 +25,9 @@ public class CarQueryDto extends QueryDto {
     @ApiModelProperty("id")
     private Long id;
 
+    @ApiModelProperty("用户id")
+    private Long userId;
+
     @ApiModelProperty("车辆名称")
     private String carName;
 
