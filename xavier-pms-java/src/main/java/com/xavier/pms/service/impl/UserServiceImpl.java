@@ -18,10 +18,12 @@ import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IDepartmentService;
+import com.xavier.pms.service.ISystemConfigService;
 import com.xavier.pms.service.IUserService;
 import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.utils.PasswordEncoderUtil;
+import com.xavier.pms.vo.EmployeeCardConfigVo;
 import com.xavier.pms.vo.EmployeeCardVo;
 import com.xavier.pms.vo.EmployeeListVo;
 import com.xavier.pms.vo.UserProfileVo;
@@ -56,6 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     private final IUserTokenService userTokenService;
     private final IDepartmentService departmentService;
+    private final ISystemConfigService systemConfigService;
 
     @Override
     public String login(LoginDto dto) {
@@ -159,7 +162,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public EmployeeCardVo getCard(Long id) {
         EmployeeCardVo vo = baseMapper.getCard(id);
-        vo.setMobile(DesensitizedUtil.mobilePhone(vo.getMobile()));
+        EmployeeCardConfigVo config = systemConfigService.getEmployeeCardConfig();
+        if (!config.getShowMobile()) {
+            vo.setMobile(null);
+        }
+
+        if (!config.getShowEmail()) {
+            vo.setEmail(null);
+        }
+
+        if (!config.getShowDept()) {
+            vo.setDeptName(null);
+        }
+
+        if (!config.getShowPosition()) {
+            vo.setPostName(null);
+            vo.setTitleName(null);
+        }
         return vo;
     }
 

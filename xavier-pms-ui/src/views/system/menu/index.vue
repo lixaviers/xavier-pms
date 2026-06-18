@@ -31,7 +31,7 @@
     </el-row>
 
     <el-table
-      border
+      stripe
       v-if="refreshTable"
       v-loading="loading"
       :data="dataList"
@@ -71,8 +71,8 @@
       />
       <el-table-column prop="status" label="状态" width="80">
         <template #default="scope">
-          <el-tag v-if="scope.row.isEnable">启用</el-tag>
-          <el-tag type="danger" v-else>禁用</el-tag>
+          <el-tag round v-if="scope.row.isEnable">启用</el-tag>
+          <el-tag round type="danger" v-else>禁用</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -81,32 +81,18 @@
         width="160"
         prop="createTime"
       />
-      <el-table-column fixed="right" label="操作" align="center" width="210">
+      <el-table-column fixed="right" label="操作" align="center" width="80">
         <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleAdd(scope.row.id)"
-            v-hasPermi="['system:menu:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="success"
-            icon="Plus"
-            @click="handleAdd(null, scope.row.id)"
-            v-hasPermi="['system:menu:add']"
-            >新增</el-button
-          >
-          <el-button
-            link
-            type="danger"
-            icon="Delete"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:menu:delete']"
-            >删除</el-button
-          >
+          <el-dropdown @command="(command) => handleCommand(command, scope.row)">
+            <el-button link type="primary" icon="More"></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="edit" v-hasPermi="['system:menu:edit']">修改</el-dropdown-item>
+                <el-dropdown-item command="add" v-hasPermi="['system:menu:add']">新增子级</el-dropdown-item>
+                <el-dropdown-item command="delete" v-if="!scope.row.children || scope.row.children.length === 0" v-hasPermi="['system:menu:delete']">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -158,6 +144,22 @@ function toggleExpandAll() {
   nextTick(() => {
     refreshTable.value = true
   })
+}
+/** 操作下拉命令分发 */
+function handleCommand(command, row) {
+  switch (command) {
+    case 'edit':
+      handleAdd(row.id)
+      break
+    case 'add':
+      handleAdd(null, row.id)
+      break
+    case 'delete':
+      handleDelete(row.id)
+      break
+    default:
+      break
+  }
 }
 /** 删除按钮操作 */
 function handleDelete(id) {

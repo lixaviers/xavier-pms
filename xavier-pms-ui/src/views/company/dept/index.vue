@@ -60,13 +60,13 @@
     <el-table
       v-if="refreshTable"
       v-loading="loading"
-      border
+      stripe
       :data="dataList"
       row-key="id"
       :default-expand-all="isExpandAll"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column label="部门编号" align="center" prop="id" width="120" />
+      <el-table-column label="部门编号" align="center" prop="id" width="80" />
       <el-table-column prop="deptName" label="部门名称" />
       <el-table-column prop="nickName" label="负责人">
         <template #default="scope">
@@ -77,40 +77,25 @@
         label="创建时间"
         align="center"
         prop="createTime"
-        width="200"
+        width="180"
       />
       <el-table-column
         label="操作"
         align="center"
-        class-name="small-padding fixed-width"
-        width="200"
+        width="80"
+        fixed="right"
       >
         <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleAddOrUpdate(scope.row.id)"
-            v-hasPermi="['system:dept:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="success"
-            icon="Plus"
-            @click="handleAddOrUpdate(null, scope.row.id)"
-            v-hasPermi="['system:dept:add']"
-            >新增</el-button
-          >
-          <el-button
-            v-if="!scope.row.children"
-            link
-            type="danger"
-            icon="Delete"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:dept:remove']"
-            >删除</el-button
-          >
+          <el-dropdown @command="(cmd) => handleCommand(cmd, scope.row)">
+            <el-button link type="primary" icon="More" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="edit" icon="Edit" v-hasPermi="['system:dept:edit']">修改</el-dropdown-item>
+                <el-dropdown-item command="add" icon="Plus" v-hasPermi="['system:dept:add']">新增子级</el-dropdown-item>
+                <el-dropdown-item v-if="!scope.row.children" command="delete" icon="Delete" v-hasPermi="['system:dept:remove']">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -177,6 +162,23 @@ function toggleExpandAll() {
  */
 function handleAddOrUpdate(id, parentId) {
   addOrUpdateRef.value.init(id, parentId)
+}
+
+/**
+ * 操作命令分发
+ */
+function handleCommand(command, row) {
+  switch (command) {
+    case 'edit':
+      handleAddOrUpdate(row.id)
+      break
+    case 'add':
+      handleAddOrUpdate(null, row.id)
+      break
+    case 'delete':
+      handleDelete(row.id)
+      break
+  }
 }
 
 /** 删除按钮操作 */

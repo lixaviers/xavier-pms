@@ -4,7 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xavier.pms.model.User;
 import com.xavier.pms.query.QueryResultVo;
+import com.xavier.pms.service.IUserService;
 import com.xavier.pms.utils.BeanUtil;
 import com.xavier.pms.exception.ServiceException;
 import com.xavier.pms.result.ResultCode;
@@ -15,6 +17,7 @@ import com.xavier.pms.dto.CarDto;
 import com.xavier.pms.vo.CarVo;
 import com.xavier.pms.dao.CarMapper;
 import com.xavier.pms.service.ICarService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,7 +25,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -33,8 +38,11 @@ import java.util.Objects;
  * @CopyRright (c): <素焉>
  */
 @Slf4j
-@Service("carService")
+@Service
+@RequiredArgsConstructor
 public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarService {
+
+    private final IUserService userService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -114,7 +122,30 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements ICarS
         wrapper.orderByDesc(Car::getId);
         Page<Car> result = super.page(page, wrapper);
         QueryResultVo<CarVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, CarVo.class);
-        queryResultVo.setRecords(CarConvertor.toCarVoList(result.getRecords()));
+        List<CarVo> carVoList = CarConvertor.toCarVoList(result.getRecords());
+
+        // 批量获取用户信息，避免循环查询数据库
+        List<Long> userIds = result.getRecords().stream()
+                .map(Car::getUserId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (!userIds.isEmpty()) {
+            Map<Long, User> userMap = userService.listByIds(userIds).stream()
+                    .collect(Collectors.toMap(User::getId, user -> user));
+
+            carVoList.forEach(carVo -> {
+                if (Objects.nonNull(carVo.getUserId())) {
+                    User user = userMap.get(carVo.getUserId());
+                    if (Objects.nonNull(user)) {
+                        carVo.setNickName(user.getNickName());
+                    }
+                }
+            });
+        }
+
+        queryResultVo.setRecords(carVoList);
         return queryResultVo;
     }
 

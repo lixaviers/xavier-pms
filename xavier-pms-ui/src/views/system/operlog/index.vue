@@ -85,8 +85,8 @@
       ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="dataList" border>
-      <el-table-column label="编号" align="center" prop="id" width="80" />
+    <el-table v-loading="loading" :data="dataList" stripe>
+      <el-table-column label="编号" align="center" prop="id" width="60" />
       <el-table-column
         label="操作名"
         align="center"
@@ -104,6 +104,7 @@
           <el-tag
             :type="methodTagType(scope.row.requestMethod)"
             effect="plain"
+            round
             >{{ scope.row.requestMethod }}</el-tag
           >
         </template>
@@ -121,10 +122,10 @@
         width="80"
       >
         <template #default="scope">
-          <el-tag v-if="scope.row.resultCode === 200" type="success"
+          <el-tag v-if="scope.row.resultCode === 200" type="success" round
             >{{ scope.row.resultCode }}</el-tag
           >
-          <el-tag v-else type="danger">{{ scope.row.resultCode }}</el-tag>
+          <el-tag v-else type="danger" round>{{ scope.row.resultCode }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column

@@ -54,5 +54,10 @@ public interface Constant {
      */
     String APPROVAL_TYPE_END = "end";
 
+    /**
+     * 系统配置键-个人卡片配置
+     */
+    String CONFIG_KEY_EMPLOYEE_CARD = "employee_card_config";
+
 
 }

@@ -38,8 +38,8 @@
             :name="item.value"
           ></el-tab-pane>
         </el-tabs>
-        <el-table v-loading="loading" :data="dataList" border>
-          <el-table-column label="编号" align="center" prop="id" width="120" />
+        <el-table v-loading="loading" :data="dataList" stripe>
+          <el-table-column label="编号" align="center" prop="id" width="80" />
           <el-table-column label="申请人" align="center" prop="nickName">
             <template #default="scope">
               <employee-card

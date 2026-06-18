@@ -58,38 +58,31 @@
     <el-table
       v-loading="loading"
       :data="dataList"
-      border
+      stripe
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="编号" align="center" prop="id" width="120" />
+      <el-table-column label="编号" align="center" prop="id" width="80" />
       <el-table-column label="类型名称" align="center" prop="typeName" />
       <el-table-column label="排序" align="center" prop="sortNumber" />
-      <el-table-column label="备注" prop="remarks" />
+      <el-table-column label="备注" prop="remarks" show-overflow-tooltip />
       <el-table-column
         label="创建时间"
         align="center"
         prop="createTime"
         width="180"
       />
-      <el-table-column label="操作" width="180" align="center">
+      <el-table-column label="操作" width="80" align="center" fixed="right">
         <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleAddOrUpdate(scope.row.id)"
-            v-hasPermi="['note:type:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="danger"
-            icon="Delete"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['note:type:delete']"
-            >删除</el-button
-          >
+          <el-dropdown trigger="click" @command="handleCommand($event, scope.row)">
+            <el-button link type="primary" icon="More" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="edit" v-hasPermi="['note:type:edit']">修改</el-dropdown-item>
+                <el-dropdown-item command="delete" v-hasPermi="['note:type:delete']">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -173,6 +166,20 @@ function handleSelectionChange(selection) {
   ids.value = selection.map((item) => item.id)
   single.value = selection.length != 1
   multiple.value = !selection.length
+}
+
+/**
+ * 下拉菜单操作
+ */
+function handleCommand(command, row) {
+  switch (command) {
+    case 'edit':
+      handleAddOrUpdate(row.id)
+      break
+    case 'delete':
+      handleDelete(row.id)
+      break
+  }
 }
 
 /**

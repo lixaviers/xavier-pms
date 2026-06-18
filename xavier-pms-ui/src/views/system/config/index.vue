@@ -119,6 +119,7 @@
     <el-table
       v-loading="loading"
       :data="configList"
+      stripe
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
@@ -164,27 +165,28 @@
       </el-table-column>
       <el-table-column
         label="操作"
+        width="80"
         align="center"
-        width="150"
-        class-name="small-padding fixed-width"
+        fixed="right"
       >
         <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:config:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="primary"
-            icon="Delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:config:remove']"
-            >删除</el-button
-          >
+          <el-dropdown trigger="click" @command="handleCommand">
+            <el-button link type="primary" icon="More" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  command="edit"
+                  v-hasPermi="['system:config:edit']"
+                  @click="handleUpdate(scope.row)"
+                >修改</el-dropdown-item>
+                <el-dropdown-item
+                  command="delete"
+                  v-hasPermi="['system:config:remove']"
+                  @click="handleDelete(scope.row)"
+                >删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -392,11 +394,15 @@ function handleExport() {
     `config_${new Date().getTime()}.xlsx`
   )
 }
-/** 刷新缓存按钮操作 */
-function handleRefreshCache() {
-  refreshCache().then(() => {
-    proxy.$modal.msgSuccess('刷新缓存成功')
-  })
+/**
+ * 下拉菜单命令处理
+ */
+function handleCommand(command) {
+  const actions = {
+    edit: handleUpdate,
+    delete: handleDelete
+  }
+  actions[command]?.()
 }
 
 getList()

@@ -29,6 +29,12 @@ public class CarVo implements Serializable {
     @ApiModelProperty("id")
     private Long id;
 
+    @ApiModelProperty("用户id")
+    private Long userId;
+
+    @ApiModelProperty("用户姓名")
+    private String nickName;
+
     /**
      * 车辆名称
      */

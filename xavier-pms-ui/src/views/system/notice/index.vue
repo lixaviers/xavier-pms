@@ -89,6 +89,7 @@
     <el-table
       v-loading="loading"
       :data="noticeList"
+      stripe
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
@@ -138,25 +139,27 @@
       <el-table-column
         label="操作"
         align="center"
-        class-name="small-padding fixed-width"
+        width="80"
+        fixed="right"
       >
         <template #default="scope">
-          <el-button
-            link
-            type="primary"
-            icon="Edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:notice:edit']"
-            >修改</el-button
-          >
-          <el-button
-            link
-            type="primary"
-            icon="Delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:notice:remove']"
-            >删除</el-button
-          >
+          <el-dropdown trigger="click" @command="(cmd) => handleCommand(cmd, scope.row)">
+            <el-button link type="primary" icon="More" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  command="update"
+                  icon="Edit"
+                  v-hasPermi="['system:notice:edit']"
+                >修改</el-dropdown-item>
+                <el-dropdown-item
+                  command="delete"
+                  icon="Delete"
+                  v-hasPermi="['system:notice:remove']"
+                >删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -351,6 +354,17 @@ function submitForm() {
       }
     }
   })
+}
+/** 下拉菜单命令分发 */
+function handleCommand(command, row) {
+  switch (command) {
+    case 'update':
+      handleUpdate(row)
+      break
+    case 'delete':
+      handleDelete(row)
+      break
+  }
 }
 /** 删除按钮操作 */
 function handleDelete(row) {

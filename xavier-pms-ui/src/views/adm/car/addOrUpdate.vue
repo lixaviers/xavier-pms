@@ -14,6 +14,22 @@
       <el-form-item label="车牌号码" prop="carNumber">
         <el-input v-model="dataForm.carNumber" max="10" placeholder="请输入" />
       </el-form-item>
+      <el-form-item label="所属员工" prop="userId">
+        <el-select
+          v-model="dataForm.userId"
+          style="width: 100%"
+          filterable
+          clearable
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in employeeList"
+            :key="item.id"
+            :value="item.id"
+            :label="item.nickName"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="是否启用" prop="isEnable">
         <el-switch v-model="dataForm.isEnable" />
       </el-form-item>
@@ -39,6 +55,7 @@
 
 <script setup>
 import { addOrUpdateCarApi, getCarApi } from '@/api/modules/car'
+import { queryUserApi } from '@/api/modules/user'
 
 const { proxy } = getCurrentInstance()
 const emits = defineEmits()
@@ -46,6 +63,7 @@ const emits = defineEmits()
 const visible = ref(false)
 const loading = ref(true)
 const title = ref('')
+const employeeList = ref([])
 
 const data = reactive({
   dataForm: {},
@@ -90,10 +108,19 @@ function submitForm() {
 }
 
 /**
+ * 查询员工列表
+ */
+async function getEmployeeList() {
+  const { records } = await queryUserApi({ pageSize: 10000 })
+  employeeList.value = records
+}
+
+/**
  * 初始化
  */
 async function init(id) {
   visible.value = true
+  getEmployeeList()
   if (id) {
     title.value = '编辑车辆'
     dataForm.value = await getCarApi(id)

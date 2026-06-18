@@ -147,6 +147,7 @@
         </el-row>
 
         <el-table
+          stripe
           v-loading="loading"
           :data="userList"
           @selection-change="handleSelectionChange"
@@ -220,62 +221,21 @@
           <el-table-column
             label="操作"
             align="center"
-            width="150"
-            class-name="small-padding fixed-width"
+            width="80"
+            fixed="right"
           >
             <template #default="scope">
-              <el-tooltip
-                content="修改"
-                placement="top"
-                v-if="scope.row.userId !== 1"
-              >
-                <el-button
-                  link
-                  type="primary"
-                  icon="Edit"
-                  @click="handleUpdate(scope.row)"
-                  v-hasPermi="['system:user:edit']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip
-                content="删除"
-                placement="top"
-                v-if="scope.row.userId !== 1"
-              >
-                <el-button
-                  link
-                  type="primary"
-                  icon="Delete"
-                  @click="handleDelete(scope.row)"
-                  v-hasPermi="['system:user:remove']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip
-                content="重置密码"
-                placement="top"
-                v-if="scope.row.userId !== 1"
-              >
-                <el-button
-                  link
-                  type="primary"
-                  icon="Key"
-                  @click="handleResetPwd(scope.row)"
-                  v-hasPermi="['system:user:resetPwd']"
-                ></el-button>
-              </el-tooltip>
-              <el-tooltip
-                content="分配角色"
-                placement="top"
-                v-if="scope.row.userId !== 1"
-              >
-                <el-button
-                  link
-                  type="primary"
-                  icon="CircleCheck"
-                  @click="handleAuthRole(scope.row)"
-                  v-hasPermi="['system:user:edit']"
-                ></el-button>
-              </el-tooltip>
+              <el-dropdown v-if="scope.row.userId !== 1" @command="(command) => handleCommand(command, scope.row)">
+                <el-button link type="primary" icon="More"></el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-dropdown-item>
+                    <el-dropdown-item command="handleDelete" v-hasPermi="['system:user:remove']">删除</el-dropdown-item>
+                    <el-dropdown-item command="handleResetPwd" v-hasPermi="['system:user:resetPwd']">重置密码</el-dropdown-item>
+                    <el-dropdown-item command="handleAuthRole" v-hasPermi="['system:user:edit']">分配角色</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
@@ -687,6 +647,12 @@ function handleStatusChange(row) {
 /** 更多操作 */
 function handleCommand(command, row) {
   switch (command) {
+    case 'handleUpdate':
+      handleUpdate(row)
+      break
+    case 'handleDelete':
+      handleDelete(row)
+      break
     case 'handleResetPwd':
       handleResetPwd(row)
       break

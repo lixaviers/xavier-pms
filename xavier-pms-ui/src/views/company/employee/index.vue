@@ -81,7 +81,7 @@
         <el-table
           v-loading="loading"
           :data="dataList"
-          border
+          stripe
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" align="center" />
@@ -104,30 +104,26 @@
             align="center"
             width="80"
           />
-          <el-table-column label="部门名称" prop="deptName" align="center" />
-          <el-table-column label="职位名称" prop="postName" align="center" />
-          <el-table-column label="职称" prop="titleName" align="center" />
+          <el-table-column label="部门名称" prop="deptName" align="center" show-overflow-tooltip />
+          <el-table-column label="职位名称" prop="postName" align="center" show-overflow-tooltip />
+          <el-table-column label="职称" prop="titleName" align="center" show-overflow-tooltip />
           <el-table-column
             label="创建时间"
             align="center"
             prop="createTime"
             width="180"
           />
-          <el-table-column label="操作" width="150" align="center">
-            <el-dropdown @command="handleCommand">
-              <span class="more-btn">
-                <el-icon><More /></el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item command="haveLeft"
-                    >操作离职</el-dropdown-item
-                  >
-                  <el-dropdown-item>Action 2</el-dropdown-item>
-                  <el-dropdown-item>Action 3</el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
+          <el-table-column label="操作" width="80" align="center" fixed="right">
+            <template #default="scope">
+              <el-dropdown @command="(cmd) => handleCommand(cmd, scope.row)">
+                <el-button link type="primary" icon="More" />
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="haveLeft" icon="SwitchButton">操作离职</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
           </el-table-column>
         </el-table>
 
@@ -219,7 +215,7 @@ function handleNodeClick(data) {
   handleQuery()
 }
 
-function handleCommand(command) {
+function handleCommand(command, row) {
   if (command === 'haveLeft') {
     // 操作离职
     alert(111)
