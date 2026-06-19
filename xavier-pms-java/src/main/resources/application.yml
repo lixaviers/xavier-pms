@@ -13,7 +13,7 @@ knife4j:
         group-name: default
         api-rule: annotation
         api-rule-resources:
-          - io.swagger.annotations.ApiOperation
+          - io.swagger.v3.oas.annotations.Operation
   cors: true
 spring:
   application:
@@ -22,6 +22,8 @@ spring:
     allow-bean-definition-overriding: true
   mvc:
     throw-exception-if-no-handler-found: true
+    problemdetails:
+      enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/xavier_pms?useUnicode=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true

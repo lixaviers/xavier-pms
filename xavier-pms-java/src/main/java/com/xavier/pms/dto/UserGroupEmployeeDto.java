@@ -1,13 +1,13 @@
 package com.xavier.pms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("员工组员工列表入参")
+@Schema(description = "员工组员工列表入参")
 public class UserGroupEmployeeDto implements Serializable {
 
     /**
@@ -27,14 +27,14 @@ public class UserGroupEmployeeDto implements Serializable {
     /**
      * 用户id
      */
-    @ApiModelProperty(value = "用户id", required = true)
+    @Schema(description = "用户id", required = true)
     @NotNull(message = "用户id不能为空")
     private Long id;
 
     /**
      * 昵称
      */
-    @ApiModelProperty(value = "昵称", required = true)
+    @Schema(description = "昵称", required = true)
     @NotNull(message = "昵称不能为空")
     private String nickName;
 

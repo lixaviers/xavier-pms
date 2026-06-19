@@ -11,14 +11,14 @@ import com.xavier.pms.service.IAuditFormService;
 import com.xavier.pms.vo.AuditFormFlowVo;
 import com.xavier.pms.vo.AuditFormVo;
 import com.xavier.pms.vo.UserInfoVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("auditForm")
 @RestController
-@Api(tags = "审批单管理接口")
+@Tag(name = "审批单管理接口")
 public class AuditFormController extends CommonController {
 
     @Resource
@@ -39,7 +39,7 @@ public class AuditFormController extends CommonController {
     @Resource
     private IAuditFormFlowService auditFormFlowService;
 
-    @ApiOperation(value = "新增审批单", notes = "新增审批单")
+    @Operation(summary = "新增审批单", description = "新增审批单")
     @PutMapping("add")
     public Result add(@Validated @RequestBody AuditFormDto auditFormDto) {
         UserInfoVo loginUser = getLoginUser();
@@ -47,33 +47,33 @@ public class AuditFormController extends CommonController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "获取审批单信息", notes = "根据审批单ID获取审批单信息")
+    @Operation(summary = "获取审批单信息", description = "根据审批单ID获取审批单信息")
     @GetMapping("get/{id}")
-    public Result<AuditFormVo> get(@ApiParam("id") @PathVariable Long id) {
+    public Result<AuditFormVo> get(@Parameter(description = "id") @PathVariable Long id) {
         return Result.ok(auditFormService.getAuditForm(id, getLoginUser().getId()));
     }
 
-    @ApiOperation(value = "根据审批单id获取审批单流程信息", notes = "根据审批单id获取审批单流程信息")
+    @Operation(summary = "根据审批单id获取审批单流程信息", description = "根据审批单id获取审批单流程信息")
     @GetMapping("getProcess/{id}")
-    public Result<List<AuditFormFlowVo>> getProcess(@ApiParam("id") @PathVariable Long id) {
+    public Result<List<AuditFormFlowVo>> getProcess(@Parameter(description = "id") @PathVariable Long id) {
         return Result.ok(auditFormFlowService.getProcessByAuditFormId(id));
     }
 
-    @ApiOperation(value = "分页获取审批单列表信息", notes = "分页获取审批单列表信息")
+    @Operation(summary = "分页获取审批单列表信息", description = "分页获取审批单列表信息")
     @PostMapping("query")
     public Result<QueryResultVo<AuditFormVo>> queryAuditForm(@Validated @RequestBody AuditFormQueryDto auditFormQueryDto) {
         auditFormQueryDto.setUserId(getLoginUser().getId());
         return Result.ok(auditFormService.queryAuditForm(auditFormQueryDto));
     }
 
-    @ApiOperation(value = "撤回审批单", notes = "撤回审批单")
+    @Operation(summary = "撤回审批单", description = "撤回审批单")
     @PostMapping("revocation")
     public Result revocation(@Validated @RequestBody AuditFormRevocationDto dto) {
         auditFormService.revocation(dto, getLoginUser());
         return Result.ok();
     }
 
-    @ApiOperation(value = "审批审批单", notes = "审批审批单")
+    @Operation(summary = "审批审批单", description = "审批审批单")
     @PostMapping("audit")
     public Result audit(@Validated @RequestBody AuditFormAuditDto dto) {
         auditFormService.audit(dto, getLoginUser());

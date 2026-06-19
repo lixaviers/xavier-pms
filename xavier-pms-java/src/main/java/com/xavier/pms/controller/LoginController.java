@@ -8,13 +8,13 @@ import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IUserService;
 import com.xavier.pms.service.IUserTokenService;
 import com.xavier.pms.vo.UserInfoVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @Slf4j
 @RequestMapping("")
 @RestController
-@Api(tags = "登录管理接口")
+@Tag(name = "登录管理接口")
 public class LoginController extends CommonController {
 
     @Resource
@@ -37,7 +37,7 @@ public class LoginController extends CommonController {
     @Resource
     private IUserTokenService userTokenService;
 
-    @ApiOperation(value = "获取图形验证码", notes = "获取图形验证码")
+    @Operation(summary = "获取图形验证码", description = "获取图形验证码")
     @PostMapping("getCaptchaImage")
     public Result<Map<String, String>> getCaptchaImage() {
         Map<String, String> data = new HashMap<>();
@@ -55,7 +55,7 @@ public class LoginController extends CommonController {
         return Result.ok(data);
     }
 
-    @ApiOperation(value = "用户登录", notes = "用户登录")
+    @Operation(summary = "用户登录", description = "用户登录")
     @PostMapping("login")
     public Result<String> login(@Validated @RequestBody LoginDto dto) {
         // 验证验证码
@@ -69,7 +69,7 @@ public class LoginController extends CommonController {
         return Result.ok(userService.login(dto));
     }
 
-    @ApiOperation(value = "用户退出", notes = "用户退出")
+    @Operation(summary = "用户退出", description = "用户退出")
     @PostMapping("logout")
     public Result logout() {
         UserInfoVo loginUser = getLoginUser();
@@ -79,7 +79,7 @@ public class LoginController extends CommonController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "获取登录用户信息", notes = "获取登录用户信息")
+    @Operation(summary = "获取登录用户信息", description = "获取登录用户信息")
     @GetMapping("getInfo")
     public Result<Map<String, Object>> getInfo() {
         Map<String, Object> map = new HashMap<>();

@@ -1,13 +1,13 @@
 package com.xavier.pms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("审批状态入参")
+@Schema(description = "审批状态入参")
 public class ApprovalStatusDto implements Serializable {
 
     /**
@@ -26,14 +26,14 @@ public class ApprovalStatusDto implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(description = "id", required = true)
     @NotNull(message = "id不能为空")
     private Long id;
 
     /**
      * 审批状态
      */
-    @ApiModelProperty(value = "图标", required = true)
+    @Schema(description = "图标", required = true)
     @NotNull(message = "审批状态为空")
     private Byte appStatus;
 

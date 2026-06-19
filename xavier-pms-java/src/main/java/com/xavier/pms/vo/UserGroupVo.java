@@ -1,9 +1,7 @@
 package com.xavier.pms.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("员工组出参")
+@Schema(description = "员工组出参")
 public class UserGroupVo implements Serializable {
 
     /**
@@ -29,31 +27,31 @@ public class UserGroupVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 组名称
      */
-    @ApiModelProperty("组名称")
+    @Schema(description = "组名称")
     private String groupName;
 
     /**
      * 员工列表
      */
-    @ApiModelProperty(value = "员工列表")
+    @Schema(description = "员工列表")
     private List<EmployeeJsonVo> employeeList;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 }

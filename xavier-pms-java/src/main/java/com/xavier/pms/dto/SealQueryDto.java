@@ -1,8 +1,8 @@
 package com.xavier.pms.dto;
 
 import com.xavier.pms.query.QueryDto;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("印章查询入参")
+@Schema(description = "印章查询入参")
 public class SealQueryDto extends QueryDto {
 
     /**
@@ -22,22 +22,22 @@ public class SealQueryDto extends QueryDto {
      */
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
-    @ApiModelProperty("印章名称")
+    @Schema(description = "印章名称")
     private String sealName;
 
-    @ApiModelProperty("是否启用")
+    @Schema(description = "是否启用")
     private Boolean isEnable;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
-    @ApiModelProperty("创建时间起")
+    @Schema(description = "创建时间起")
     private LocalDateTime createTimeFrom;
 
-    @ApiModelProperty("创建时间止")
+    @Schema(description = "创建时间止")
     private LocalDateTime createTimeTo;
 
 

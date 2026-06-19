@@ -1,9 +1,7 @@
 package com.xavier.pms.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("审批单流程详细出参")
+@Schema(description = "审批单流程详细出参")
 public class AuditFormFlowDetailVo implements Serializable {
 
     /**
@@ -28,25 +26,25 @@ public class AuditFormFlowDetailVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long userId;
 
     /**
      * 姓名
      */
-    @ApiModelProperty("姓名")
+    @Schema(description = "姓名")
     private String nickName;
 
     /**
      * 审批类型
      */
-    @ApiModelProperty("审批类型")
+    @Schema(description = "审批类型")
     private String approvalType;
 
     /**
      * 审批状态
      */
-    @ApiModelProperty("审批状态")
+    @Schema(description = "审批状态")
     private Byte auditStatus;
 
 }

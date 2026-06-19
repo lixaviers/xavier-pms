@@ -1,6 +1,6 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("路由显示信息出参")
+@Schema(description = "路由显示信息出参")
 public class MetaVo {
 
     /**

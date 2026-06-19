@@ -1,15 +1,15 @@
 package com.xavier.pms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("用户登录入参")
+@Schema(description = "用户登录入参")
 public class LoginDto implements Serializable {
 
     /**
@@ -29,7 +29,7 @@ public class LoginDto implements Serializable {
     /**
      * 用户名
      */
-    @ApiModelProperty(value = "用户名", required = true)
+    @Schema(description = "用户名", required = true)
     @NotNull(message = "用户名不能为空")
     @NotEmpty(message = "用户名不能为空")
     @Size(max = 50, message = "用户名不能超过50位")
@@ -38,7 +38,7 @@ public class LoginDto implements Serializable {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码", required = true)
+    @Schema(description = "密码", required = true)
     @NotNull(message = "密码不能为空")
     @NotEmpty(message = "密码不能为空")
     private String userPwd;
@@ -46,7 +46,7 @@ public class LoginDto implements Serializable {
     /**
      * 验证码
      */
-    @ApiModelProperty(value = "验证码", required = true)
+    @Schema(description = "验证码", required = true)
     @NotNull(message = "验证码不能为空")
     @NotEmpty(message = "验证码不能为空")
     private String verCode;
@@ -54,7 +54,7 @@ public class LoginDto implements Serializable {
     /**
      * 验证码uuid
      */
-    @ApiModelProperty(value = "验证码uuid", required = true)
+    @Schema(description = "验证码uuid", required = true)
     @NotNull(message = "验证码uuid不能为空")
     @NotEmpty(message = "验证码uuid不能为空")
     private String uuid;

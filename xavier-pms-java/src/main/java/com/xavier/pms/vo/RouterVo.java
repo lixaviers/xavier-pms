@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@ApiModel("路由配置信息出参")
+@Schema(description = "路由配置信息出参")
 public class RouterVo {
 
     /**

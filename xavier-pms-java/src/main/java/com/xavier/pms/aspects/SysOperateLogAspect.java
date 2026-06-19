@@ -13,7 +13,7 @@ import com.xavier.pms.result.Result;
 import com.xavier.pms.result.ResultCode;
 import com.xavier.pms.service.IOperateLogService;
 import com.xavier.pms.utils.ServletUtil;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
@@ -49,7 +49,7 @@ public class SysOperateLogAspect {
     private final IOperateLogService operateLogService;
 
     @Around("@annotation(operation)")
-    public Object around(ProceedingJoinPoint joinPoint, ApiOperation operation) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint, Operation operation) throws Throwable {
         // 记录开始时间
         LocalDateTime startTime = LocalDateTime.now();
         // 可能也添加了 @SysOperateLog 注解
@@ -65,7 +65,7 @@ public class SysOperateLogAspect {
         }
     }
 
-    private void log(ProceedingJoinPoint joinPoint, SysOperateLog operateLog, ApiOperation operation, LocalDateTime startTime, Object result, Throwable exception) {
+    private void log(ProceedingJoinPoint joinPoint, SysOperateLog operateLog, Operation operation, LocalDateTime startTime, Object result, Throwable exception) {
         try {
             // 判断不记录的情况
             if (!isLogEnable(operateLog)) {
@@ -78,7 +78,7 @@ public class SysOperateLogAspect {
         }
     }
 
-    private void doLog(ProceedingJoinPoint joinPoint, SysOperateLog operateLog, ApiOperation operation, LocalDateTime startTime, Object result, Throwable exception) {
+    private void doLog(ProceedingJoinPoint joinPoint, SysOperateLog operateLog, Operation operation, LocalDateTime startTime, Object result, Throwable exception) {
         OperateLogDto dto = new OperateLogDto();
         // 补全通用字段
         dto.setTraceId(MDC.get(Constant.LOG_TRACE_ID));
@@ -107,10 +107,10 @@ public class SysOperateLogAspect {
         dto.setToken(request.getHeader(Constant.HEADER_KEY));
     }
 
-    private void fillModuleFields(OperateLogDto dto, SysOperateLog operateLog, ApiOperation operation) {
+    private void fillModuleFields(OperateLogDto dto, SysOperateLog operateLog, Operation operation) {
         String name = Objects.nonNull(operateLog) ? operateLog.name() : null;
         if (StrUtil.isEmpty(name)) {
-            name = operation.value();
+            name = operation.summary();
         }
         dto.setOperateName(name);
     }

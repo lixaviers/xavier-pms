@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("审批流程json出参")
+@Schema(description = "审批流程json出参")
 public class ApprovalProcessItemJsonVo implements Serializable {
 
     /**
@@ -26,25 +26,25 @@ public class ApprovalProcessItemJsonVo implements Serializable {
     /**
      * 类型
      */
-    @ApiModelProperty("类型 parent:直属上级 dept:部门负责人 userGroup:员工组 employee:指定员工 submitter:提交人")
+    @Schema(description = "类型 parent:直属上级 dept:部门负责人 userGroup:员工组 employee:指定员工 submitter:提交人")
     private String type;
 
     /**
      * 类型描述
      */
-    @ApiModelProperty("类型描述")
+    @Schema(description = "类型描述")
     private String typeDesc;
 
     /**
      * id列表
      */
-    @ApiModelProperty("id列表")
+    @Schema(description = "id列表")
     private List<Long> idList;
 
     /**
      * 员工列表
      */
-    @ApiModelProperty("员工列表")
+    @Schema(description = "员工列表")
     private List<EmployeeJsonVo> employeeList;
 
 

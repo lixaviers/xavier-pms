@@ -1,27 +1,29 @@
 package com.xavier.pms.result;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-@ApiModel(value = "Rest result", description = "请求结果")
+@Schema(description = "请求结果")
 @Getter
 @Setter
 public class Result<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = -3696898674758052311L;
 
-    @ApiModelProperty(value = "结果代码")
+    @Schema(description = "结果代码")
     private Integer code = ResultCode.SUCCESS.code;
-    @ApiModelProperty(value = "错误说明")
+    @Schema(description = "错误说明")
     private String message = "";
-    @ApiModelProperty(value = "结果对象")
+    @Schema(description = "结果对象")
     private T data;
-    @ApiModelProperty(value = "操作标识")
+    @Schema(description = "操作标识")
     private Boolean success = Boolean.TRUE;
-    @ApiModelProperty(value = "当前时间戳")
+    @Schema(description = "当前时间戳")
     private Long timestamp;
 
     public Result(int code, String message, boolean success, T data) {

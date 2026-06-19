@@ -1,65 +1,122 @@
 package com.xavier.pms.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.boot.jackson.JacksonComponent;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ValueSerializer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
- * 日期格式全局配置
+ * Spring Boot 4 + Jackson 3 时间类型序列化/反序列化配置
+ * 使用 @JacksonComponent 自动注册到 JsonMapper
  */
-@Slf4j
-@Configuration
-@ConditionalOnClass(ObjectMapper.class)
-@AutoConfigureBefore(JacksonAutoConfiguration.class)
+@JacksonComponent
 public class DateConverterConfiguration {
 
-    @Bean
-    @Primary
-    public ObjectMapper serializingObjectMapper() {
-        ObjectMapper objectMapper = null;
-        objectMapper = Jackson2ObjectMapperBuilder.json()
-                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .locale(Locale.CHINA)
-                .timeZone(TimeZone.getTimeZone("GMT+8"))
-                .modules(new XavierJavaTimeModule())
-                .serializerByType(Long.class, NumberSerializer.INSTANCE)
-                .serializerByType(Long.TYPE, NumberSerializer.INSTANCE)
-                .build();
-        return objectMapper;
-    }
+    public static final String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String PATTERN_DATE = "yyyy-MM-dd";
+    public static final String PATTERN_TIME = "HH:mm:ss";
 
+    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(PATTERN_DATETIME);
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(PATTERN_DATE);
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(PATTERN_TIME);
 
-    @Bean
-    public Converter<String, LocalDate> localDateConverter() {
-        return new Converter<String, LocalDate>() {
-            @Override
-            public LocalDate convert(String source) {
-                return LocalDate.parse(source, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    /**
+     * LocalDate 序列化
+     */
+    @JacksonComponent
+    public static class LocalDateSerializer extends ValueSerializer<LocalDate> {
+        @Override
+        public void serialize(LocalDate value, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
+            if (value != null) {
+                gen.writeString(DATE_FORMATTER.format(value));
+            } else {
+                gen.writeNull();
             }
-        };
+        }
     }
 
-    @Bean
-    public Converter<String, LocalDateTime> localDateTimeConverter() {
-        return new Converter<String, LocalDateTime>() {
-            @Override
-            public LocalDateTime convert(String source) {
-                return LocalDateTime.parse(source, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    /**
+     * LocalDate 反序列化
+     */
+    @JacksonComponent
+    public static class LocalDateDeserializer extends ValueDeserializer<LocalDate> {
+        @Override
+        public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+            String text = p.getValueAsString();
+            if (text == null || text.isEmpty()) {
+                return null;
             }
-        };
+            return LocalDate.parse(text, DATE_FORMATTER);
+        }
     }
+
+    /**
+     * LocalDateTime 序列化
+     */
+    @JacksonComponent
+    public static class LocalDateTimeSerializer extends ValueSerializer<LocalDateTime> {
+        @Override
+        public void serialize(LocalDateTime value, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
+            if (value != null) {
+                gen.writeString(DATETIME_FORMATTER.format(value));
+            } else {
+                gen.writeNull();
+            }
+        }
+    }
+
+    /**
+     * LocalDateTime 反序列化
+     */
+    @JacksonComponent
+    public static class LocalDateTimeDeserializer extends ValueDeserializer<LocalDateTime> {
+        @Override
+        public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+            String text = p.getValueAsString();
+            if (text == null || text.isEmpty()) {
+                return null;
+            }
+            return LocalDateTime.parse(text, DATETIME_FORMATTER);
+        }
+    }
+
+    /**
+     * LocalTime 序列化
+     */
+    @JacksonComponent
+    public static class LocalTimeSerializer extends ValueSerializer<LocalTime> {
+        @Override
+        public void serialize(LocalTime value, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
+            if (value != null) {
+                gen.writeString(TIME_FORMATTER.format(value));
+            } else {
+                gen.writeNull();
+            }
+        }
+    }
+
+    /**
+     * LocalTime 反序列化
+     */
+    @JacksonComponent
+    public static class LocalTimeDeserializer extends ValueDeserializer<LocalTime> {
+        @Override
+        public LocalTime deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+            String text = p.getValueAsString();
+            if (text == null || text.isEmpty()) {
+                return null;
+            }
+            return LocalTime.parse(text, TIME_FORMATTER);
+        }
+    }
+
 }

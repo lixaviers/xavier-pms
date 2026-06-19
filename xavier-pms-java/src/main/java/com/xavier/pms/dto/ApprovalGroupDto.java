@@ -1,15 +1,15 @@
 package com.xavier.pms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("审批分组入参")
+@Schema(description = "审批分组入参")
 public class ApprovalGroupDto implements Serializable {
 
     /**
@@ -29,13 +29,13 @@ public class ApprovalGroupDto implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty(value = "id", required = true)
+    @Schema(description = "id", required = true)
     private Long id;
 
     /**
      * 分组名称
      */
-    @ApiModelProperty(value = "分组名称", required = true)
+    @Schema(description = "分组名称", required = true)
     @NotNull(message = "分组名称不能为空")
     @NotEmpty(message = "分组名称不能为空")
     @Size(max = 50, message = "分组名称不能超过50位")
@@ -44,14 +44,14 @@ public class ApprovalGroupDto implements Serializable {
     /**
      * 排序
      */
-    @ApiModelProperty(value = "排序", required = true)
+    @Schema(description = "排序", required = true)
     @NotNull(message = "排序不能为空")
     private Integer sortNumber;
 
     /**
      * 备注
      */
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     @Size(max = 255, message = "备注不能超过255位")
     private String remarks;
 

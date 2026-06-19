@@ -1,7 +1,7 @@
 package com.xavier.pms.query;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel("分页输出结果基类")
+@Schema(description = "分页输出结果基类")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class QueryResultVo<E> implements Serializable {
     /**
      * @Fields pageNum : 第几页
      */
-    @ApiModelProperty("第几页")
+    @Schema(description = "第几页")
     private long pageNo;
 
     /**
@@ -32,25 +32,25 @@ public class QueryResultVo<E> implements Serializable {
     /**
      * @Fields pageSize : 每页多少数据
      */
-    @ApiModelProperty("每页多少数据")
+    @Schema(description = "每页多少数据")
     private long pageSize;
 
     /**
      * @Fields totalPages : 总页数
      */
-    @ApiModelProperty("总页数")
+    @Schema(description = "总页数")
     private long pages;
 
     /**
      * @Fields totalRecords : 总记录数
      */
-    @ApiModelProperty("总记录数")
+    @Schema(description = "总记录数")
     private long total;
 
     /**
      * @Fields records : 返回记录列表
      */
-    @ApiModelProperty("返回记录列表")
+    @Schema(description = "返回记录列表")
     private List<E> records;
 
 

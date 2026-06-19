@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("职称出参")
+@Schema(description = "职称出参")
 public class ProfessionalTitleVo implements Serializable {
 
     /**
@@ -25,25 +25,25 @@ public class ProfessionalTitleVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 职称
      */
-    @ApiModelProperty("职称")
+    @Schema(description = "职称")
     private String titleName;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 

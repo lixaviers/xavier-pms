@@ -1,9 +1,7 @@
 package com.xavier.pms.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("印章出参")
+@Schema(description = "印章出参")
 public class SealVo implements Serializable {
 
     /**
@@ -28,31 +26,31 @@ public class SealVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 印章名称
      */
-    @ApiModelProperty("印章名称")
+    @Schema(description = "印章名称")
     private String sealName;
 
     /**
      * 是否启用
      */
-    @ApiModelProperty("是否启用")
+    @Schema(description = "是否启用")
     private Boolean isEnable;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 }

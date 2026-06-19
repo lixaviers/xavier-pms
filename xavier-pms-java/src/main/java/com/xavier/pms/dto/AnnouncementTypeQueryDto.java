@@ -1,8 +1,8 @@
 package com.xavier.pms.dto;
 
 import com.xavier.pms.query.QueryDto;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("公告类型查询入参")
+@Schema(description = "公告类型查询入参")
 public class AnnouncementTypeQueryDto extends QueryDto {
 
     /**
@@ -23,22 +23,22 @@ public class AnnouncementTypeQueryDto extends QueryDto {
      */
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
-    @ApiModelProperty("类型名称")
+    @Schema(description = "类型名称")
     private String typeName;
 
-    @ApiModelProperty("排序")
+    @Schema(description = "排序")
     private Integer sortNumber;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
-    @ApiModelProperty("创建时间起")
+    @Schema(description = "创建时间起")
     private LocalDateTime createTimeFrom;
 
-    @ApiModelProperty("创建时间止")
+    @Schema(description = "创建时间止")
     private LocalDateTime createTimeTo;
 
 

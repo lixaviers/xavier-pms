@@ -1,15 +1,15 @@
 package com.xavier.pms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("员工工作经历入参")
+@Schema(description = "员工工作经历入参")
 public class EmployeeWorkExperienceDto implements Serializable {
 
     /**
@@ -29,7 +29,7 @@ public class EmployeeWorkExperienceDto implements Serializable {
     /**
      * 单位名称
      */
-    @ApiModelProperty(value = "单位名称", required = true)
+    @Schema(description = "单位名称", required = true)
     @NotNull(message = "单位名称不能为空")
     @NotEmpty(message = "单位名称不能为空")
     @Size(max = 50, message = "单位名称不能超过50位")
@@ -38,7 +38,7 @@ public class EmployeeWorkExperienceDto implements Serializable {
     /**
      * 部门
      */
-    @ApiModelProperty(value = "部门", required = true)
+    @Schema(description = "部门", required = true)
     @NotNull(message = "部门不能为空")
     @NotEmpty(message = "部门不能为空")
     @Size(max = 50, message = "部门不能超过50位")
@@ -47,7 +47,7 @@ public class EmployeeWorkExperienceDto implements Serializable {
     /**
      * 职位
      */
-    @ApiModelProperty(value = "职位", required = true)
+    @Schema(description = "职位", required = true)
     @NotNull(message = "职位不能为空")
     @NotEmpty(message = "职位不能为空")
     @Size(max = 50, message = "职位不能超过50位")
@@ -56,14 +56,14 @@ public class EmployeeWorkExperienceDto implements Serializable {
     /**
      * 入职日期
      */
-    @ApiModelProperty(value = "入职日期", required = true)
+    @Schema(description = "入职日期", required = true)
     @NotNull(message = "入职日期不能为空")
     private LocalDate entryDate;
 
     /**
      * 离职日期
      */
-    @ApiModelProperty(value = "离职日期", required = true)
+    @Schema(description = "离职日期", required = true)
     @NotNull(message = "离职日期不能为空")
     private LocalDate leaveOfficeDate;
 

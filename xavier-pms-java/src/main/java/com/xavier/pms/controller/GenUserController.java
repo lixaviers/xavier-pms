@@ -12,14 +12,14 @@ import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IDepartmentService;
 import com.xavier.pms.service.IPostService;
 import com.xavier.pms.service.IUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -34,7 +34,7 @@ import java.util.*;
 @Slf4j
 @RequestMapping("genUser")
 @RestController
-@Api(tags = "用户生成管理接口")
+@Tag(name = "用户生成管理接口")
 public class GenUserController extends CommonController {
 
     @Resource
@@ -44,7 +44,7 @@ public class GenUserController extends CommonController {
     @Resource
     private IDepartmentService departmentService;
 
-    @ApiOperation(value = "生成员工", notes = "生成员工")
+    @Operation(summary = "生成员工", description = "生成员工")
     @PutMapping("generate")
     public Result generate() {
 

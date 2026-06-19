@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,6 +219,12 @@ public class AuditFormServiceImpl extends ServiceImpl<AuditFormMapper, AuditForm
             queryDTO.setAuditStatus(AuditStatusEnum.CC.getValue());
             queryDTO.setApprovalTypeList(CollUtil.toList(Constant.APPROVAL_TYPE_CC));
             result = baseMapper.queryAuditForm(queryDTO, page);
+        }
+        if (result == null) {
+            result = new Page<>();
+            result.setCurrent(queryDTO.getPageNo());
+            result.setSize(queryDTO.getPageSize());
+            result.setTotal(0);
         }
         QueryResultVo<AuditFormVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, AuditFormVo.class);
         queryResultVo.setRecords(AuditFormConvertor.toAuditFormVoList(result.getRecords()));

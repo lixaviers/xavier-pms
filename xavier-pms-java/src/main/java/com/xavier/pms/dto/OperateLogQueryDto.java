@@ -1,8 +1,8 @@
 package com.xavier.pms.dto;
 
 import com.xavier.pms.query.QueryDto;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,33 +14,33 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("操作日志查询入参")
+@Schema(description = "操作日志查询入参")
 public class OperateLogQueryDto extends QueryDto {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("用户IP")
+    @Schema(description = "用户IP")
     private String userIp;
 
-    @ApiModelProperty("操作名")
+    @Schema(description = "操作名")
     private String operateName;
 
-    @ApiModelProperty("请求方法")
+    @Schema(description = "请求方法")
     private String requestMethod;
 
-    @ApiModelProperty("请求地址")
+    @Schema(description = "请求地址")
     private String requestUrl;
 
-    @ApiModelProperty("链路追踪ID")
+    @Schema(description = "链路追踪ID")
     private String traceId;
 
-    @ApiModelProperty("结果码")
+    @Schema(description = "结果码")
     private Integer resultCode;
 
-    @ApiModelProperty("创建时间起")
+    @Schema(description = "创建时间起")
     private LocalDateTime createTimeFrom;
 
-    @ApiModelProperty("创建时间止")
+    @Schema(description = "创建时间止")
     private LocalDateTime createTimeTo;
 
 }

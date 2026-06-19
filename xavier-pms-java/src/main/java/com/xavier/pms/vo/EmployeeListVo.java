@@ -1,9 +1,7 @@
 package com.xavier.pms.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("员工列表出参")
+@Schema(description = "员工列表出参")
 public class EmployeeListVo implements Serializable {
 
     /**
@@ -28,61 +26,61 @@ public class EmployeeListVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 工号
      */
-    @ApiModelProperty("工号")
+    @Schema(description = "工号")
     private String employeeNumber;
 
     /**
      * 姓名
      */
-    @ApiModelProperty("姓名")
+    @Schema(description = "姓名")
     private String nickName;
 
     /**
      * 手机号
      */
-    @ApiModelProperty("手机号")
+    @Schema(description = "手机号")
     private String mobile;
 
     /**
      * 邮箱
      */
-    @ApiModelProperty("邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
     /**
      * 部门名称
      */
-    @ApiModelProperty("部门名称")
+    @Schema(description = "部门名称")
     private String deptName;
 
     /**
      * 职位名称
      */
-    @ApiModelProperty("职位名称")
+    @Schema(description = "职位名称")
     private String postName;
 
     /**
      * 职称
      */
-    @ApiModelProperty("职称")
+    @Schema(description = "职称")
     private String titleName;
 
     /**
      * 性别
      */
-    @ApiModelProperty("性别")
+    @Schema(description = "性别")
     private String gender;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 }

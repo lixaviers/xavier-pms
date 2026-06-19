@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,27 +14,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("系统配置出参")
+@Schema(description = "系统配置出参")
 public class SystemConfigVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
-    @ApiModelProperty("配置键")
+    @Schema(description = "配置键")
     private String configKey;
 
-    @ApiModelProperty("配置值")
+    @Schema(description = "配置值")
     private String configValue;
 
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
-    @ApiModelProperty("修改时间")
+    @Schema(description = "修改时间")
     private LocalDateTime updateTime;
 
 }

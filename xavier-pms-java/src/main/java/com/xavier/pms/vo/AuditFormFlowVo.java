@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("审批单流程出参")
+@Schema(description = "审批单流程出参")
 public class AuditFormFlowVo implements Serializable {
 
     /**
@@ -26,25 +26,25 @@ public class AuditFormFlowVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 审批类型
      */
-    @ApiModelProperty("审批类型")
+    @Schema(description = "审批类型")
     private String approvalType;
 
     /**
      * 标题
      */
-    @ApiModelProperty("标题")
+    @Schema(description = "标题")
     private String title;
 
     /**
      * 审批方式 manual:人工审批 autoPass:自动通过
      */
-    @ApiModelProperty("审批方式 manual:人工审批 autoPass:自动通过")
+    @Schema(description = "审批方式 manual:人工审批 autoPass:自动通过")
     private String approvalMode;
 
     /**
@@ -52,31 +52,31 @@ public class AuditFormFlowVo implements Serializable {
      * 当审批类型为审批时：all:所有审批人同意 one:一名审批人同意即可 order:按顺序依次审批
      * 当审批类型为办理时：all:所有办理人提交 one:一名办理人提交即可 order:按顺序依次提交
      */
-    @ApiModelProperty("多人时采用方式")
+    @Schema(description = "多人时采用方式")
     private String approvalMoreType;
 
     /**
      * 审批状态
      */
-    @ApiModelProperty("审批状态")
+    @Schema(description = "审批状态")
     private Byte auditStatus;
 
     /**
      * 审批单流程详细
      */
-    @ApiModelProperty("审批单流程详细")
+    @Schema(description = "审批单流程详细")
     private List<AuditFormFlowDetailVo> detailList;
 
     /**
      * 处理时间
      */
-    @ApiModelProperty("处理时间")
+    @Schema(description = "处理时间")
     private LocalDateTime dealTime;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
 }

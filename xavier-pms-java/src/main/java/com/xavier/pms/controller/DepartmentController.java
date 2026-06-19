@@ -6,14 +6,14 @@ import com.xavier.pms.query.QueryResultVo;
 import com.xavier.pms.result.Result;
 import com.xavier.pms.service.IDepartmentService;
 import com.xavier.pms.vo.DepartmentVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 请求处理层-部门管理类
@@ -25,40 +25,40 @@ import javax.annotation.Resource;
 @Slf4j
 @RequestMapping("department")
 @RestController
-@Api(tags = "部门管理接口")
+@Tag(name = "部门管理接口")
 public class DepartmentController extends CommonController {
 
     @Resource
     private IDepartmentService departmentService;
 
-    @ApiOperation(value = "新增部门", notes = "新增部门")
+    @Operation(summary = "新增部门", description = "新增部门")
     @PutMapping("add")
     public Result add(@Validated @RequestBody DepartmentDto departmentDto) {
         departmentService.createDepartment(departmentDto);
         return Result.ok();
     }
 
-    @ApiOperation(value = "编辑部门", notes = "编辑部门")
+    @Operation(summary = "编辑部门", description = "编辑部门")
     @PutMapping("update")
     public Result update(@Validated @RequestBody DepartmentDto departmentDto) {
         departmentService.updateDepartment(departmentDto);
         return Result.ok();
     }
 
-    @ApiOperation(value = "删除部门", notes = "删除部门")
+    @Operation(summary = "删除部门", description = "删除部门")
     @DeleteMapping("delete/{id}")
-    public Result<Integer> delete(@ApiParam("id") @PathVariable Long id) {
+    public Result<Integer> delete(@Parameter(description = "id") @PathVariable Long id) {
         departmentService.deleteDepartment(id);
         return Result.ok();
     }
 
-    @ApiOperation(value = "获取部门信息", notes = "根据部门ID获取部门信息")
+    @Operation(summary = "获取部门信息", description = "根据部门ID获取部门信息")
     @GetMapping("get/{id}")
-    public Result<DepartmentVo> get(@ApiParam("id") @PathVariable Long id) {
+    public Result<DepartmentVo> get(@Parameter(description = "id") @PathVariable Long id) {
         return Result.ok(departmentService.getDepartment(id));
     }
 
-    @ApiOperation(value = "分页获取部门列表信息", notes = "分页获取部门列表信息")
+    @Operation(summary = "分页获取部门列表信息", description = "分页获取部门列表信息")
     @PostMapping("query")
     public Result<QueryResultVo<DepartmentVo>> queryDepartment(@Validated @RequestBody DepartmentQueryDto departmentQueryDto) {
         return Result.ok(departmentService.queryDepartment(departmentQueryDto));

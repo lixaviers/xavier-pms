@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("部门出参")
+@Schema(description = "部门出参")
 public class DepartmentVo implements Serializable {
 
     /**
@@ -26,43 +26,43 @@ public class DepartmentVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 父id
      */
-    @ApiModelProperty("父id")
+    @Schema(description = "父id")
     private Long parentId;
 
     /**
      * 部门名称
      */
-    @ApiModelProperty("部门名称")
+    @Schema(description = "部门名称")
     private String deptName;
 
     /**
      * 负责人id
      */
-    @ApiModelProperty("负责人id")
+    @Schema(description = "负责人id")
     private Long userId;
 
     /**
      * 负责人
      */
-    @ApiModelProperty("负责人")
+    @Schema(description = "负责人")
     private String nickName;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 }

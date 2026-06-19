@@ -1,7 +1,7 @@
 package com.xavier.pms.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@ApiModel("会议室出参")
+@Schema(description = "会议室出参")
 public class MeetingVo implements Serializable {
 
     /**
@@ -26,37 +26,37 @@ public class MeetingVo implements Serializable {
     /**
      * id
      */
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Long id;
 
     /**
      * 会议室名称
      */
-    @ApiModelProperty("会议室名称")
+    @Schema(description = "会议室名称")
     private String meetingName;
 
     /**
      * 位置
      */
-    @ApiModelProperty("位置")
+    @Schema(description = "位置")
     private String position;
 
     /**
      * 是否启用
      */
-    @ApiModelProperty("是否启用")
+    @Schema(description = "是否启用")
     private Boolean isEnable;
 
     /**
      * 备注
      */
-    @ApiModelProperty("备注")
+    @Schema(description = "备注")
     private String remarks;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 }
