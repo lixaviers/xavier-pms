@@ -1,6 +1,5 @@
 package com.xavier.pms.dto;
 
-import com.xavier.pms.enums.UserStatusEnum;
 import com.xavier.pms.query.QueryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,13 +12,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@Schema(description = "员工查询入参")
-public class EmployeeQueryDto extends QueryDto {
+@Schema(description = "离职记录查询入参")
+public class ResignationQueryDto extends QueryDto {
 
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = 1L;
+
+    @Schema(description = "员工姓名")
+    private String nickName;
 
     @Schema(description = "工号")
     private String employeeNumber;
@@ -27,20 +29,7 @@ public class EmployeeQueryDto extends QueryDto {
     @Schema(description = "部门id")
     private String departmentId;
 
-    @Schema(description = "姓名")
-    private String nickName;
-
-    @Schema(description = "拼音首字母")
-    private String py;
-
-    @Schema(description = "手机号")
-    private String mobile;
-
-    @Schema(description = "邮箱")
-    private String email;
-
-    @Schema(description = "状态", hidden = true)
-    private Byte userStatus;
-
+    @Schema(description = "离职类型: 1-主动离职 2-辞退 3-合同到期 4-其他")
+    private Byte resignationType;
 
 }

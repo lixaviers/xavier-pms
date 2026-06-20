@@ -263,13 +263,22 @@ const iconSelectRef = ref(null)
 /**
  * 初始化页面
  */
-async function init(id, parentId) {
+async function init(id, parentId, copyRow) {
   visible.value = true
   await getTreeselect()
   if (id) {
     title.value = '编辑菜单'
     const response = await getMenuApi(id)
     dataForm.value = response
+  } else if (copyRow) {
+    title.value = '复制菜单'
+    const response = await getMenuApi(copyRow.id)
+    dataForm.value = {
+      ...response,
+      id: undefined,
+      menuName: response.menuName + '(副本)',
+      parentId: response.parentId
+    }
   } else {
     title.value = '新增菜单'
     dataForm.value = {

@@ -88,6 +88,7 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="edit" v-hasPermi="['system:menu:edit']">修改</el-dropdown-item>
+                <el-dropdown-item command="copy" v-hasPermi="['system:menu:add']">复制</el-dropdown-item>
                 <el-dropdown-item command="add" v-hasPermi="['system:menu:add']">新增子级</el-dropdown-item>
                 <el-dropdown-item command="delete" v-if="!scope.row.children || scope.row.children.length === 0" v-hasPermi="['system:menu:delete']">删除</el-dropdown-item>
               </el-dropdown-menu>
@@ -137,6 +138,12 @@ function getDataList() {
 function handleAdd(id, parentId) {
   addOrUpdateRef.value.init(id, parentId)
 }
+/**
+ * 复制按钮操作
+ */
+function handleCopy(row) {
+  addOrUpdateRef.value.init(null, null, row)
+}
 /** 展开/折叠操作 */
 function toggleExpandAll() {
   refreshTable.value = false
@@ -150,6 +157,9 @@ function handleCommand(command, row) {
   switch (command) {
     case 'edit':
       handleAdd(row.id)
+      break
+    case 'copy':
+      handleCopy(row)
       break
     case 'add':
       handleAdd(null, row.id)

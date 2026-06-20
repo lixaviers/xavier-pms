@@ -136,11 +136,15 @@
         />
       </el-col>
     </el-row>
+
+    <!-- 办理离职对话框 -->
+    <add-or-update ref="addOrUpdateRef" @refreshDataList="getDataList" />
   </div>
 </template>
 <script setup>
 import { queryUserApi } from '@/api/modules/user'
 import { getDeptListUtil } from '@/utils/xavier'
+import addOrUpdate from '../resignation/addOrUpdate.vue'
 
 const { proxy } = getCurrentInstance()
 
@@ -151,6 +155,7 @@ const ids = ref([])
 const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
+const addOrUpdateRef = ref()
 // 部门名称
 const deptName = ref('')
 // 部门列表
@@ -218,7 +223,7 @@ function handleNodeClick(data) {
 function handleCommand(command, row) {
   if (command === 'haveLeft') {
     // 操作离职
-    alert(111)
+    addOrUpdateRef.value.init(row)
   }
 }
 

@@ -24,7 +24,7 @@ public class Application {
                             "Application '{}' is running! Access URLs:\n\t" +
                             "Local: \t\thttp://localhost:{}\n\t" +
                             "External: \thttp://{}:{}\n\t" +
-                            "Doc: \thttp://{}:{}/doc.html\n" +
+                            "Doc: \thttp://{}:{}/swagger-ui/index.html\n" +
                             "------------------------------------------------------------",
                     env.getProperty("spring.application.name"),
                     env.getProperty("server.port"),

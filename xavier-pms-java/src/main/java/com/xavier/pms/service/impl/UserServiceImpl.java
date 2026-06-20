@@ -144,6 +144,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Page<User> page = new Page<>();
         page.setCurrent(dto.getPageNo());
         page.setSize(dto.getPageSize());
+        dto.setUserStatus(UserStatusEnum.NORMAL.getValue());
         Page<EmployeeListVo> result = baseMapper.queryEmployee(dto, page);
         QueryResultVo<EmployeeListVo> queryResultVo = BeanUtil.pageToQueryResultVo(result, EmployeeListVo.class);
         queryResultVo.setRecords(result.getRecords());

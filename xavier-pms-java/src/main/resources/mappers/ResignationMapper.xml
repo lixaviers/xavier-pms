@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.ResignationMapper">
+
+    <select id="queryResignation" resultType="com.xavier.pms.vo.ResignationVo">
+        SELECT
+            tb_resignation.*,
+            tb_user.employee_number,
+            tb_user.nick_name,
+            tb_post.post_name,
+            tb_department.dept_name,
+            handover_user.nick_name AS handover_user_name
+        FROM
+            tb_resignation
+        INNER JOIN
+            tb_user ON tb_resignation.user_id = tb_user.id
+        AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_post ON tb_user.post_id = tb_post.id
+        AND tb_post.is_deleted = 0
+        LEFT JOIN
+            tb_department ON tb_user.department_id = tb_department.id
+        AND tb_department.is_deleted = 0
+        LEFT JOIN
+            tb_user handover_user ON tb_resignation.handover_user_id = handover_user.id
+        AND handover_user.is_deleted = 0
+        WHERE
+            tb_resignation.is_deleted = 0
+        <if test="dto.nickName != null and dto.nickName != ''">
+        AND tb_user.nick_name LIKE CONCAT('%', #{dto.nickName, jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="dto.employeeNumber != null and dto.employeeNumber != ''">
+        AND tb_user.employee_number = #{dto.employeeNumber, jdbcType=VARCHAR}
+        </if>
+        <if test="dto.departmentId != null and dto.departmentId != ''">
+        AND (
+            tb_department.full_id LIKE CONCAT('%-', #{dto.departmentId})
+        OR  tb_department.full_id LIKE CONCAT('%-', #{dto.departmentId}, '-%')
+        )
+        </if>
+        <if test="dto.resignationType != null">
+        AND tb_resignation.resignation_type = #{dto.resignationType, jdbcType=TINYINT}
+        </if>
+        ORDER BY
+            tb_resignation.id DESC
+    </select>
+
+    <select id="getResignationDetail" resultType="com.xavier.pms.vo.ResignationVo">
+        SELECT
+            tb_resignation.*,
+            tb_user.employee_number,
+            tb_user.nick_name,
+            tb_post.post_name,
+            tb_department.dept_name,
+            handover_user.nick_name AS handover_user_name
+        FROM
+            tb_resignation
+        INNER JOIN
+            tb_user ON tb_resignation.user_id = tb_user.id
+        AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_post ON tb_user.post_id = tb_post.id
+        AND tb_post.is_deleted = 0
+        LEFT JOIN
+            tb_department ON tb_user.department_id = tb_department.id
+        AND tb_department.is_deleted = 0
+        LEFT JOIN
+            tb_user handover_user ON tb_resignation.handover_user_id = handover_user.id
+        AND handover_user.is_deleted = 0
+        WHERE
+            tb_resignation.is_deleted = 0
+        AND tb_resignation.id = #{id, jdbcType=BIGINT}
+    </select>
+
+</mapper>

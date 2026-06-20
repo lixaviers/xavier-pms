@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
 
-        <knife4j.version>4.5.0</knife4j.version>
+        <springdoc.version>3.0.2</springdoc.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <hutool.version>5.8.35</hutool.version>
         <mybatis.plus.version>3.5.16</mybatis.plus.version>
@@ -30,20 +30,20 @@
     </properties>
 
     <dependencies>
-        <!--web 模块（默认使用 Tomcat 容器）-->
+        <!--web 模块（Spring Boot 4 使用 webmvc starter）-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <!--Knife4j + OpenAPI3-->
+        <!--SpringDoc OpenAPI 3.x（兼容 Spring Boot 4，自带 Swagger UI）-->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <!-- captcha -->
         <dependency>

@@ -1,20 +1,5 @@
 server:
   port: 5002
-knife4j:
-  enable: true
-  openapi:
-    title: 开发文档
-    description: 人事管理系统开发文档
-    concat: Xavier
-    version: v1.0
-    license: MIT License
-    group:
-      annotation:
-        group-name: default
-        api-rule: annotation
-        api-rule-resources:
-          - io.swagger.v3.oas.annotations.Operation
-  cors: true
 spring:
   application:
     name: xavier-pms-java
@@ -29,6 +14,17 @@ spring:
     url: jdbc:mysql://localhost:3306/xavier_pms?useUnicode=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
     username: root
     password: root
+# springdoc-openapi 配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
 #mybatis-plus配置
 mybatis-plus:
   mapper-locations: classpath:mappers/**/*.xml
@@ -54,3 +50,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+logging:
+  level:
+    com.xavier.pms.dao: debug
