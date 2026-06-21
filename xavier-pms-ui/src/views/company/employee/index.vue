@@ -119,6 +119,8 @@
                 <el-button link type="primary" icon="More" />
                 <template #dropdown>
                   <el-dropdown-menu>
+                    <el-dropdown-item command="postChange" icon="Switch">职位变动</el-dropdown-item>
+                    <el-dropdown-item command="titleChange" icon="Switch">职称变动</el-dropdown-item>
                     <el-dropdown-item command="haveLeft" icon="SwitchButton">操作离职</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
@@ -139,12 +141,15 @@
 
     <!-- 办理离职对话框 -->
     <add-or-update ref="addOrUpdateRef" @refreshDataList="getDataList" />
+    <!-- 办理变动对话框 -->
+    <position-change ref="positionChangeRef" @refreshDataList="getDataList" />
   </div>
 </template>
 <script setup>
 import { queryUserApi } from '@/api/modules/user'
 import { getDeptListUtil } from '@/utils/xavier'
 import addOrUpdate from '../resignation/addOrUpdate.vue'
+import positionChange from '../positionChange/addOrUpdate.vue'
 
 const { proxy } = getCurrentInstance()
 
@@ -156,6 +161,7 @@ const single = ref(true)
 const multiple = ref(true)
 const total = ref(0)
 const addOrUpdateRef = ref()
+const positionChangeRef = ref()
 // 部门名称
 const deptName = ref('')
 // 部门列表
@@ -224,6 +230,12 @@ function handleCommand(command, row) {
   if (command === 'haveLeft') {
     // 操作离职
     addOrUpdateRef.value.init(row)
+  } else if (command === 'postChange') {
+    // 职位变动
+    positionChangeRef.value.init(row, 1)
+  } else if (command === 'titleChange') {
+    // 职称变动
+    positionChangeRef.value.init(row, 2)
   }
 }
 
