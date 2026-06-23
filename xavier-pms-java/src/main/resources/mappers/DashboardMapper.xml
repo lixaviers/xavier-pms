@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.DashboardMapper">
+
+    <!-- 待我审批：flow_detail 中 user_id=我 且 audit_status=3(审批中) -->
+    <select id="countPendingAudit" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT tb_audit_form.id)
+        FROM tb_audit_form_flow_detail
+        INNER JOIN tb_audit_form_flow ON tb_audit_form_flow_detail.audit_form_flow_id = tb_audit_form_flow.id
+        INNER JOIN tb_audit_form ON tb_audit_form_flow.audit_form_id = tb_audit_form.id
+        WHERE tb_audit_form_flow.is_deleted = 0
+        AND tb_audit_form_flow_detail.is_deleted = 0
+        AND tb_audit_form.is_deleted = 0
+        AND tb_audit_form_flow_detail.user_id = #{userId, jdbcType=BIGINT}
+        AND tb_audit_form_flow_detail.audit_status = 3
+    </select>
+
+    <!-- 我已处理：flow_detail 中 user_id=我 且 audit_status IN (4已通过, 5已拒绝) -->
+    <select id="countDealt" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT tb_audit_form.id)
+        FROM tb_audit_form_flow_detail
+        INNER JOIN tb_audit_form_flow ON tb_audit_form_flow_detail.audit_form_flow_id = tb_audit_form_flow.id
+        INNER JOIN tb_audit_form ON tb_audit_form_flow.audit_form_id = tb_audit_form.id
+        WHERE tb_audit_form_flow.is_deleted = 0
+        AND tb_audit_form_flow_detail.is_deleted = 0
+        AND tb_audit_form.is_deleted = 0
+        AND tb_audit_form_flow_detail.user_id = #{userId, jdbcType=BIGINT}
+        AND tb_audit_form_flow_detail.audit_status IN (4, 5)
+    </select>
+
+    <!-- 我发起的审批中：audit_form 中 user_id=我 且 audit_status=3(审批中) -->
+    <select id="countMyProcessing" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_audit_form
+        WHERE is_deleted = 0
+        AND user_id = #{userId, jdbcType=BIGINT}
+        AND audit_status = 3
+    </select>
+
+    <!-- 抄送我的未读：flow_detail 中 user_id=我 且 approval_type=cc 且 audit_status=7 -->
+    <select id="countCcUnread" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT tb_audit_form.id)
+        FROM tb_audit_form_flow_detail
+        INNER JOIN tb_audit_form_flow ON tb_audit_form_flow_detail.audit_form_flow_id = tb_audit_form_flow.id
+        INNER JOIN tb_audit_form ON tb_audit_form_flow.audit_form_id = tb_audit_form.id
+        WHERE tb_audit_form_flow.is_deleted = 0
+        AND tb_audit_form_flow_detail.is_deleted = 0
+        AND tb_audit_form.is_deleted = 0
+        AND tb_audit_form_flow_detail.user_id = #{userId, jdbcType=BIGINT}
+        AND tb_audit_form_flow_detail.approval_type = 'cc'
+        AND tb_audit_form_flow_detail.audit_status = 7
+    </select>
+
+    <!-- 员工总数（正常状态） -->
+    <select id="countEmployee" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+    </select>
+
+    <!-- 部门总数 -->
+    <select id="countDepartment" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_department
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- 待办事项列表（待我审批的最近5条） -->
+    <select id="queryTodoList" resultType="com.xavier.pms.vo.DashboardVo$TodoItem">
+        SELECT
+            tb_audit_form.id,
+            tb_audit_form.approval_name,
+            CASE tb_audit_form.audit_status
+                WHEN 1 THEN '待处理'
+                WHEN 2 THEN '已提交'
+                WHEN 3 THEN '审批中'
+                WHEN 4 THEN '已通过'
+                WHEN 5 THEN '已拒绝'
+                WHEN 6 THEN '已撤回'
+                ELSE ''
+            END AS auditStatusDesc,
+            DATE_FORMAT(tb_audit_form.create_time, '%Y-%m-%d %H:%i') AS createTime
+        FROM tb_audit_form_flow_detail
+        INNER JOIN tb_audit_form_flow ON tb_audit_form_flow_detail.audit_form_flow_id = tb_audit_form_flow.id
+        INNER JOIN tb_audit_form ON tb_audit_form_flow.audit_form_id = tb_audit_form.id
+        WHERE tb_audit_form_flow.is_deleted = 0
+        AND tb_audit_form_flow_detail.is_deleted = 0
+        AND tb_audit_form.is_deleted = 0
+        AND tb_audit_form_flow_detail.user_id = #{userId, jdbcType=BIGINT}
+        AND tb_audit_form_flow_detail.audit_status = 3
+        GROUP BY tb_audit_form.id
+        ORDER BY tb_audit_form.create_time DESC
+        LIMIT 5
+    </select>
+
+    <!-- 最近公告列表（最近5条已启用的公告） -->
+    <select id="queryRecentAnnouncement" resultType="com.xavier.pms.vo.DashboardVo$AnnouncementItem">
+        SELECT
+            tb_announcement.id,
+            tb_announcement.title,
+            tb_announcement_type.type_name AS typeName,
+            DATE_FORMAT(tb_announcement.create_time, '%Y-%m-%d') AS createTime
+        FROM tb_announcement
+        LEFT JOIN tb_announcement_type ON tb_announcement.announcement_type_id = tb_announcement_type.id
+            AND tb_announcement_type.is_deleted = 0
+        WHERE tb_announcement.is_deleted = 0
+        AND tb_announcement.is_enable = 1
+        ORDER BY tb_announcement.create_time DESC
+        LIMIT 5
+    </select>
+
+</mapper>

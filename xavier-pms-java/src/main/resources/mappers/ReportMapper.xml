@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.ReportMapper">
+
+    <!-- ===== 员工信息报表 ===== -->
+
+    <!-- 员工状态分布 -->
+    <select id="countByUserStatus" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            CASE user_status
+                WHEN 0 THEN '待审批'
+                WHEN 1 THEN '正常'
+                WHEN 2 THEN '已离职'
+                ELSE '未知'
+            END AS name,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        GROUP BY user_status
+        ORDER BY user_status
+    </select>
+
+    <!-- 性别分布 -->
+    <select id="countByGender" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            COALESCE(NULLIF(gender, ''), '未填写') AS name,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        GROUP BY gender
+        ORDER BY count DESC
+    </select>
+
+    <!-- 学历分布 -->
+    <select id="countByDegree" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            COALESCE(NULLIF(highest_degree, ''), '未填写') AS name,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        GROUP BY highest_degree
+        ORDER BY count DESC
+    </select>
+
+    <!-- 政治面貌分布 -->
+    <select id="countByPoliticalStatus" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            COALESCE(NULLIF(political_status, ''), '未填写') AS name,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        GROUP BY political_status
+        ORDER BY count DESC
+    </select>
+
+    <!-- 婚姻状况分布 -->
+    <select id="countByMaritalStatus" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            COALESCE(NULLIF(marital_status, ''), '未填写') AS name,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        GROUP BY marital_status
+        ORDER BY count DESC
+    </select>
+
+    <!-- 部门分布 -->
+    <select id="countByDepartment" resultType="com.xavier.pms.vo.EmployeeReportVo$DistributionItem">
+        SELECT
+            COALESCE(tb_department.dept_name, '未分配部门') AS name,
+            COUNT(tb_user.id) AS count
+        FROM tb_user
+        LEFT JOIN tb_department ON tb_user.department_id = tb_department.id AND tb_department.is_deleted = 0
+        WHERE tb_user.is_deleted = 0
+        GROUP BY tb_user.department_id, tb_department.dept_name
+        ORDER BY count DESC
+    </select>
+
+    <!-- ===== 转正统计报表 ===== -->
+
+    <!-- 试用期员工数（正常状态且预计转正日期在今天之后） -->
+    <select id="countProbation" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+        AND estimated_conversion_date > CURDATE()
+    </select>
+
+    <!-- 已转正员工数（正常状态且预计转正日期在今天或之前） -->
+    <select id="countConverted" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+        AND estimated_conversion_date &lt;= CURDATE()
+    </select>
+
+    <!-- 本月应转正人数 -->
+    <select id="countThisMonthConversion" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+        AND DATE_FORMAT(estimated_conversion_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+    </select>
+
+    <!-- 按月统计转正人数（近12个月） -->
+    <select id="countMonthlyConversion" resultType="com.xavier.pms.vo.ConversionReportVo$MonthlyItem">
+        SELECT
+            DATE_FORMAT(estimated_conversion_date, '%Y-%m') AS month,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+        AND estimated_conversion_date >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+        AND estimated_conversion_date &lt;= CURDATE()
+        GROUP BY DATE_FORMAT(estimated_conversion_date, '%Y-%m')
+        ORDER BY month
+    </select>
+
+    <!-- 试用期时长分布 -->
+    <select id="countByProbationPeriod" resultType="com.xavier.pms.vo.ConversionReportVo$ProbationPeriodItem">
+        SELECT
+            probation_period AS probationPeriod,
+            COUNT(*) AS count
+        FROM tb_user
+        WHERE is_deleted = 0
+        AND user_status = 1
+        AND probation_period IS NOT NULL
+        GROUP BY probation_period
+        ORDER BY probation_period
+    </select>
+
+    <!-- ===== 离职统计报表 ===== -->
+
+    <!-- 离职总人数 -->
+    <select id="countResignation" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_resignation
+        WHERE is_deleted = 0
+    </select>
+
+    <!-- 本月离职人数 -->
+    <select id="countThisMonthResignation" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tb_resignation
+        WHERE is_deleted = 0
+        AND DATE_FORMAT(resignation_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+    </select>
+
+    <!-- 离职原因分布 -->
+    <select id="countByResignationType" resultType="com.xavier.pms.vo.ResignationReportVo$ReasonItem">
+        SELECT
+            CASE resignation_type
+                WHEN 1 THEN '主动离职'
+                WHEN 2 THEN '辞退'
+                WHEN 3 THEN '合同到期'
+                WHEN 4 THEN '其他'
+                ELSE '未知'
+            END AS typeName,
+            COUNT(*) AS count
+        FROM tb_resignation
+        WHERE is_deleted = 0
+        GROUP BY resignation_type
+        ORDER BY count DESC
+    </select>
+
+    <!-- 部门离职对比 -->
+    <select id="countDepartmentResignation" resultType="com.xavier.pms.vo.ResignationReportVo$DepartmentResignationItem">
+        SELECT
+            COALESCE(tb_department.dept_name, '未分配部门') AS departmentName,
+            COUNT(DISTINCT tb_user.id) AS totalCount,
+            COUNT(DISTINCT tb_resignation.id) AS resignationCount
+        FROM tb_user
+        LEFT JOIN tb_department ON tb_user.department_id = tb_department.id AND tb_department.is_deleted = 0
+        LEFT JOIN tb_resignation ON tb_user.id = tb_resignation.user_id AND tb_resignation.is_deleted = 0
+        WHERE tb_user.is_deleted = 0
+        GROUP BY tb_user.department_id, tb_department.dept_name
+        ORDER BY resignationCount DESC
+    </select>
+
+    <!-- 月度离职趋势（近12个月） -->
+    <select id="countMonthlyResignation" resultType="com.xavier.pms.vo.ResignationReportVo$MonthlyItem">
+        SELECT
+            DATE_FORMAT(resignation_date, '%Y-%m') AS month,
+            COUNT(*) AS count
+        FROM tb_resignation
+        WHERE is_deleted = 0
+        AND resignation_date >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+        GROUP BY DATE_FORMAT(resignation_date, '%Y-%m')
+        ORDER BY month
+    </select>
+
+    <!-- ===== Excel 导出查询 ===== -->
+
+    <!-- 查询所有员工信息（导出用） -->
+    <select id="queryAllEmployees" resultType="com.xavier.pms.dao.EmployeeExportDto">
+        SELECT
+            tb_user.employee_number AS employeeNumber,
+            tb_user.nick_name AS nickName,
+            tb_user.gender AS gender,
+            tb_user.mobile AS mobile,
+            tb_user.email AS email,
+            tb_department.dept_name AS departmentName,
+            tb_post.post_name AS postName,
+            tb_professional_title.title_name AS professionalTitleName,
+            CASE tb_user.user_status
+                WHEN 0 THEN '待审批'
+                WHEN 1 THEN '正常'
+                WHEN 2 THEN '已离职'
+                ELSE '未知'
+            END AS userStatusDesc,
+            DATE_FORMAT(tb_user.entry_date, '%Y-%m-%d') AS entryDate,
+            tb_user.highest_degree AS highestDegree,
+            tb_user.political_status AS politicalStatus,
+            tb_user.marital_status AS maritalStatus
+        FROM tb_user
+        LEFT JOIN tb_department ON tb_user.department_id = tb_department.id AND tb_department.is_deleted = 0
+        LEFT JOIN tb_post ON tb_user.post_id = tb_post.id AND tb_post.is_deleted = 0
+        LEFT JOIN tb_professional_title ON tb_user.professional_title_id = tb_professional_title.id AND tb_professional_title.is_deleted = 0
+        WHERE tb_user.is_deleted = 0
+        ORDER BY tb_user.employee_number
+    </select>
+
+    <!-- 查询转正记录（导出用） -->
+    <select id="queryConversionRecords" resultType="com.xavier.pms.dao.ConversionExportDto">
+        SELECT
+            tb_user.employee_number AS employeeNumber,
+            tb_user.nick_name AS nickName,
+            tb_department.dept_name AS departmentName,
+            tb_post.post_name AS postName,
+            DATE_FORMAT(tb_user.entry_date, '%Y-%m-%d') AS entryDate,
+            tb_user.probation_period AS probationPeriod,
+            DATE_FORMAT(tb_user.estimated_conversion_date, '%Y-%m-%d') AS estimatedConversionDate,
+            CASE
+                WHEN tb_user.estimated_conversion_date &lt;= CURDATE() THEN '已转正'
+                ELSE '试用期中'
+            END AS conversionStatus
+        FROM tb_user
+        LEFT JOIN tb_department ON tb_user.department_id = tb_department.id AND tb_department.is_deleted = 0
+        LEFT JOIN tb_post ON tb_user.post_id = tb_post.id AND tb_post.is_deleted = 0
+        WHERE tb_user.is_deleted = 0
+        AND tb_user.user_status = 1
+        AND tb_user.probation_period IS NOT NULL
+        ORDER BY tb_user.estimated_conversion_date
+    </select>
+
+    <!-- 查询离职记录（导出用） -->
+    <select id="queryResignationRecords" resultType="com.xavier.pms.dao.ResignationExportDto">
+        SELECT
+            tb_user.employee_number AS employeeNumber,
+            tb_user.nick_name AS nickName,
+            tb_department.dept_name AS departmentName,
+            CASE tb_resignation.resignation_type
+                WHEN 1 THEN '主动离职'
+                WHEN 2 THEN '辞退'
+                WHEN 3 THEN '合同到期'
+                WHEN 4 THEN '其他'
+                ELSE '未知'
+            END AS resignationTypeDesc,
+            DATE_FORMAT(tb_resignation.resignation_date, '%Y-%m-%d') AS resignationDate,
+            tb_resignation.resignation_reason AS resignationReason,
+            handover_user.nick_name AS handoverUserName
+        FROM tb_resignation
+        INNER JOIN tb_user ON tb_resignation.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN tb_department ON tb_user.department_id = tb_department.id AND tb_department.is_deleted = 0
+        LEFT JOIN tb_user handover_user ON tb_resignation.handover_user_id = handover_user.id AND handover_user.is_deleted = 0
+        WHERE tb_resignation.is_deleted = 0
+        ORDER BY tb_resignation.resignation_date DESC
+    </select>
+
+</mapper>
