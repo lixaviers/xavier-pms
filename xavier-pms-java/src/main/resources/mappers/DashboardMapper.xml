@@ -110,4 +110,27 @@
         LIMIT 5
     </select>
 
+    <!-- 日程提醒列表（即将到来的5条日程） -->
+    <select id="queryUpcomingSchedules" resultType="com.xavier.pms.vo.DashboardVo$ScheduleItem">
+        SELECT
+            tb_schedule.id,
+            tb_schedule.title,
+            CASE tb_schedule.schedule_type
+                WHEN 1 THEN '个人日程'
+                WHEN 2 THEN '会议'
+                ELSE ''
+            END AS scheduleTypeDesc,
+            DATE_FORMAT(tb_schedule.start_time, '%Y-%m-%d %H:%i') AS startTime,
+            DATE_FORMAT(tb_schedule.end_time, '%Y-%m-%d %H:%i') AS endTime,
+            tb_schedule.location,
+            tb_schedule.color
+        FROM tb_schedule
+        WHERE tb_schedule.is_deleted = 0
+        AND (tb_schedule.user_id = #{userId, jdbcType=BIGINT}
+            OR tb_schedule.id IN (SELECT sp.schedule_id FROM tb_schedule_participant sp WHERE sp.user_id = #{userId, jdbcType=BIGINT} AND sp.is_deleted = 0))
+        AND tb_schedule.start_time &gt;= NOW()
+        ORDER BY tb_schedule.start_time ASC
+        LIMIT 5
+    </select>
+
 </mapper>

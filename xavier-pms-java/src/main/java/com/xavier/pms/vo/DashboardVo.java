@@ -42,6 +42,9 @@ public class DashboardVo implements Serializable {
     @Schema(description = "最近公告列表")
     private List<AnnouncementItem> announcementList;
 
+    @Schema(description = "日程提醒列表")
+    private List<ScheduleItem> scheduleList;
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -83,6 +86,37 @@ public class DashboardVo implements Serializable {
 
         @Schema(description = "创建时间")
         private String createTime;
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "日程提醒项")
+    public static class ScheduleItem implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        @Schema(description = "日程id")
+        private Long id;
+
+        @Schema(description = "日程标题")
+        private String title;
+
+        @Schema(description = "日程类型描述")
+        private String scheduleTypeDesc;
+
+        @Schema(description = "开始时间")
+        private String startTime;
+
+        @Schema(description = "结束时间")
+        private String endTime;
+
+        @Schema(description = "地点")
+        private String location;
+
+        @Schema(description = "颜色标签")
+        private String color;
 
     }
 

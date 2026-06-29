@@ -70,6 +70,9 @@ public class DashboardServiceImpl implements IDashboardService {
         // 最近公告（最近5条已启用的公告）
         vo.setAnnouncementList(dashboardMapper.queryRecentAnnouncement());
 
+        // 日程提醒（即将到来的5条日程）
+        vo.setScheduleList(dashboardMapper.queryUpcomingSchedules(userId));
+
         return vo;
     }
 

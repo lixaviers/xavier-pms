@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.ScheduleMapper">
+
+    <select id="querySchedule" resultType="com.xavier.pms.vo.ScheduleVo">
+        SELECT
+            tb_schedule.*,
+            tb_user.nick_name,
+            tb_meeting.meeting_name AS meetingRoomName
+        FROM
+            tb_schedule
+        LEFT JOIN
+            tb_user ON tb_schedule.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_meeting ON tb_schedule.meeting_room_id = tb_meeting.id AND tb_meeting.is_deleted = 0
+        WHERE
+            tb_schedule.is_deleted = 0
+        <choose>
+            <when test="dto.onlyMine != null and dto.onlyMine == true">
+                AND tb_schedule.user_id = #{userId}
+            </when>
+            <otherwise>
+                AND (tb_schedule.user_id = #{userId} OR (tb_schedule.is_public = 1 AND tb_schedule.schedule_type = 2)
+                    OR tb_schedule.id IN (SELECT sp.schedule_id FROM tb_schedule_participant sp WHERE sp.user_id = #{userId} AND sp.is_deleted = 0))
+            </otherwise>
+        </choose>
+        <if test="dto.title != null and dto.title != ''">
+        AND tb_schedule.title LIKE CONCAT('%', #{dto.title, jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="dto.scheduleType != null">
+        AND tb_schedule.schedule_type = #{dto.scheduleType, jdbcType=TINYINT}
+        </if>
+        <if test="dto.startTimeBegin != null and dto.startTimeBegin != ''">
+        AND tb_schedule.start_time &gt;= #{dto.startTimeBegin, jdbcType=VARCHAR}
+        </if>
+        <if test="dto.startTimeEnd != null and dto.startTimeEnd != ''">
+        AND tb_schedule.start_time &lt;= #{dto.startTimeEnd, jdbcType=VARCHAR}
+        </if>
+        ORDER BY
+            tb_schedule.start_time DESC
+    </select>
+
+    <select id="getScheduleDetail" resultType="com.xavier.pms.vo.ScheduleVo">
+        SELECT
+            tb_schedule.*,
+            tb_user.nick_name,
+            tb_meeting.meeting_name AS meetingRoomName
+        FROM
+            tb_schedule
+        LEFT JOIN
+            tb_user ON tb_schedule.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_meeting ON tb_schedule.meeting_room_id = tb_meeting.id AND tb_meeting.is_deleted = 0
+        WHERE
+            tb_schedule.is_deleted = 0
+        AND tb_schedule.id = #{id, jdbcType=BIGINT}
+    </select>
+
+    <select id="queryScheduleByTimeRange" resultType="com.xavier.pms.vo.ScheduleVo">
+        SELECT
+            tb_schedule.*,
+            tb_user.nick_name,
+            tb_meeting.meeting_name AS meetingRoomName
+        FROM
+            tb_schedule
+        LEFT JOIN
+            tb_user ON tb_schedule.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_meeting ON tb_schedule.meeting_room_id = tb_meeting.id AND tb_meeting.is_deleted = 0
+        WHERE
+            tb_schedule.is_deleted = 0
+        AND (tb_schedule.user_id = #{userId} OR (tb_schedule.is_public = 1 AND tb_schedule.schedule_type = 2)
+            OR tb_schedule.id IN (SELECT sp.schedule_id FROM tb_schedule_participant sp WHERE sp.user_id = #{userId} AND sp.is_deleted = 0))
+        AND tb_schedule.start_time &lt; #{endTime}
+        AND tb_schedule.end_time &gt; #{startTime}
+        ORDER BY
+            tb_schedule.start_time ASC
+    </select>
+
+    <select id="queryTodayRemindSchedules" resultType="com.xavier.pms.vo.ScheduleVo">
+        SELECT
+            tb_schedule.*,
+            tb_user.nick_name,
+            tb_meeting.meeting_name AS meetingRoomName
+        FROM
+            tb_schedule
+        LEFT JOIN
+            tb_user ON tb_schedule.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_meeting ON tb_schedule.meeting_room_id = tb_meeting.id AND tb_meeting.is_deleted = 0
+        WHERE
+            tb_schedule.is_deleted = 0
+        AND tb_schedule.user_id = #{userId}
+        AND tb_schedule.remind_type &gt; 0
+        AND tb_schedule.start_time &gt;= CURDATE()
+        AND tb_schedule.start_time &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+        ORDER BY
+            tb_schedule.start_time ASC
+    </select>
+
+    <select id="queryUpcomingSchedules" resultType="com.xavier.pms.vo.ScheduleVo">
+        SELECT
+            tb_schedule.*,
+            tb_user.nick_name,
+            tb_meeting.meeting_name AS meetingRoomName
+        FROM
+            tb_schedule
+        LEFT JOIN
+            tb_user ON tb_schedule.user_id = tb_user.id AND tb_user.is_deleted = 0
+        LEFT JOIN
+            tb_meeting ON tb_schedule.meeting_room_id = tb_meeting.id AND tb_meeting.is_deleted = 0
+        WHERE
+            tb_schedule.is_deleted = 0
+        AND (tb_schedule.user_id = #{userId}
+            OR tb_schedule.id IN (SELECT sp.schedule_id FROM tb_schedule_participant sp WHERE sp.user_id = #{userId} AND sp.is_deleted = 0))
+        AND tb_schedule.start_time &gt;= NOW()
+        ORDER BY
+            tb_schedule.start_time ASC
+        LIMIT 5
+    </select>
+
+</mapper>

@@ -144,10 +144,30 @@
           <template #header>
             <div class="section-header">
               <span class="section-title">日程提醒</span>
+              <el-button link type="primary" @click="goTo('/company/schedule')">查看更多</el-button>
             </div>
           </template>
-          <div class="schedule-item">
-            <el-icon color="#E6A23C"><Sunny /></el-icon>
+          <div v-if="data.scheduleList && data.scheduleList.length > 0">
+            <div
+              v-for="item in data.scheduleList"
+              :key="item.id"
+              class="schedule-item"
+            >
+              <div class="schedule-dot" :style="{ backgroundColor: item.color || (item.scheduleTypeDesc === '会议' ? '#67C23A' : '#409EFF') }"></div>
+              <div class="schedule-info">
+                <div class="schedule-top">
+                  <span class="schedule-title">{{ item.title }}</span>
+                  <el-tag size="small" :type="item.scheduleTypeDesc === '会议' ? 'success' : 'primary'">{{ item.scheduleTypeDesc }}</el-tag>
+                </div>
+                <div class="schedule-desc">
+                  {{ formatScheduleTime(item.startTime, item.endTime) }}
+                  <span v-if="item.location" style="margin-left: 8px;">📍 {{ item.location }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="schedule-item">
+            <div class="schedule-dot" style="background-color: #E6A23C;"></div>
             <div class="schedule-info">
               <div class="schedule-title">今日暂无日程安排</div>
               <div class="schedule-desc">{{ today }}</div>
@@ -176,11 +196,11 @@ const today = computed(() => {
 const shortcuts = [
   { label: '发起审批', path: '/approve/index', icon: 'Edit', color: '#409EFF' },
   { label: '员工管理', path: '/company/employee', icon: 'User', color: '#67C23A' },
+  { label: '日程管理', path: '/company/schedule', icon: 'Calendar', color: '#36cfc9' },
   { label: '员工入职', path: '/company/entry', icon: 'Plus', color: '#E6A23C' },
   { label: '员工离职', path: '/company/resignation', icon: 'SwitchButton', color: '#F56C6C' },
   { label: '变动记录', path: '/company/positionChange', icon: 'Sort', color: '#909399' },
   { label: '公告管理', path: '/note', icon: 'Bell', color: '#b37feb' },
-  { label: '部门管理', path: '/company/dept', icon: 'OfficeBuilding', color: '#36cfc9' },
   { label: '系统设置', path: '/system/setting', icon: 'Setting', color: '#ffc53d' }
 ]
 
@@ -190,6 +210,13 @@ function goTo(path) {
 
 function goToAuditForm(id) {
   router.push({ path: '/system/editApproval', query: { id } })
+}
+
+function formatScheduleTime(startTime, endTime) {
+  if (!startTime) return ''
+  const start = startTime.substring(5, 16).replace('-', '/').replace(' ', ' ')
+  const end = endTime ? endTime.substring(11, 16) : ''
+  return end ? `${start}-${end}` : start
 }
 
 function getData() {
@@ -401,14 +428,34 @@ onMounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+.schedule-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
 }
 .schedule-info {
   flex: 1;
+  min-width: 0;
+}
+.schedule-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .schedule-title {
   font-size: 14px;
   color: #606266;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .schedule-desc {
   font-size: 12px;

@@ -56,4 +56,9 @@ public interface DashboardMapper {
      */
     List<DashboardVo.AnnouncementItem> queryRecentAnnouncement();
 
+    /**
+     * 日程提醒列表（即将到来的5条）
+     */
+    List<DashboardVo.ScheduleItem> queryUpcomingSchedules(@Param("userId") Long userId);
+
 }

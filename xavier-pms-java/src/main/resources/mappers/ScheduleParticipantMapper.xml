@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xavier.pms.dao.ScheduleParticipantMapper">
+
+    <select id="getByScheduleId" resultType="com.xavier.pms.model.ScheduleParticipant">
+        SELECT
+            tb_schedule_participant.*
+        FROM
+            tb_schedule_participant
+        WHERE
+            tb_schedule_participant.is_deleted = 0
+        AND tb_schedule_participant.schedule_id = #{scheduleId, jdbcType=BIGINT}
+        ORDER BY tb_schedule_participant.id ASC
+    </select>
+
+    <update id="deleteByScheduleId">
+        UPDATE tb_schedule_participant
+        SET is_deleted = 1
+        WHERE schedule_id = #{scheduleId, jdbcType=BIGINT}
+        AND is_deleted = 0
+    </update>
+
+</mapper>
