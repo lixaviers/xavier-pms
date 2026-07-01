@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xavier.pms.dao.ReportTemplateMapper">
+
+    <!-- 分页查询汇报模板 -->
+    <select id="queryReportTemplate" resultType="com.xavier.pms.vo.ReportTemplateVo">
+        SELECT
+            t.id,
+            t.template_name,
+            t.report_type,
+            t.content_template,
+            t.is_default,
+            t.is_enable,
+            t.remark,
+            t.create_time,
+            u.nick_name AS createUserName
+        FROM tb_report_template t
+        LEFT JOIN tb_user u ON t.create_user_id = u.id AND u.is_deleted = 0
+        WHERE t.is_deleted = 0
+        <if test="dto.templateName != null and dto.templateName != ''">
+            AND t.template_name LIKE CONCAT('%', #{dto.templateName}, '%')
+        </if>
+        <if test="dto.reportType != null">
+            AND t.report_type = #{dto.reportType}
+        </if>
+        <if test="dto.isEnable != null">
+            AND t.is_enable = #{dto.isEnable}
+        </if>
+        ORDER BY t.id DESC
+    </select>
+
+    <!-- 查询模板详情 -->
+    <select id="getReportTemplateDetail" resultType="com.xavier.pms.vo.ReportTemplateVo">
+        SELECT
+            t.id,
+            t.template_name,
+            t.report_type,
+            t.content_template,
+            t.is_default,
+            t.is_enable,
+            t.remark,
+            t.create_time,
+            u.nick_name AS createUserName
+        FROM tb_report_template t
+        LEFT JOIN tb_user u ON t.create_user_id = u.id AND u.is_deleted = 0
+        WHERE t.is_deleted = 0 AND t.id = #{id}
+    </select>
+
+</mapper>

@@ -35,7 +35,7 @@
             plain
             icon="Plus"
             @click="handleAddOrUpdate()"
-            v-hasPermi="['company:userGroup:add']"
+           
             >新增</el-button
           >
         </el-col>
@@ -46,7 +46,7 @@
             icon="Delete"
             :disabled="multiple"
             @click="handleDelete()"
-            v-hasPermi="['company:userGroup:delete']"
+           
             >删除</el-button
           >
         </el-col>
@@ -94,8 +94,8 @@
               <el-button link type="primary" icon="More" />
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item command="edit" icon="Edit" v-hasPermi="['company:userGroup:edit']">修改</el-dropdown-item>
-                  <el-dropdown-item command="delete" icon="Delete" v-hasPermi="['company:userGroup:delete']">删除</el-dropdown-item>
+                  <el-dropdown-item command="edit" icon="Edit">修改</el-dropdown-item>
+                  <el-dropdown-item command="delete" icon="Delete">删除</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -125,7 +125,7 @@
             plain
             icon="Plus"
             @click="handleAddOrUpdate()"
-            v-hasPermi="['company:userGroup:add']"
+           
             >新增员工组</el-button
           >
         </el-col>

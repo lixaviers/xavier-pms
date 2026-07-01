@@ -1,9 +1,11 @@
 <template>
   <section class="app-main">
     <router-view v-slot="{ Component, route }">
-      <transition name="fade-transform" mode="out-in">
+      <transition name="fade-transform">
         <keep-alive :include="tagsViewStore.cachedViews">
-          <component v-if="!route.meta.link" :is="Component" :key="route.path"/>
+          <div v-if="!route.meta.link" :key="route.path" class="app-main-wrapper">
+            <component :is="Component" />
+          </div>
         </keep-alive>
       </transition>
     </router-view>
@@ -29,6 +31,10 @@ const tagsViewStore = useTagsViewStore()
 
 .fixed-header + .app-main {
   padding-top: 50px;
+}
+
+.app-main-wrapper {
+  height: 100%;
 }
 
 .hasTagsView {

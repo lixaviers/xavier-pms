@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xavier.pms.dao.ReportCommentMapper">
+
+    <!-- 按汇报id查询评论列表 -->
+    <select id="queryByReportId" resultType="com.xavier.pms.vo.WorkReportVo$CommentItem">
+        SELECT
+            rc.id,
+            rc.user_id,
+            rc.content,
+            rc.create_time,
+            u.nick_name
+        FROM tb_report_comment rc
+        LEFT JOIN tb_user u ON rc.user_id = u.id AND u.is_deleted = 0
+        WHERE rc.is_deleted = 0 AND rc.report_id = #{reportId}
+        ORDER BY rc.create_time ASC
+    </select>
+
+</mapper>

@@ -93,7 +93,7 @@
               plain
               icon="Plus"
               @click="handleAdd"
-              v-hasPermi="['system:user:add']"
+             
               >新增</el-button
             >
           </el-col>
@@ -104,7 +104,7 @@
               icon="Edit"
               :disabled="single"
               @click="handleUpdate"
-              v-hasPermi="['system:user:edit']"
+             
               >修改</el-button
             >
           </el-col>
@@ -115,7 +115,7 @@
               icon="Delete"
               :disabled="multiple"
               @click="handleDelete"
-              v-hasPermi="['system:user:remove']"
+             
               >删除</el-button
             >
           </el-col>
@@ -125,7 +125,7 @@
               plain
               icon="Upload"
               @click="handleImport"
-              v-hasPermi="['system:user:import']"
+             
               >导入</el-button
             >
           </el-col>
@@ -135,7 +135,7 @@
               plain
               icon="Download"
               @click="handleExport"
-              v-hasPermi="['system:user:export']"
+             
               >导出</el-button
             >
           </el-col>
@@ -229,10 +229,10 @@
                 <el-button link type="primary" icon="More"></el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item command="handleUpdate" v-hasPermi="['system:user:edit']">修改</el-dropdown-item>
-                    <el-dropdown-item command="handleDelete" v-hasPermi="['system:user:remove']">删除</el-dropdown-item>
-                    <el-dropdown-item command="handleResetPwd" v-hasPermi="['system:user:resetPwd']">重置密码</el-dropdown-item>
-                    <el-dropdown-item command="handleAuthRole" v-hasPermi="['system:user:edit']">分配角色</el-dropdown-item>
+                    <el-dropdown-item command="handleUpdate">修改</el-dropdown-item>
+                    <el-dropdown-item command="handleDelete">删除</el-dropdown-item>
+                    <el-dropdown-item command="handleResetPwd">重置密码</el-dropdown-item>
+                    <el-dropdown-item command="handleAuthRole">分配角色</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>

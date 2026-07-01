@@ -18,7 +18,7 @@ export default {
       })
 
       if (!hasRole) {
-        el.parentNode && el.parentNode.removeChild(el)
+        el.style.display = 'none'
       }
     } else {
       throw new Error(`请设置角色权限标签值`)

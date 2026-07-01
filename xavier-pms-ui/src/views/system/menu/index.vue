@@ -7,7 +7,6 @@
           plain
           icon="Plus"
           @click="handleAdd()"
-          v-hasPermi="['system:menu:add']"
           >新增</el-button
         >
       </el-col>
@@ -87,10 +86,10 @@
             <el-button link type="primary" icon="More"></el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="edit" v-hasPermi="['system:menu:edit']">修改</el-dropdown-item>
-                <el-dropdown-item command="copy" v-hasPermi="['system:menu:add']">复制</el-dropdown-item>
-                <el-dropdown-item command="add" v-hasPermi="['system:menu:add']">新增子级</el-dropdown-item>
-                <el-dropdown-item command="delete" v-if="!scope.row.children || scope.row.children.length === 0" v-hasPermi="['system:menu:delete']">删除</el-dropdown-item>
+                <el-dropdown-item command="edit">修改</el-dropdown-item>
+                <el-dropdown-item command="copy">复制</el-dropdown-item>
+                <el-dropdown-item command="add">新增子级</el-dropdown-item>
+                <el-dropdown-item command="delete" v-if="!scope.row.children || scope.row.children.length === 0">删除</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

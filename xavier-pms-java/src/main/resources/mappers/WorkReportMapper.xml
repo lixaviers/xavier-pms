@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xavier.pms.dao.WorkReportMapper">
+
+    <!-- 分页查询工作汇报 -->
+    <select id="queryWorkReport" resultType="com.xavier.pms.vo.WorkReportVo">
+        SELECT
+            wr.id,
+            wr.title,
+            wr.report_type,
+            wr.template_id,
+            wr.user_id,
+            wr.report_date,
+            wr.week_number,
+            wr.month_number,
+            wr.content,
+            wr.work_summary,
+            wr.work_plan,
+            wr.issues,
+            wr.status,
+            wr.submit_time,
+            wr.create_time,
+            u.nick_name,
+            d.dept_name AS deptName,
+            rt.template_name
+        FROM tb_work_report wr
+        LEFT JOIN tb_user u ON wr.user_id = u.id AND u.is_deleted = 0
+        LEFT JOIN tb_department d ON u.department_id = d.id AND d.is_deleted = 0
+        LEFT JOIN tb_report_template rt ON wr.template_id = rt.id AND rt.is_deleted = 0
+        WHERE wr.is_deleted = 0
+        <if test="dto.title != null and dto.title != ''">
+            AND wr.title LIKE CONCAT('%', #{dto.title}, '%')
+        </if>
+        <if test="dto.reportType != null">
+            AND wr.report_type = #{dto.reportType}
+        </if>
+        <if test="dto.status != null">
+            AND wr.status = #{dto.status}
+        </if>
+        <if test="dto.userId != null">
+            AND wr.user_id = #{dto.userId}
+        </if>
+        <if test="dto.reportDateBegin != null and dto.reportDateBegin != ''">
+            AND wr.report_date &gt;= #{dto.reportDateBegin}
+        </if>
+        <if test="dto.reportDateEnd != null and dto.reportDateEnd != ''">
+            AND wr.report_date &lt;= #{dto.reportDateEnd}
+        </if>
+        ORDER BY wr.id DESC
+    </select>
+
+    <!-- 查询汇报详情 -->
+    <select id="getWorkReportDetail" resultType="com.xavier.pms.vo.WorkReportVo">
+        SELECT
+            wr.id,
+            wr.title,
+            wr.report_type,
+            wr.template_id,
+            wr.user_id,
+            wr.report_date,
+            wr.week_number,
+            wr.month_number,
+            wr.content,
+            wr.work_summary,
+            wr.work_plan,
+            wr.issues,
+            wr.status,
+            wr.submit_time,
+            wr.create_time,
+            u.nick_name,
+            d.dept_name AS deptName,
+            rt.template_name
+        FROM tb_work_report wr
+        LEFT JOIN tb_user u ON wr.user_id = u.id AND u.is_deleted = 0
+        LEFT JOIN tb_department d ON u.department_id = d.id AND d.is_deleted = 0
+        LEFT JOIN tb_report_template rt ON wr.template_id = rt.id AND rt.is_deleted = 0
+        WHERE wr.is_deleted = 0 AND wr.id = #{id}
+    </select>
+
+    <!-- 汇报统计 -->
+    <select id="queryReportStat" resultType="com.xavier.pms.vo.ReportStatVo">
+        SELECT
+            u.id AS userId,
+            u.nick_name,
+            d.dept_name AS deptName,
+            IFNULL(ds.cnt, 0) AS dailyCount,
+            IFNULL(ws.cnt, 0) AS weeklyCount,
+            IFNULL(ms.cnt, 0) AS monthlyCount,
+            IFNULL(ds.cnt, 0) + IFNULL(ws.cnt, 0) + IFNULL(ms.cnt, 0) AS totalCount
+        FROM tb_user u
+        LEFT JOIN tb_department d ON u.department_id = d.id AND d.is_deleted = 0
+        LEFT JOIN (
+            SELECT wr.user_id, COUNT(*) AS cnt
+            FROM tb_work_report wr
+            WHERE wr.is_deleted = 0 AND wr.status = 2 AND wr.report_type = 1
+            <if test="startDate != null and startDate != ''">
+                AND wr.report_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND wr.report_date &lt;= #{endDate}
+            </if>
+            GROUP BY wr.user_id
+        ) ds ON u.id = ds.user_id
+        LEFT JOIN (
+            SELECT wr.user_id, COUNT(*) AS cnt
+            FROM tb_work_report wr
+            WHERE wr.is_deleted = 0 AND wr.status = 2 AND wr.report_type = 2
+            <if test="startDate != null and startDate != ''">
+                AND wr.report_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND wr.report_date &lt;= #{endDate}
+            </if>
+            GROUP BY wr.user_id
+        ) ws ON u.id = ws.user_id
+        LEFT JOIN (
+            SELECT wr.user_id, COUNT(*) AS cnt
+            FROM tb_work_report wr
+            WHERE wr.is_deleted = 0 AND wr.status = 2 AND wr.report_type = 3
+            <if test="startDate != null and startDate != ''">
+                AND wr.report_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND wr.report_date &lt;= #{endDate}
+            </if>
+            GROUP BY wr.user_id
+        ) ms ON u.id = ms.user_id
+        WHERE u.is_deleted = 0 AND u.user_status = 1
+        <if test="deptId != null">
+            AND u.department_id = #{deptId}
+        </if>
+        HAVING totalCount &gt; 0
+        ORDER BY totalCount DESC
+    </select>
+
+</mapper>

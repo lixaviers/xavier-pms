@@ -34,7 +34,7 @@
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['adm:seal:add']"
+         
           >新增</el-button
         >
       </el-col>
@@ -45,7 +45,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete()"
-          v-hasPermi="['adm:seal:delete']"
+         
           >删除</el-button
         >
       </el-col>
@@ -88,8 +88,8 @@
             <el-button link type="primary" icon="More" />
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="edit" icon="Edit" v-hasPermi="['adm:seal:edit']">修改</el-dropdown-item>
-                <el-dropdown-item command="delete" icon="Delete" v-hasPermi="['adm:seal:delete']">删除</el-dropdown-item>
+                <el-dropdown-item command="edit" icon="Edit">修改</el-dropdown-item>
+                <el-dropdown-item command="delete" icon="Delete">删除</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

@@ -34,7 +34,7 @@
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['system:dept:add']"
+         
           >新增</el-button
         >
       </el-col>
@@ -90,9 +90,9 @@
             <el-button link type="primary" icon="More" />
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="edit" icon="Edit" v-hasPermi="['system:dept:edit']">修改</el-dropdown-item>
-                <el-dropdown-item command="add" icon="Plus" v-hasPermi="['system:dept:add']">新增子级</el-dropdown-item>
-                <el-dropdown-item v-if="!scope.row.children" command="delete" icon="Delete" v-hasPermi="['system:dept:remove']">删除</el-dropdown-item>
+                <el-dropdown-item command="edit" icon="Edit">修改</el-dropdown-item>
+                <el-dropdown-item command="add" icon="Plus">新增子级</el-dropdown-item>
+                <el-dropdown-item v-if="!scope.row.children" command="delete" icon="Delete">删除</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

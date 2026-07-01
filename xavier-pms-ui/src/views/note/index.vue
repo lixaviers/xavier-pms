@@ -34,7 +34,7 @@
           plain
           icon="Plus"
           @click="handleAddOrUpdate()"
-          v-hasPermi="['note:type:add']"
+         
           >新增</el-button
         >
       </el-col>
@@ -45,7 +45,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete()"
-          v-hasPermi="['note:type:delete']"
+         
           >删除</el-button
         >
       </el-col>
@@ -97,8 +97,8 @@
             <el-button link type="primary" icon="More" />
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="edit" v-hasPermi="['note:type:edit']">修改</el-dropdown-item>
-                <el-dropdown-item command="delete" v-hasPermi="['note:type:delete']">删除</el-dropdown-item>
+                <el-dropdown-item command="edit">修改</el-dropdown-item>
+                <el-dropdown-item command="delete">删除</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
